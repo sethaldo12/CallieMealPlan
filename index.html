@@ -324,6 +324,48 @@ ul.rules li { margin-bottom: 9px; }
 .bottomnav a svg { width: 21px; height: 21px; }
 .bottomnav a.on { color: var(--garnet); border-top-color: var(--garnet); }
 
+/* Narrow screens: tables become stacked cards so nothing scrolls sideways. */
+@media (max-width: 700px) {
+  .scroll { overflow-x: visible; }
+  .scroll > table { min-width: 0; }
+
+  table.stack, table.stack tbody, table.stack tr, table.stack td { display: block; width: 100%; }
+  table.stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  table.stack tr { border-bottom: 1px solid var(--line); padding: 14px 0; }
+  table.stack tr:last-child { border-bottom: none; }
+  table.stack td { border: none; padding: 0; text-align: left; }
+  table.stack td.num { text-align: left; }
+
+  table.stack td.lead { font-weight: 600; font-size: 16.5px; line-height: 1.35; }
+  table.stack td.body { color: var(--muted); font-size: 15px; margin-top: 5px; }
+  table.stack td.tag::before {
+    content: attr(data-label);
+    display: block; margin-bottom: 1px;
+    font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  table.stack td.tag { margin-top: 9px; font-size: 14.5px; line-height: 1.45; }
+
+  table.stack tr.total { background: var(--tint); border-top: 1px solid var(--ink); border-bottom: none; padding: 14px 13px; }
+
+  /* Week rows: "WEEK 1 · 1,500 CAL" on one line, then the note. */
+  table.weeks.stack td.wk, table.weeks.stack td.tg {
+    display: inline; width: auto;
+    font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--garnet); font-weight: 500;
+  }
+  table.weeks.stack td.wk::before { content: "Week "; }
+  table.weeks.stack td.tg::before { content: "\00a0\00b7\00a0"; }
+  table.weeks.stack td.tg::after { content: " cal"; }
+  table.weeks.stack td.body { display: block; color: var(--ink); margin-top: 6px; }
+
+  /* Right-aligned figures sit under their label instead of in a column. */
+  table.figures.stack td.fig {
+    display: block; margin-top: 7px;
+    font-family: var(--f-mono); font-size: 15px; color: var(--garnet);
+  }
+}
+
 @media (max-width: 600px) {
   body { font-size: 16px; }
   .wrap { padding: 0 14px; }
@@ -384,15 +426,15 @@ ul.rules li { margin-bottom: 9px; }
 
   <h2>Where 2,000 comes from</h2>
   <div class="scroll">
-    <table>
+    <table class="stack figures">
       <thead><tr><th>Step</th><th>Method</th><th class="num">Result</th></tr></thead>
       <tbody>
-        <tr><td>Resting burn, formula A</td><td>Mifflin-St Jeor — 27F, 5&prime;8&Prime;, 147.2&nbsp;lb</td><td class="num">1,451 kcal</td></tr>
-        <tr><td>Resting burn, formula B</td><td>Katch-McArdle on the scale's claimed 127&nbsp;lb lean mass</td><td class="num">1,613 kcal</td></tr>
-        <tr><td>Formula B, corrected</td><td>Katch-McArdle on a realistic ~110&nbsp;lb lean mass (25% body fat)</td><td class="num">1,450 kcal</td></tr>
-        <tr><td>Working resting burn</td><td>A and B agree once the bad body fat number is removed</td><td class="num">1,450 kcal</td></tr>
-        <tr><td>Maintenance</td><td>&times;1.375 for lightly active</td><td class="num">1,994 kcal</td></tr>
-        <tr class="total"><td>Cut target</td><td>Maintenance &minus; 500</td><td class="num">1,500 kcal</td></tr>
+        <tr><td class="lead">Resting burn, formula A</td><td class="body">Mifflin-St Jeor — 27F, 5&prime;8&Prime;, 147.2&nbsp;lb</td><td class="fig">1,451 kcal</td></tr>
+        <tr><td class="lead">Resting burn, formula B</td><td class="body">Katch-McArdle on the scale's claimed 127&nbsp;lb lean mass</td><td class="fig">1,613 kcal</td></tr>
+        <tr><td class="lead">Formula B, corrected</td><td class="body">Katch-McArdle on a realistic ~110&nbsp;lb lean mass (25% body fat)</td><td class="fig">1,450 kcal</td></tr>
+        <tr><td class="lead">Working resting burn</td><td class="body">A and B agree once the bad body fat number is removed</td><td class="fig">1,450 kcal</td></tr>
+        <tr><td class="lead">Maintenance</td><td class="body">&times;1.375 for lightly active</td><td class="fig">1,994 kcal</td></tr>
+        <tr class="total"><td class="lead">Cut target</td><td class="body">Maintenance &minus; 500</td><td class="fig">1,500 kcal</td></tr>
       </tbody>
     </table>
   </div>
@@ -436,16 +478,16 @@ ul.rules li { margin-bottom: 9px; }
   <p class="lede">The menu doesn't change and neither should the calories. At 1,500 she's close enough to the floor that the adjustable lever is movement, not food.</p>
 
   <div class="scroll">
-    <table>
+    <table class="stack weeks">
       <thead><tr><th class="num">Wk</th><th class="num">Target</th><th>What to expect &amp; do</th></tr></thead>
       <tbody>
-        <tr><td class="num">1</td><td class="num">1,500</td><td>Weigh food. Expect a 2&ndash;3&nbsp;lb drop — mostly water, not fat. Ramp fiber up across the first 4&ndash;5 days rather than jumping to 28&nbsp;g on day one.</td></tr>
-        <tr><td class="num">2</td><td class="num">1,500</td><td>The real rate shows up: about 1&nbsp;lb. This is the week the 2,000-calorie estimate gets confirmed or corrected.</td></tr>
-        <tr><td class="num">3</td><td class="num">1,500</td><td>Adherence dips here for most people. Take waist/hip measurements and photos.</td></tr>
-        <tr><td class="num">4</td><td class="num">1,500</td><td>If the average is under 0.7&nbsp;lb/wk, add 2,000&ndash;3,000 daily steps. Leave the food alone.</td></tr>
-        <tr><td class="num">5</td><td class="num">1,500</td><td>Hardest week. Add a higher-carb day (+100&nbsp;g carbs, +400 cal) if sleep or strength is slipping.</td></tr>
-        <tr><td class="num">6</td><td class="num">1,500</td><td>Final push. Measurements and photos again, then compare to week 3.</td></tr>
-        <tr class="total"><td class="num">7</td><td class="num">2,000</td><td>Diet break at maintenance for 5&ndash;7 days before deciding whether to run another block.</td></tr>
+        <tr><td class="num wk">1</td><td class="num tg">1,500</td><td class="body">Weigh food. Expect a 2&ndash;3&nbsp;lb drop — mostly water, not fat. Ramp fiber up across the first 4&ndash;5 days rather than jumping to 28&nbsp;g on day one.</td></tr>
+        <tr><td class="num wk">2</td><td class="num tg">1,500</td><td class="body">The real rate shows up: about 1&nbsp;lb. This is the week the 2,000-calorie estimate gets confirmed or corrected.</td></tr>
+        <tr><td class="num wk">3</td><td class="num tg">1,500</td><td class="body">Adherence dips here for most people. Take waist/hip measurements and photos.</td></tr>
+        <tr><td class="num wk">4</td><td class="num tg">1,500</td><td class="body">If the average is under 0.7&nbsp;lb/wk, add 2,000&ndash;3,000 daily steps. Leave the food alone.</td></tr>
+        <tr><td class="num wk">5</td><td class="num tg">1,500</td><td class="body">Hardest week. Add a higher-carb day (+100&nbsp;g carbs, +400 cal) if sleep or strength is slipping.</td></tr>
+        <tr><td class="num wk">6</td><td class="num tg">1,500</td><td class="body">Final push. Measurements and photos again, then compare to week 3.</td></tr>
+        <tr class="total"><td class="num wk">7</td><td class="num tg">2,000</td><td class="body">Diet break at maintenance for 5&ndash;7 days before deciding whether to run another block.</td></tr>
       </tbody>
     </table>
   </div>
@@ -453,15 +495,15 @@ ul.rules li { margin-bottom: 9px; }
 
   <h2>Adjusting mid-plan</h2>
   <div class="scroll">
-    <table>
+    <table class="stack">
       <thead><tr><th>7-day average is</th><th>Do this</th></tr></thead>
       <tbody>
-        <tr><td>Down more than 1.5&nbsp;lb</td><td>Add 100 calories back as carbs — that pace is costing muscle</td></tr>
-        <tr><td>Down 0.7&ndash;1.3&nbsp;lb</td><td>Nothing. This is the target. Keep going.</td></tr>
-        <tr><td>Down under 0.4&nbsp;lb, two weeks running</td><td>Add 2,000&ndash;3,000 daily steps. Not fewer calories — she's near the floor already.</td></tr>
-        <tr><td>Flat, but the tape is shrinking</td><td>Nothing. Recomposition. Trust the measurements over the scale.</td></tr>
-        <tr><td>Strength, sleep, or mood off for 3+ days</td><td>Eat at maintenance for two days, then resume. Do not cut further.</td></tr>
-        <tr><td>Her period gets late, light, or skips</td><td>Stop the cut. Eat at maintenance and talk to a doctor — that's the body's first signal the deficit is too much, and it's not one to push through.</td></tr>
+        <tr><td class="lead">Down more than 1.5&nbsp;lb</td><td class="body">Add 100 calories back as carbs — that pace is costing muscle</td></tr>
+        <tr><td class="lead">Down 0.7&ndash;1.3&nbsp;lb</td><td class="body">Nothing. This is the target. Keep going.</td></tr>
+        <tr><td class="lead">Down under 0.4&nbsp;lb, two weeks running</td><td class="body">Add 2,000&ndash;3,000 daily steps. Not fewer calories — she's near the floor already.</td></tr>
+        <tr><td class="lead">Flat, but the tape is shrinking</td><td class="body">Nothing. Recomposition. Trust the measurements over the scale.</td></tr>
+        <tr><td class="lead">Strength, sleep, or mood off for 3+ days</td><td class="body">Eat at maintenance for two days, then resume. Do not cut further.</td></tr>
+        <tr><td class="lead">Her period gets late, light, or skips</td><td class="body">Stop the cut. Eat at maintenance and talk to a doctor — that's the body's first signal the deficit is too much, and it's not one to push through.</td></tr>
       </tbody>
     </table>
   </div>
@@ -517,18 +559,18 @@ ul.rules li { margin-bottom: 9px; }
   <h1 class="ph">Gluten-free watch list</h1>
   <p class="lede">The bread is the easy part. These are the items in this plan that are gluten free only if you buy the right version.</p>
   <div class="scroll">
-    <table>
+    <table class="stack">
       <thead><tr><th>Item</th><th>Why it's a risk</th><th>What to buy</th></tr></thead>
       <tbody>
-        <tr><td><strong>Oats &amp; oat flour</strong></td><td>Oats are naturally GF but are milled and transported with wheat</td><td>A bag that says <em>certified gluten free</em> — not just "oats"</td></tr>
-        <tr><td><strong>Soy sauce</strong></td><td>Brewed with wheat as a primary ingredient</td><td>Tamari (check the label — not all tamari is GF) or coconut aminos</td></tr>
-        <tr><td><strong>Deli turkey</strong></td><td>Wheat-based fillers and binders in cheaper brands</td><td>A brand labeled GF, or roast and slice your own turkey breast</td></tr>
-        <tr><td><strong>Caesar dressing</strong></td><td>Some use wheat as a thickener; anchovy pastes vary</td><td>A GF-labeled bottle, or make it with GF Worcestershire</td></tr>
-        <tr><td><strong>Whey protein</strong></td><td>Some flavored blends use wheat-derived carriers</td><td>A GF-certified isolate. Most are fine, but confirm the one she uses</td></tr>
-        <tr><td><strong>Chili powder &amp; spice blends</strong></td><td>Wheat flour is a common anti-caking agent</td><td>Single-ingredient spices, or a blend labeled GF</td></tr>
-        <tr><td><strong>Tortillas</strong></td><td>"Low-carb" tortillas are almost always wheat</td><td>Corn tortillas (already GF), or cassava / brown-rice tortillas for the wrap</td></tr>
-        <tr><td><strong>Salsa, hummus, broths</strong></td><td>Usually fine, occasionally thickened with wheat</td><td>Read the label once per brand, then stop worrying about it</td></tr>
-        <tr><td><strong>Restaurant meals</strong></td><td>Shared fryers, flour-thickened sauces, marinades</td><td>Ask for the GF menu and name the concern — fryer, sauce, marinade</td></tr>
+        <tr><td class="lead">Oats &amp; oat flour</td><td class="tag" data-label="Why it&rsquo;s a risk">Oats are naturally GF but are milled and transported with wheat</td><td class="tag" data-label="What to buy">A bag that says <em>certified gluten free</em> — not just "oats"</td></tr>
+        <tr><td class="lead">Soy sauce</td><td class="tag" data-label="Why it&rsquo;s a risk">Brewed with wheat as a primary ingredient</td><td class="tag" data-label="What to buy">Tamari (check the label — not all tamari is GF) or coconut aminos</td></tr>
+        <tr><td class="lead">Deli turkey</td><td class="tag" data-label="Why it&rsquo;s a risk">Wheat-based fillers and binders in cheaper brands</td><td class="tag" data-label="What to buy">A brand labeled GF, or roast and slice your own turkey breast</td></tr>
+        <tr><td class="lead">Caesar dressing</td><td class="tag" data-label="Why it&rsquo;s a risk">Some use wheat as a thickener; anchovy pastes vary</td><td class="tag" data-label="What to buy">A GF-labeled bottle, or make it with GF Worcestershire</td></tr>
+        <tr><td class="lead">Whey protein</td><td class="tag" data-label="Why it&rsquo;s a risk">Some flavored blends use wheat-derived carriers</td><td class="tag" data-label="What to buy">A GF-certified isolate. Most are fine, but confirm the one she uses</td></tr>
+        <tr><td class="lead">Chili powder &amp; spice blends</td><td class="tag" data-label="Why it&rsquo;s a risk">Wheat flour is a common anti-caking agent</td><td class="tag" data-label="What to buy">Single-ingredient spices, or a blend labeled GF</td></tr>
+        <tr><td class="lead">Tortillas</td><td class="tag" data-label="Why it&rsquo;s a risk">"Low-carb" tortillas are almost always wheat</td><td class="tag" data-label="What to buy">Corn tortillas (already GF), or cassava / brown-rice tortillas for the wrap</td></tr>
+        <tr><td class="lead">Salsa, hummus, broths</td><td class="tag" data-label="Why it&rsquo;s a risk">Usually fine, occasionally thickened with wheat</td><td class="tag" data-label="What to buy">Read the label once per brand, then stop worrying about it</td></tr>
+        <tr><td class="lead">Restaurant meals</td><td class="tag" data-label="Why it&rsquo;s a risk">Shared fryers, flour-thickened sauces, marinades</td><td class="tag" data-label="What to buy">Ask for the GF menu and name the concern — fryer, sauce, marinade</td></tr>
       </tbody>
     </table>
   </div>
@@ -539,14 +581,14 @@ ul.rules li { margin-bottom: 9px; }
   <h1 class="ph">Swaps</h1>
   <p class="lede">Same macros, different food. Use these when a day gets boring rather than abandoning the day.</p>
   <div class="scroll">
-    <table>
+    <table class="stack">
       <thead><tr><th>Instead of</th><th>Use</th></tr></thead>
       <tbody>
-        <tr><td>5 oz chicken breast</td><td>5 oz turkey breast, 6 oz shrimp, 5 oz white fish, or 6 oz extra-firm tofu (+15&nbsp;g fat)</td></tr>
-        <tr><td>½ cup rice</td><td>½ cup quinoa, 4 oz sweet potato, 1 cup roasted butternut, or 1½ cups riced cauliflower (&minus;100 cal)</td></tr>
-        <tr><td>Greek yogurt bowl</td><td>Skyr, a 2-scoop protein smoothie with spinach and frozen berries, or GF overnight oats</td></tr>
-        <tr><td>Any snack</td><td>¾ cup edamame, 3 oz GF deli turkey, a whey shake with ½ cup berries, or 1 oz GF jerky and an apple</td></tr>
-        <tr><td>A low-fiber day</td><td>Add ½ cup black beans (+7&nbsp;g), 1 tbsp chia (+5&nbsp;g), ½ cup raspberries (+4&nbsp;g), or an apple with the skin on (+4.5&nbsp;g)</td></tr>
+        <tr><td class="lead">5 oz chicken breast</td><td class="body">5 oz turkey breast, 6 oz shrimp, 5 oz white fish, or 6 oz extra-firm tofu (+15&nbsp;g fat)</td></tr>
+        <tr><td class="lead">½ cup rice</td><td class="body">½ cup quinoa, 4 oz sweet potato, 1 cup roasted butternut, or 1½ cups riced cauliflower (&minus;100 cal)</td></tr>
+        <tr><td class="lead">Greek yogurt bowl</td><td class="body">Skyr, a 2-scoop protein smoothie with spinach and frozen berries, or GF overnight oats</td></tr>
+        <tr><td class="lead">Any snack</td><td class="body">¾ cup edamame, 3 oz GF deli turkey, a whey shake with ½ cup berries, or 1 oz GF jerky and an apple</td></tr>
+        <tr><td class="lead">A low-fiber day</td><td class="body">Add ½ cup black beans (+7&nbsp;g), 1 tbsp chia (+5&nbsp;g), ½ cup raspberries (+4&nbsp;g), or an apple with the skin on (+4.5&nbsp;g)</td></tr>
       </tbody>
     </table>
   </div>
