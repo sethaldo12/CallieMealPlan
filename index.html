@@ -2,24 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Callie's Six-Week Cut</title>
-<meta name="description" content="A six-week cutting meal plan: daily targets, one repeating gluten-free weekly menu, grocery list, and rules for adjusting.">
+<meta name="description" content="Daily targets, one repeating gluten-free weekly menu, a checkable grocery list, and rules for adjusting a six-week cut.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127807;</text></svg>">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#94243F" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#6B1526" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-title" content="Six-Week Cut">
 
 <style>
-/* ---------------------------------------------------------------
-   Palette. Light values live on :root; the dark block redefines
-   only the tokens, so every component style below is theme-safe.
-   --------------------------------------------------------------- */
 :root {
   --paper:      #F1F2EE;
   --surface:    #FBFBF9;
-  --raised:     #FFFFFF;
   --line:       #D6D9D0;
   --ink:        #1B1F1A;
   --muted:      #6A7166;
@@ -29,21 +30,20 @@
   --tint:       #E7E9E1;
   --garnet-tint:#F2E2E6;
   --shadow:     0 1px 2px rgba(27,31,26,.06), 0 8px 24px -18px rgba(27,31,26,.35);
-  --bar:        rgba(241,242,238,.92);
+  --bar:        rgba(251,251,249,.94);
 
   --f-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --f-body: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --measure: 66ch;
-  --wrap: 940px;
+  --navh: 62px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --paper:      #131611;
     --surface:    #1C201A;
-    --raised:     #232821;
     --line:       #313629;
     --ink:        #E8EAE2;
     --muted:      #979F90;
@@ -53,32 +53,17 @@
     --tint:       #21261E;
     --garnet-tint:#2C1D22;
     --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9);
-    --bar:        rgba(19,22,17,.92);
+    --bar:        rgba(28,32,26,.94);
   }
 }
 :root[data-theme="dark"] {
-  --paper:      #131611;
-  --surface:    #1C201A;
-  --raised:     #232821;
-  --line:       #313629;
-  --ink:        #E8EAE2;
-  --muted:      #979F90;
-  --garnet:     #E4738C;
-  --olive:      #A9BC5E;
-  --amber:      #DDA84C;
-  --tint:       #21261E;
-  --garnet-tint:#2C1D22;
-  --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9);
-  --bar:        rgba(19,22,17,.92);
+  --paper:#131611; --surface:#1C201A; --line:#313629; --ink:#E8EAE2; --muted:#979F90;
+  --garnet:#E4738C; --olive:#A9BC5E; --amber:#DDA84C; --tint:#21261E; --garnet-tint:#2C1D22;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9); --bar:rgba(28,32,26,.94);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  * { animation: none !important; transition: none !important; }
-}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 
 body {
   margin: 0;
@@ -89,159 +74,99 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  padding-bottom: calc(var(--navh) + env(safe-area-inset-bottom) + 24px);
 }
 
-.wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 20px; }
+.wrap { width: 100%; max-width: 940px; margin: 0 auto; padding: 0 20px; }
 .col { max-width: var(--measure); }
-
 p { margin: 0 0 16px; max-width: var(--measure); }
 a { color: var(--garnet); }
 strong { font-weight: 600; }
+:focus-visible { outline: 2px solid var(--garnet); outline-offset: 2px; }
 
-/* ---------- sticky nav ---------- */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 50;
+/* ---------- title bar ---------- */
+.titlebar {
+  position: sticky; top: 0; z-index: 40;
   background: var(--bar);
   backdrop-filter: saturate(1.4) blur(10px);
   -webkit-backdrop-filter: saturate(1.4) blur(10px);
   border-bottom: 1px solid var(--line);
+  padding-top: env(safe-area-inset-top);
 }
-.topbar .wrap {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  min-height: 52px;
+.titlebar .wrap { display: flex; align-items: center; gap: 10px; min-height: 50px; }
+.titlebar .crumb {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--muted); margin-left: auto;
 }
-.brand {
-  font-family: var(--f-display);
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: -.01em;
-  white-space: nowrap;
-  flex: none;
+#back {
+  display: none; align-items: center; gap: 5px;
+  background: none; border: 0; padding: 6px 8px 6px 0; margin: 0;
+  color: var(--garnet); cursor: pointer; font: inherit; font-size: 15px;
 }
-.brand span { color: var(--garnet); font-style: italic; font-weight: 400; }
-nav.sections {
-  display: flex;
-  gap: 4px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  margin-left: auto;
-  -webkit-overflow-scrolling: touch;
+#back.show { display: inline-flex; }
+#back svg { width: 15px; height: 15px; }
+#ptitle {
+  font-family: var(--f-display); font-size: 18px; font-weight: 600;
+  letter-spacing: -.01em; margin: 0; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
 }
-nav.sections::-webkit-scrollbar { display: none; }
-nav.sections a {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-decoration: none;
-  padding: 7px 9px;
-  border-radius: 2px;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-}
-nav.sections a:hover { color: var(--ink); }
-nav.sections a.on { color: var(--garnet); border-bottom-color: var(--garnet); }
 
-/* ---------- masthead ---------- */
-.mast { padding: 48px 0 30px; border-bottom: 2px solid var(--ink); }
-.eyebrow {
-  font-family: var(--f-mono);
-  font-size: 11.5px;
-  font-weight: 500;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--garnet);
-  margin: 0 0 14px;
-}
-h1 {
-  font-family: var(--f-display);
-  font-weight: 600;
-  font-size: clamp(36px, 8vw, 60px);
-  line-height: 1.03;
-  letter-spacing: -.02em;
-  margin: 0 0 14px;
-  text-wrap: balance;
-}
-h1 em { font-style: italic; font-weight: 400; color: var(--garnet); }
-.dek { font-size: 19px; color: var(--muted); max-width: 54ch; margin: 0; }
+/* ---------- pages ---------- */
+.page { display: none; padding: 26px 0 8px; }
+.page.active { display: block; animation: fade .18s ease-out; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
-.baseline {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  margin: 28px 0 0;
+h1.ph {
+  font-family: var(--f-display); font-weight: 600;
+  font-size: clamp(30px, 6.5vw, 44px); line-height: 1.05; letter-spacing: -.02em;
+  margin: 0 0 10px; text-wrap: balance;
 }
-.baseline div { background: var(--surface); padding: 13px 15px; display: flex; flex-direction: column; gap: 3px; }
-.baseline .v { font-family: var(--f-mono); font-size: 19px; font-weight: 500; font-variant-numeric: tabular-nums; }
-.baseline .k { font-family: var(--f-mono); font-size: 10px; letter-spacing: .11em; text-transform: uppercase; color: var(--muted); }
-
-/* ---------- sections ---------- */
-section { padding: 52px 0 0; scroll-margin-top: 64px; }
+h1.ph em { font-style: italic; font-weight: 400; color: var(--garnet); }
+.lede { font-size: 18px; color: var(--muted); max-width: 56ch; margin: 0 0 26px; }
 h2 {
-  font-family: var(--f-display);
-  font-weight: 600;
-  font-size: clamp(24px, 4.5vw, 30px);
-  letter-spacing: -.015em;
-  line-height: 1.15;
-  margin: 0 0 6px;
-  text-wrap: balance;
+  font-family: var(--f-display); font-weight: 600;
+  font-size: clamp(21px, 4vw, 25px); letter-spacing: -.012em; line-height: 1.2;
+  margin: 34px 0 6px; text-wrap: balance;
 }
-h3 { font-family: var(--f-body); font-weight: 600; font-size: 17px; margin: 30px 0 8px; }
-.sub { color: var(--muted); margin: 0 0 22px; max-width: 62ch; }
+h3 { font-family: var(--f-body); font-weight: 600; font-size: 17px; margin: 26px 0 8px; }
+.sub { color: var(--muted); margin: 0 0 20px; max-width: 62ch; }
+
+.eyebrow {
+  font-family: var(--f-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--garnet); margin: 0 0 12px;
+}
+
+/* ---------- baseline strip ---------- */
+.baseline {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 0 0 30px;
+}
+.baseline div { background: var(--surface); padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.baseline .v { font-family: var(--f-mono); font-size: 18px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.baseline .k { font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .11em; text-transform: uppercase; color: var(--muted); }
 
 /* ---------- callouts ---------- */
 .note {
-  border-left: 3px solid var(--garnet);
-  background: var(--garnet-tint);
-  padding: 18px 20px;
-  margin: 0 0 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
+  border-left: 3px solid var(--garnet); background: var(--garnet-tint);
+  padding: 17px 19px; margin: 0 0 14px; display: flex; flex-direction: column; gap: 10px;
 }
 .note p { margin: 0; max-width: 68ch; }
 .note .label {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: .13em;
-  text-transform: uppercase;
-  color: var(--garnet);
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--garnet);
 }
 
-/* ---------- target tiles ---------- */
-.macros {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
-  gap: 12px;
-  margin: 0 0 22px;
-}
+/* ---------- tiles ---------- */
+.macros { display: grid; grid-template-columns: repeat(auto-fit, minmax(146px, 1fr)); gap: 11px; margin: 0 0 22px; }
 .tile {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-top: 3px solid var(--tone, var(--muted));
-  padding: 15px 16px 17px;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  background: var(--surface); border: 1px solid var(--line);
+  border-top: 3px solid var(--tone, var(--muted)); padding: 14px 15px 16px;
+  box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 4px;
 }
-.tile .name {
-  font-family: var(--f-mono); font-size: 11px; letter-spacing: .13em;
-  text-transform: uppercase; color: var(--tone, var(--muted)); font-weight: 500;
-}
-.tile .big {
-  font-family: var(--f-mono); font-size: 27px; font-weight: 500;
-  font-variant-numeric: tabular-nums; line-height: 1.1;
-}
+.tile .name { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--tone, var(--muted)); font-weight: 500; }
+.tile .big { font-family: var(--f-mono); font-size: 26px; font-weight: 500; font-variant-numeric: tabular-nums; line-height: 1.1; }
 .tile .big span { font-size: 14px; color: var(--muted); }
-.tile .why { font-size: 13px; color: var(--muted); line-height: 1.45; }
+.tile .why { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
 .t-cal { --tone: var(--garnet); }
 .t-pro, .t-fib { --tone: var(--olive); }
 .t-fat { --tone: var(--amber); }
@@ -250,455 +175,428 @@ h3 { font-family: var(--f-body); font-weight: 600; font-size: 17px; margin: 30px
 /* ---------- tables ---------- */
 .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 table { border-collapse: collapse; width: 100%; font-size: 15px; }
-.scroll > table { min-width: 520px; }
+.scroll > table { min-width: 500px; }
 th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
 th {
-  font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--muted); font-weight: 500;
-  border-bottom: 1px solid var(--ink);
+  font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--ink);
 }
-td.num, th.num {
-  text-align: right; font-family: var(--f-mono);
-  font-variant-numeric: tabular-nums; white-space: nowrap;
-}
+td.num, th.num { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
 td.fib, th.fib { color: var(--olive); }
-tr.total td {
-  border-bottom: none; border-top: 1px solid var(--ink);
-  font-weight: 600; background: var(--tint); color: var(--ink);
-}
+tr.total td { border-bottom: none; border-top: 1px solid var(--ink); font-weight: 600; background: var(--tint); color: var(--ink); }
 
-/* ---------- day cards ---------- */
-.daynav { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 20px; }
-.daynav a {
+/* ---------- week index ---------- */
+.daylist { display: flex; flex-direction: column; gap: 9px; margin: 0 0 6px; }
+.daycard {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow);
+  padding: 14px 16px; text-decoration: none; color: inherit;
+}
+.daycard:hover { border-color: var(--muted); }
+.daycard.today { border-color: var(--garnet); }
+.daycard .dnum {
   font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em;
-  text-transform: uppercase; text-decoration: none;
-  color: var(--muted); border: 1px solid var(--line);
-  background: var(--surface); padding: 6px 11px;
+  color: var(--muted); flex: none; width: 26px;
 }
-.daynav a:hover { color: var(--ink); border-color: var(--muted); }
-.daynav a.today { color: var(--garnet); border-color: var(--garnet); font-weight: 500; }
+.daycard .dbody { flex: 1 1 auto; min-width: 0; }
+.daycard .dname { font-family: var(--f-display); font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
+.daycard .dtag {
+  display: block; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted); margin-top: 3px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.daycard .dcal { font-family: var(--f-mono); font-size: 14px; color: var(--muted); flex: none; font-variant-numeric: tabular-nums; }
+.daycard .chev { flex: none; color: var(--muted); width: 14px; height: 14px; }
+.todaytag {
+  font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--garnet); border: 1px solid var(--garnet); padding: 1px 5px; margin-left: 7px; vertical-align: 2px;
+}
 
-.days { display: flex; flex-direction: column; gap: 18px; }
-.day {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-  scroll-margin-top: 64px;
-}
-.day.is-today { border-color: var(--garnet); }
-.day > header {
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 10px; flex-wrap: wrap;
-  padding: 13px 16px; border-bottom: 1px solid var(--line); background: var(--tint);
-}
-.day h3 {
-  font-family: var(--f-display); font-size: 21px; font-weight: 600;
-  margin: 0; letter-spacing: -.01em;
-}
-.day .tagline {
-  font-family: var(--f-mono); font-size: 11px; letter-spacing: .09em;
-  text-transform: uppercase; color: var(--muted);
-}
-.day .todaytag {
-  font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--garnet);
-  border: 1px solid var(--garnet); padding: 1px 6px; margin-left: 8px;
-}
-.day .scroll > table { min-width: 600px; }
+/* ---------- a single day ---------- */
+.meals { display: flex; flex-direction: column; gap: 11px; margin: 0 0 22px; }
 .meal {
-  font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--garnet); white-space: nowrap;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 15px 17px;
 }
-.dish { font-weight: 600; }
-.detail { color: var(--muted); font-size: 14px; display: block; margin-top: 2px; }
+.meal .slot { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--garnet); }
+.meal .dish { font-weight: 600; font-size: 17.5px; display: block; margin: 3px 0 4px; }
+.meal .detail { color: var(--muted); font-size: 14.5px; display: block; }
+.macrorow { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 11px; padding-top: 10px; border-top: 1px solid var(--line); }
+.macrorow b { font-family: var(--f-mono); font-weight: 500; font-variant-numeric: tabular-nums; font-size: 14.5px; }
+.macrorow i { font-family: var(--f-mono); font-style: normal; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+.macrorow .isfib b, .macrorow .isfib i { color: var(--olive); }
+.daytotal { background: var(--tint); border-color: var(--ink); }
+.daytotal .dish { margin-top: 0; }
 .gf {
-  font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .07em;
-  color: var(--olive); border: 1px solid var(--olive);
-  padding: 0 4px; margin-left: 5px; white-space: nowrap; vertical-align: 1px;
+  font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .07em; color: var(--olive);
+  border: 1px solid var(--olive); padding: 0 4px; margin-left: 4px; white-space: nowrap; vertical-align: 1px;
 }
-
-/* Phone: the 7-column meal table becomes stacked blocks. */
-@media (max-width: 720px) {
-  .day .scroll { overflow: visible; }
-  .day .scroll > table { min-width: 0; }
-  .day thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .day table, .day tbody, .day tr, .day td { display: block; width: 100%; }
-  .day tr { padding: 13px 16px; border-bottom: 1px solid var(--line); }
-  .day tr:last-child { border-bottom: none; }
-  .day td { border: none; padding: 0; }
-  .day td.num {
-    display: inline-block; width: auto; text-align: left;
-    margin: 9px 14px 0 0; font-size: 13px;
-  }
-  .day td.num::before {
-    content: attr(data-label) " ";
-    font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--muted); margin-right: 3px;
-  }
-  .day tr.total { background: var(--tint); border-top: 1px solid var(--ink); }
-  /* In block layout each cell would draw its own rule — the row carries it instead. */
-  .day tr.total td { border-top: none; }
-  .day tr.total td:empty { display: none; }
-  .day tr.total td:not(.num) { font-weight: 600; }
-  .day tr.total { padding-bottom: 16px; }
-  .day tr.total td.num { margin-top: 6px; }
+.prevnext { display: flex; justify-content: space-between; gap: 10px; margin: 22px 0 0; }
+.prevnext a {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  text-decoration: none; color: var(--garnet); border: 1px solid var(--line);
+  background: var(--surface); padding: 9px 14px;
 }
+.prevnext a:hover { border-color: var(--garnet); }
 
-/* ---------- grocery columns ---------- */
-.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px 28px; }
-.cols > div { border-top: 1px solid var(--line); padding-top: 12px; }
-.cols h4 {
-  font-family: var(--f-mono); font-size: 11px; letter-spacing: .13em;
-  text-transform: uppercase; color: var(--garnet); margin: 0 0 8px; font-weight: 500;
+/* ---------- grocery checklist ---------- */
+.grocerybar {
+  position: sticky; top: 50px; z-index: 30;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  background: var(--bar);
+  backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  border: 1px solid var(--line); padding: 11px 14px; margin: 0 0 20px;
 }
-.cols ul { list-style: none; padding: 0; margin: 0; }
-.cols li { font-size: 14.5px; margin-bottom: 5px; padding-left: 16px; position: relative; }
-.cols li::before {
-  content: ""; position: absolute; left: 0; top: .62em;
-  width: 7px; height: 7px; border: 1px solid var(--muted);
+.grocerybar .count { font-family: var(--f-mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+.grocerybar .track { flex: 1 1 100px; height: 5px; background: var(--tint); border: 1px solid var(--line); min-width: 70px; }
+.grocerybar .fill { display: block; height: 100%; width: 0; background: var(--olive); transition: width .2s ease-out; }
+#reset {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--garnet); background: var(--surface); border: 1px solid var(--garnet);
+  padding: 7px 12px; cursor: pointer;
 }
+#reset:hover { background: var(--garnet); color: var(--surface); }
+#reset[disabled] { opacity: .4; cursor: default; border-color: var(--line); color: var(--muted); background: var(--surface); }
 
-ul.rules, ol { margin: 0 0 16px; padding-left: 20px; max-width: var(--measure); }
-ul.rules li { margin-bottom: 8px; }
-
-footer.end {
-  margin-top: 56px;
-  padding: 20px 0 72px;
-  border-top: 2px solid var(--ink);
-  color: var(--muted);
-  font-size: 14px;
+.aisles { display: grid; grid-template-columns: repeat(auto-fit, minmax(258px, 1fr)); gap: 6px 26px; }
+.aisle { border-top: 1px solid var(--line); padding-top: 12px; break-inside: avoid; }
+.aisle h3 {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--garnet); margin: 0 0 4px; font-weight: 500;
 }
-footer.end p { max-width: 68ch; }
+.aisle ul { list-style: none; padding: 0; margin: 0; }
+.aisle li { margin: 0; border-bottom: 1px solid var(--line); }
+.aisle li:last-child { border-bottom: none; }
+.aisle label {
+  display: flex; align-items: flex-start; gap: 11px;
+  padding: 11px 2px; cursor: pointer; font-size: 15.5px; line-height: 1.4;
+  -webkit-tap-highlight-color: transparent;
+}
+.aisle input { position: absolute; opacity: 0; width: 0; height: 0; }
+.box {
+  flex: none; width: 21px; height: 21px; margin-top: 1px;
+  border: 1.5px solid var(--muted); background: var(--surface);
+  display: grid; place-items: center;
+}
+.box svg { width: 13px; height: 13px; color: var(--surface); opacity: 0; }
+.aisle input:checked + .box { background: var(--olive); border-color: var(--olive); }
+.aisle input:checked + .box svg { opacity: 1; }
+.aisle input:focus-visible + .box { outline: 2px solid var(--garnet); outline-offset: 2px; }
+.aisle input:checked ~ .txt { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; }
 
-:focus-visible { outline: 2px solid var(--garnet); outline-offset: 2px; }
+/* ---------- hub links ---------- */
+.hub { display: flex; flex-direction: column; gap: 9px; }
+.hublink {
+  display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 15px 17px;
+}
+.hublink:hover { border-color: var(--muted); }
+.hublink .hb { flex: 1 1 auto; min-width: 0; }
+.hublink b { display: block; font-family: var(--f-display); font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+.hublink span { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
+.hublink .chev { flex: none; color: var(--muted); width: 14px; height: 14px; }
+
+ul.rules { margin: 0 0 16px; padding-left: 20px; max-width: var(--measure); }
+ul.rules li { margin-bottom: 9px; }
+
+.fineprint { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--line); margin-top: 34px; padding-top: 16px; }
+.fineprint p { max-width: 68ch; margin-bottom: 10px; }
+
+/* ---------- bottom nav ---------- */
+.bottomnav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  background: var(--bar);
+  backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.bottomnav ul {
+  display: flex; list-style: none; margin: 0 auto; padding: 0;
+  max-width: 620px; height: var(--navh);
+}
+.bottomnav li { flex: 1 1 0; }
+.bottomnav a {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  height: 100%; text-decoration: none; color: var(--muted);
+  font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .07em; text-transform: uppercase;
+  border-top: 2px solid transparent; margin-top: -1px;
+  -webkit-tap-highlight-color: transparent;
+}
+.bottomnav a svg { width: 21px; height: 21px; }
+.bottomnav a.on { color: var(--garnet); border-top-color: var(--garnet); }
 
 @media (max-width: 600px) {
   body { font-size: 16px; }
   .wrap { padding: 0 14px; }
-  .mast { padding-top: 32px; }
-  .brand { font-size: 15px; }
+  .grocerybar { top: 50px; }
+}
+@media (min-width: 760px) {
+  .bottomnav ul { max-width: 700px; }
+  .bottomnav a { flex-direction: row; gap: 9px; font-size: 11px; }
 }
 
 @media print {
-  .topbar, .daynav { display: none; }
-  body { background: #fff; font-size: 10.5pt; }
-  .day, .note, .tile, .cols > div { break-inside: avoid; }
-  section { padding-top: 24px; }
-  a { color: inherit; text-decoration: none; }
+  .bottomnav, .titlebar, .prevnext, .grocerybar { display: none !important; }
+  .page { display: block !important; page-break-before: always; }
+  .page:first-of-type { page-break-before: avoid; }
+  body { background: #fff; font-size: 10.5pt; padding-bottom: 0; }
+  .meal, .note, .tile, .aisle, .daycard { break-inside: avoid; }
 }
 </style>
 </head>
 <body>
 
-<div class="topbar">
+<header class="titlebar">
   <div class="wrap">
-    <div class="brand">Callie's <span>Six-Week</span> Cut</div>
-    <nav class="sections" aria-label="Sections">
-      <a href="#start">Start</a>
-      <a href="#targets">Targets</a>
-      <a href="#week">The week</a>
-      <a href="#groceries">Groceries</a>
-      <a href="#glutenfree">Gluten free</a>
-      <a href="#swaps">Swaps</a>
-      <a href="#sixweeks">Six weeks</a>
-      <a href="#rules">Rules</a>
-    </nav>
+    <button id="back" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <h1 id="ptitle">Daily targets</h1>
+    <span class="crumb">Six-Week Cut</span>
   </div>
-</div>
+</header>
 
 <main class="wrap">
 
-  <div class="mast">
-    <p class="eyebrow">Six-week cut &middot; Gluten free &middot; No cottage cheese</p>
-    <h1>Callie's <em>Six-Week</em> Cut</h1>
-    <p class="dek">One weekly menu, repeated six times. 1,500 calories, a 150&nbsp;g protein floor, 25&ndash;30&nbsp;g of fiber every day, and nothing containing gluten.</p>
-    <div class="baseline">
-      <div><span class="v">147.2</span><span class="k">lb today</span></div>
-      <div><span class="v">5&prime;8&Prime;</span><span class="k">height (BMI 22.3)</span></div>
-      <div><span class="v">27</span><span class="k">years old</span></div>
-      <div><span class="v">Light</span><span class="k">activity level</span></div>
-      <div><span class="v">~141</span><span class="k">lb after 6 weeks</span></div>
-    </div>
+<!-- ═══════════ 1. TARGETS (home) ═══════════ -->
+<div class="page" id="p-targets" data-title="Daily targets">
+  <p class="eyebrow">Gluten free &middot; No cottage cheese</p>
+  <h1 class="ph">Callie's <em>Six-Week</em> Cut</h1>
+  <p class="lede">One weekly menu, repeated six times. 1,500 calories, a 150&nbsp;g protein floor, 25&ndash;30&nbsp;g of fiber every day.</p>
+
+  <div class="baseline">
+    <div><span class="v">147.2</span><span class="k">lb today</span></div>
+    <div><span class="v">5&prime;8&Prime;</span><span class="k">height</span></div>
+    <div><span class="v">27</span><span class="k">years old</span></div>
+    <div><span class="v">Light</span><span class="k">activity</span></div>
+    <div><span class="v">~141</span><span class="k">lb at wk 6</span></div>
   </div>
 
-  <!-- ============ BEFORE YOU START ============ -->
-  <section id="start" class="col">
-    <h2>Before you start</h2>
-    <p class="sub">Four things worth reading once, before the first grocery run.</p>
+  <div class="macros">
+    <div class="tile t-cal"><span class="name">Calories</span><span class="big">1,500</span><span class="why">500 below an estimated 2,000 maintenance</span></div>
+    <div class="tile t-pro"><span class="name">Protein</span><span class="big">150<span>&nbsp;g</span></span><span class="why">~1.0&nbsp;g per lb of body weight — protects muscle in a deficit</span></div>
+    <div class="tile t-fat"><span class="name">Fat</span><span class="big">45<span>&nbsp;g</span></span><span class="why">27% of calories — the hormone floor, don't go under 40&nbsp;g</span></div>
+    <div class="tile t-carb"><span class="name">Carbs</span><span class="big">120<span>&nbsp;g</span></span><span class="why">Flexible. Push toward training days, pull from rest days</span></div>
+    <div class="tile t-fib"><span class="name">Fiber</span><span class="big">25&ndash;30<span>&nbsp;g</span></span><span class="why">Built into the menu. Ramp up over 4&ndash;5 days, not overnight</span></div>
+  </div>
 
-    <div class="note">
-      <p class="label">The 9% body fat goal isn't one to build to</p>
-      <p>For a woman, roughly <strong>10&ndash;13% is <em>essential</em> fat</strong>: the fat in bone marrow, the nervous system, and around the organs. 9% sits below that floor. Held for any length of time it's the territory of lost periods, dropping estrogen, and bone density loss that doesn't reliably come back. Female physique competitors touch 10&ndash;12% for a stage day and don't stay there.</p>
-      <p><strong>This plan targets 19&ndash;21%</strong> &mdash; a visibly lean, athletic composition she can hold year-round. If her true body fat is around 25%, six weeks here puts her near 21%: essentially the whole goal in one block. If she wants to go further later, 16&ndash;18% is the aggressive end, and it should be time-limited and watched.</p>
-    </div>
+  <p><strong>Also daily:</strong> 100&nbsp;oz water, 8,000+ steps, and a hard floor of 1,400 calories — never eat below it, even on a light day. Water matters more now: fiber without fluid causes exactly the bloating and constipation people blame the fiber for.</p>
 
-    <div class="note">
-      <p class="label">The scale's body fat number is unusable</p>
-      <p>13.8% doesn't square with a BMI of 22.3, and bioimpedance scales run 5&ndash;8 points off on women. Use the scale for <strong>weight trend only</strong>. Track composition with waist and hip tape measurements, photos in the same light every two weeks, and how clothes fit.</p>
-    </div>
+  <h2>Where 2,000 comes from</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Step</th><th>Method</th><th class="num">Result</th></tr></thead>
+      <tbody>
+        <tr><td>Resting burn, formula A</td><td>Mifflin-St Jeor — 27F, 5&prime;8&Prime;, 147.2&nbsp;lb</td><td class="num">1,451 kcal</td></tr>
+        <tr><td>Resting burn, formula B</td><td>Katch-McArdle on the scale's claimed 127&nbsp;lb lean mass</td><td class="num">1,613 kcal</td></tr>
+        <tr><td>Formula B, corrected</td><td>Katch-McArdle on a realistic ~110&nbsp;lb lean mass (25% body fat)</td><td class="num">1,450 kcal</td></tr>
+        <tr><td>Working resting burn</td><td>A and B agree once the bad body fat number is removed</td><td class="num">1,450 kcal</td></tr>
+        <tr><td>Maintenance</td><td>&times;1.375 for lightly active</td><td class="num">1,994 kcal</td></tr>
+        <tr class="total"><td>Cut target</td><td>Maintenance &minus; 500</td><td class="num">1,500 kcal</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:14.5px;color:var(--muted);margin-top:14px">These formulas carry roughly &plusmn;10% either way, so treat 2,000 as a starting hypothesis. Week 2's weight trend is the actual measurement; adjust from that, not from the table.</p>
 
-    <div class="note">
-      <p class="label">147 &rarr; 125 lb is a five-month project</p>
-      <p>Not a six-week one. At a 500-calorie deficit she loses about <strong>1&nbsp;lb a week &mdash; roughly 6&nbsp;lb in six weeks</strong>, landing near 141. Adding 2,000&ndash;3,000 daily steps widens that to about 7&nbsp;lb without touching the food.</p>
-    </div>
+  <div class="note" style="margin-top:26px">
+    <p class="label">Read this before the first grocery run</p>
+    <p>There are four things worth knowing about the goals behind these numbers — including why the plan doesn't aim at 9% body fat. <a href="#/guide/start">Before you start &rarr;</a></p>
+  </div>
+</div>
 
-    <div class="note">
-      <p class="label">Is the gluten issue celiac, or a sensitivity?</p>
-      <p>It changes how strict this has to be. <strong>If celiac</strong>, add cross-contamination rules on top of the ingredient swaps: a dedicated toaster, separate cutting board and colander, her own jar of anything that gets double-dipped, and calling restaurants ahead. <strong>If it's a sensitivity or preference</strong>, reading labels is enough.</p>
-    </div>
+<!-- ═══════════ 2. WEEK (hub) ═══════════ -->
+<div class="page" id="p-week" data-title="The week">
+  <h1 class="ph">The week</h1>
+  <p class="lede">Seven days, repeated for six weeks. Everything is gluten free. Tap a day for its meals.</p>
+  <div class="daylist" id="daylist"></div>
+  <p style="font-size:14.5px;color:var(--muted);margin-top:22px"><strong>Weekly average:</strong> 1,493 calories — 155&nbsp;g protein, 44&nbsp;g fat, 120&nbsp;g carbs, 27&nbsp;g fiber. Individual days swing by about 30 calories; the average is what drives the result.</p>
+</div>
 
-    <p style="margin-top:22px">147&nbsp;lb at 5&prime;8&Prime; is squarely in the healthy range, so there's no medical clock on any of this. If energy, mood, or strength drop off for more than a few days, that's the signal to ease up rather than push.</p>
-  </section>
+<!-- day pages are generated into here -->
+<div id="daypages"></div>
 
-  <!-- ============ TARGETS ============ -->
-  <section id="targets">
-    <div class="col">
-      <h2>Daily targets</h2>
-      <p class="sub">Same numbers every day. Hit protein first, fat second, and let carbs fill the rest.</p>
-    </div>
+<!-- ═══════════ 3. GROCERY ═══════════ -->
+<div class="page" id="p-grocery" data-title="Grocery list">
+  <h1 class="ph">Grocery list</h1>
+  <p class="lede">One shop covers one week. Quantities are for Callie only — double the proteins if anyone eats alongside her.</p>
 
-    <div class="macros">
-      <div class="tile t-cal">
-        <span class="name">Calories</span>
-        <span class="big">1,500</span>
-        <span class="why">500 below an estimated 2,000 maintenance</span>
-      </div>
-      <div class="tile t-pro">
-        <span class="name">Protein</span>
-        <span class="big">150<span>&nbsp;g</span></span>
-        <span class="why">~1.0&nbsp;g per lb of body weight &mdash; protects muscle in a deficit</span>
-      </div>
-      <div class="tile t-fat">
-        <span class="name">Fat</span>
-        <span class="big">45<span>&nbsp;g</span></span>
-        <span class="why">27% of calories &mdash; the hormone floor, don't go under 40&nbsp;g</span>
-      </div>
-      <div class="tile t-carb">
-        <span class="name">Carbs</span>
-        <span class="big">120<span>&nbsp;g</span></span>
-        <span class="why">Flexible. Push toward training days, pull from rest days</span>
-      </div>
-      <div class="tile t-fib">
-        <span class="name">Fiber</span>
-        <span class="big">25&ndash;30<span>&nbsp;g</span></span>
-        <span class="why">Built into the menu. Ramp up over 4&ndash;5 days, not overnight</span>
-      </div>
-    </div>
+  <div class="grocerybar">
+    <span class="count" id="gcount">0 of 0</span>
+    <span class="track"><span class="fill" id="gfill"></span></span>
+    <button id="reset" type="button">Reset list</button>
+  </div>
 
-    <div class="col">
-      <p><strong>Also daily:</strong> 100&nbsp;oz water, 8,000+ steps, and a hard floor of 1,400 calories &mdash; never eat below it, even on a light day. Water matters more now: fiber without fluid causes exactly the bloating and constipation people blame the fiber for.</p>
+  <div class="aisles" id="aisles"></div>
+  <p style="font-size:13.5px;color:var(--muted);margin-top:24px">Ticks are saved on this device, so they survive closing the tab and walking around the store. Reset clears them for next week.</p>
+</div>
 
-      <h3>Where 2,000 comes from</h3>
-    </div>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>Step</th><th>Method</th><th class="num">Result</th></tr></thead>
-        <tbody>
-          <tr><td>Resting burn, formula A</td><td>Mifflin-St Jeor &mdash; 27F, 5&prime;8&Prime;, 147.2&nbsp;lb</td><td class="num">1,451 kcal</td></tr>
-          <tr><td>Resting burn, formula B</td><td>Katch-McArdle on the scale's claimed 127&nbsp;lb lean mass</td><td class="num">1,613 kcal</td></tr>
-          <tr><td>Formula B, corrected</td><td>Katch-McArdle on a realistic ~110&nbsp;lb lean mass (25% body fat)</td><td class="num">1,450 kcal</td></tr>
-          <tr><td>Working resting burn</td><td>A and B agree once the bad body fat number is removed</td><td class="num">1,450 kcal</td></tr>
-          <tr><td>Maintenance</td><td>&times;1.375 for lightly active</td><td class="num">1,994 kcal</td></tr>
-          <tr class="total"><td>Cut target</td><td>Maintenance &minus; 500</td><td class="num">1,500 kcal</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="col" style="font-size:14.5px;color:var(--muted);margin-top:14px">These formulas carry roughly &plusmn;10% either way, so treat 2,000 as a starting hypothesis. Week 2's weight trend is the actual measurement; adjust from that, not from the table.</p>
-  </section>
+<!-- ═══════════ 4. PLAN ═══════════ -->
+<div class="page" id="p-plan" data-title="Six weeks">
+  <h1 class="ph">Six weeks</h1>
+  <p class="lede">The menu doesn't change and neither should the calories. At 1,500 she's close enough to the floor that the adjustable lever is movement, not food.</p>
 
-  <!-- ============ THE WEEK ============ -->
-  <section id="week">
-    <div class="col">
-      <h2>The week</h2>
-      <p class="sub">Seven days, repeated for six weeks. Everything here is gluten free. Portions are cooked weights unless noted.</p>
-    </div>
-    <nav class="daynav" id="daynav" aria-label="Jump to a day"></nav>
-    <div class="days" id="days"></div>
-    <p class="col" style="font-size:14.5px;color:var(--muted);margin-top:20px"><strong>Weekly average:</strong> 1,493 calories &mdash; 155&nbsp;g protein, 44&nbsp;g fat, 120&nbsp;g carbs, 27&nbsp;g fiber. Individual days swing by about 30 calories; the average is what drives the result.</p>
-  </section>
+  <div class="scroll">
+    <table>
+      <thead><tr><th class="num">Wk</th><th class="num">Target</th><th>What to expect &amp; do</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td class="num">1,500</td><td>Weigh food. Expect a 2&ndash;3&nbsp;lb drop — mostly water, not fat. Ramp fiber up across the first 4&ndash;5 days rather than jumping to 28&nbsp;g on day one.</td></tr>
+        <tr><td class="num">2</td><td class="num">1,500</td><td>The real rate shows up: about 1&nbsp;lb. This is the week the 2,000-calorie estimate gets confirmed or corrected.</td></tr>
+        <tr><td class="num">3</td><td class="num">1,500</td><td>Adherence dips here for most people. Take waist/hip measurements and photos.</td></tr>
+        <tr><td class="num">4</td><td class="num">1,500</td><td>If the average is under 0.7&nbsp;lb/wk, add 2,000&ndash;3,000 daily steps. Leave the food alone.</td></tr>
+        <tr><td class="num">5</td><td class="num">1,500</td><td>Hardest week. Add a higher-carb day (+100&nbsp;g carbs, +400 cal) if sleep or strength is slipping.</td></tr>
+        <tr><td class="num">6</td><td class="num">1,500</td><td>Final push. Measurements and photos again, then compare to week 3.</td></tr>
+        <tr class="total"><td class="num">7</td><td class="num">2,000</td><td>Diet break at maintenance for 5&ndash;7 days before deciding whether to run another block.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:14.5px;color:var(--muted);margin-top:14px">Projected landing: <strong>~141&nbsp;lb and roughly 21% body fat</strong>, assuming she starts near 25%. Two more blocks like this, with diet breaks between, reach the 19&ndash;21% target with room to spare.</p>
 
-  <!-- ============ GROCERIES ============ -->
-  <section id="groceries">
-    <div class="col">
-      <h2>Weekly grocery list</h2>
-      <p class="sub">One shop covers one week. Quantities are for Callie only &mdash; double the proteins if anyone eats alongside her.</p>
-    </div>
-    <div class="cols">
-      <div>
-        <h4>Protein</h4>
-        <ul>
-          <li>Chicken breast — 2½ lb</li>
-          <li>Rotisserie chicken — 1 (check GF)</li>
-          <li>93% lean ground turkey — 1½ lb</li>
-          <li>Lean sirloin or 93% beef — ½ lb</li>
-          <li>Salmon fillet — 5 oz</li>
-          <li>Raw shrimp — 12 oz</li>
-          <li>Canned light tuna — 2 cans</li>
-          <li>GF deli turkey breast — 10 oz</li>
-          <li>Eggs — 12</li>
-          <li>Liquid egg whites — 32 oz</li>
-          <li>Nonfat Greek yogurt — 48 oz</li>
-          <li>Frozen shelled edamame — 1 bag</li>
-          <li>GF whey protein powder</li>
-        </ul>
-      </div>
-      <div>
-        <h4>Produce</h4>
-        <ul>
-          <li>Broccoli — 2 crowns</li>
-          <li>Asparagus — 1 bunch</li>
-          <li>Green beans — 12 oz</li>
-          <li>Bell peppers — 6</li>
-          <li>Yellow onions — 2</li>
-          <li>Baby spinach — 1 tub</li>
-          <li>Romaine &amp; mixed greens</li>
-          <li>Mushrooms — 8 oz</li>
-          <li>Cucumber, cherry tomatoes, tomato</li>
-          <li>Baby carrots — 1 bag</li>
-          <li>Avocados — 2</li>
-          <li>Bananas — 2, apples — 2</li>
-          <li>Blueberries, raspberries (2), strawberries</li>
-          <li>Mixed berries — 1 bag frozen</li>
-          <li>Pineapple, lemons, garlic, ginger</li>
-        </ul>
-      </div>
-      <div>
-        <h4>Carbs &amp; pantry</h4>
-        <ul>
-          <li>Jasmine rice, quinoa</li>
-          <li>Certified GF rolled oats + oat flour</li>
-          <li>Sweet potatoes — 2</li>
-          <li>Baby potatoes — ¾ lb</li>
-          <li>Corn tortillas — 6</li>
-          <li>GF whole-grain bread</li>
-          <li>Cassava or brown-rice tortillas</li>
-          <li>Black beans (2 cans), chickpeas, kidney beans</li>
-          <li>Canned diced tomatoes</li>
-          <li>Olive oil, sesame oil</li>
-          <li>Tamari (GF), PB2, chia seeds, almonds</li>
-          <li>Feta, parmesan, hummus, salsa</li>
-          <li>Balsamic, GF light Caesar</li>
-          <li>Sugar-free syrup, baking powder</li>
-          <li>GF chili powder, cumin, paprika, garlic powder</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  <h2>Adjusting mid-plan</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>7-day average is</th><th>Do this</th></tr></thead>
+      <tbody>
+        <tr><td>Down more than 1.5&nbsp;lb</td><td>Add 100 calories back as carbs — that pace is costing muscle</td></tr>
+        <tr><td>Down 0.7&ndash;1.3&nbsp;lb</td><td>Nothing. This is the target. Keep going.</td></tr>
+        <tr><td>Down under 0.4&nbsp;lb, two weeks running</td><td>Add 2,000&ndash;3,000 daily steps. Not fewer calories — she's near the floor already.</td></tr>
+        <tr><td>Flat, but the tape is shrinking</td><td>Nothing. Recomposition. Trust the measurements over the scale.</td></tr>
+        <tr><td>Strength, sleep, or mood off for 3+ days</td><td>Eat at maintenance for two days, then resume. Do not cut further.</td></tr>
+        <tr><td>Her period gets late, light, or skips</td><td>Stop the cut. Eat at maintenance and talk to a doctor — that's the body's first signal the deficit is too much, and it's not one to push through.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-  <!-- ============ GLUTEN FREE ============ -->
-  <section id="glutenfree">
-    <div class="col">
-      <h2>The gluten-free watch list</h2>
-      <p class="sub">The bread is the easy part. These are the items in this plan that are gluten free only if you buy the right version.</p>
-    </div>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>Item</th><th>Why it's a risk</th><th>What to buy</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Oats &amp; oat flour</strong></td><td>Oats are naturally GF but are milled and transported with wheat</td><td>A bag that says <em>certified gluten free</em> &mdash; not just "oats"</td></tr>
-          <tr><td><strong>Soy sauce</strong></td><td>Brewed with wheat as a primary ingredient</td><td>Tamari (check the label &mdash; not all tamari is GF) or coconut aminos</td></tr>
-          <tr><td><strong>Deli turkey</strong></td><td>Wheat-based fillers and binders in cheaper brands</td><td>A brand labeled GF, or roast and slice your own turkey breast</td></tr>
-          <tr><td><strong>Caesar dressing</strong></td><td>Some use wheat as a thickener; anchovy pastes vary</td><td>A GF-labeled bottle, or make it with GF Worcestershire</td></tr>
-          <tr><td><strong>Whey protein</strong></td><td>Some flavored blends use wheat-derived carriers</td><td>A GF-certified isolate. Most are fine, but confirm the one she uses</td></tr>
-          <tr><td><strong>Chili powder &amp; spice blends</strong></td><td>Wheat flour is a common anti-caking agent</td><td>Single-ingredient spices, or a blend labeled GF</td></tr>
-          <tr><td><strong>Tortillas</strong></td><td>"Low-carb" tortillas are almost always wheat</td><td>Corn tortillas (already GF), or cassava / brown-rice tortillas for the wrap</td></tr>
-          <tr><td><strong>Salsa, hummus, broths</strong></td><td>Usually fine, occasionally thickened with wheat</td><td>Read the label once per brand, then stop worrying about it</td></tr>
-          <tr><td><strong>Restaurant meals</strong></td><td>Shared fryers, flour-thickened sauces, marinades</td><td>Ask for the GF menu and name the concern &mdash; fryer, sauce, marinade</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="col" style="margin-top:18px">Naturally gluten free and already all over this plan: rice, quinoa, potatoes, sweet potatoes, corn tortillas, all the beans and lentils, every fruit and vegetable, eggs, plain Greek yogurt, and all the unprocessed meat and fish.</p>
-  </section>
+<!-- ═══════════ 5. GUIDE (hub) ═══════════ -->
+<div class="page" id="p-guide" data-title="Guide">
+  <h1 class="ph">Guide</h1>
+  <p class="lede">The reference material — read once, come back when something comes up.</p>
+  <div class="hub">
+    <a class="hublink" href="#/guide/start"><span class="hb"><b>Before you start</b><span>Four things about the goals behind these numbers</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
+    <a class="hublink" href="#/guide/gluten"><span class="hb"><b>Gluten-free watch list</b><span>The nine items that are only GF if you buy the right version</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
+    <a class="hublink" href="#/guide/swaps"><span class="hb"><b>Swaps</b><span>Same macros, different food, when a day gets boring</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
+    <a class="hublink" href="#/guide/rules"><span class="hb"><b>The rules that matter</b><span>The eight that decide whether six weeks works</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
+  </div>
 
-  <!-- ============ SWAPS ============ -->
-  <section id="swaps">
-    <div class="col">
-      <h2>Swaps</h2>
-      <p class="sub">Same macros, different food. Use these when a day gets boring rather than abandoning the day.</p>
-    </div>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>Instead of</th><th>Use</th></tr></thead>
-        <tbody>
-          <tr><td>5 oz chicken breast</td><td>5 oz turkey breast, 6 oz shrimp, 5 oz white fish, or 6 oz extra-firm tofu (+15&nbsp;g fat)</td></tr>
-          <tr><td>½ cup rice</td><td>½ cup quinoa, 4 oz sweet potato, 1 cup roasted butternut, or 1½ cups riced cauliflower (&minus;100 cal)</td></tr>
-          <tr><td>Greek yogurt bowl</td><td>Skyr, a 2-scoop protein smoothie with spinach and frozen berries, or GF overnight oats</td></tr>
-          <tr><td>Any snack</td><td>¾ cup edamame, 3 oz GF deli turkey, a whey shake with ½ cup berries, or 1 oz GF jerky and an apple</td></tr>
-          <tr><td>A low-fiber day</td><td>Add ½ cup black beans (+7&nbsp;g), 1 tbsp chia (+5&nbsp;g), ½ cup raspberries (+4&nbsp;g), or an apple with the skin on (+4.5&nbsp;g)</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- ============ SIX WEEKS ============ -->
-  <section id="sixweeks">
-    <div class="col">
-      <h2>Six weeks, week by week</h2>
-      <p class="sub">The menu doesn't change and neither should the calories. At 1,500 she's close enough to the floor that the adjustable lever is movement, not food.</p>
-    </div>
-    <div class="scroll">
-      <table>
-        <thead><tr><th class="num">Wk</th><th class="num">Target</th><th>What to expect &amp; do</th></tr></thead>
-        <tbody>
-          <tr><td class="num">1</td><td class="num">1,500</td><td>Weigh food. Expect a 2&ndash;3&nbsp;lb drop &mdash; mostly water, not fat. Ramp fiber up across the first 4&ndash;5 days rather than jumping to 28&nbsp;g on day one.</td></tr>
-          <tr><td class="num">2</td><td class="num">1,500</td><td>The real rate shows up: about 1&nbsp;lb. This is the week the 2,000-calorie estimate gets confirmed or corrected.</td></tr>
-          <tr><td class="num">3</td><td class="num">1,500</td><td>Adherence dips here for most people. Take waist/hip measurements and photos.</td></tr>
-          <tr><td class="num">4</td><td class="num">1,500</td><td>If the average is under 0.7&nbsp;lb/wk, add 2,000&ndash;3,000 daily steps. Leave the food alone.</td></tr>
-          <tr><td class="num">5</td><td class="num">1,500</td><td>Hardest week. Add a higher-carb day (+100&nbsp;g carbs, +400 cal) if sleep or strength is slipping.</td></tr>
-          <tr><td class="num">6</td><td class="num">1,500</td><td>Final push. Measurements and photos again, then compare to week 3.</td></tr>
-          <tr class="total"><td class="num">7</td><td class="num">2,000</td><td>Diet break at maintenance for 5&ndash;7 days before deciding whether to run another block.</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="col" style="font-size:14.5px;color:var(--muted);margin-top:14px">Projected landing: <strong>~141&nbsp;lb and roughly 21% body fat</strong>, assuming she starts near 25%. Two more blocks like this, with diet breaks between, reach the 19&ndash;21% target with room to spare.</p>
-
-    <div class="col"><h3>Adjusting mid-plan</h3></div>
-    <div class="scroll">
-      <table>
-        <thead><tr><th>7-day average is</th><th>Do this</th></tr></thead>
-        <tbody>
-          <tr><td>Down more than 1.5&nbsp;lb</td><td>Add 100 calories back as carbs &mdash; that pace is costing muscle</td></tr>
-          <tr><td>Down 0.7&ndash;1.3&nbsp;lb</td><td>Nothing. This is the target. Keep going.</td></tr>
-          <tr><td>Down under 0.4&nbsp;lb, two weeks running</td><td>Add 2,000&ndash;3,000 daily steps. Not fewer calories &mdash; she's near the floor already.</td></tr>
-          <tr><td>Flat, but the tape is shrinking</td><td>Nothing. Recomposition. Trust the measurements over the scale.</td></tr>
-          <tr><td>Strength, sleep, or mood off for 3+ days</td><td>Eat at maintenance for two days, then resume. Do not cut further.</td></tr>
-          <tr><td>Her period gets late, light, or skips</td><td>Stop the cut. Eat at maintenance and talk to a doctor &mdash; that's the body's first signal the deficit is too much, and it's not one to push through.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- ============ RULES ============ -->
-  <section id="rules" class="col">
-    <h2>The rules that actually matter</h2>
-    <p class="sub">If everything else gets forgotten, these are the ones that decide whether six weeks works.</p>
-    <ul class="rules">
-      <li><strong>Protein floor of 150&nbsp;g.</strong> If a day falls apart, hit the protein anyway.</li>
-      <li><strong>Fiber goes up gradually.</strong> Jumping from a low-fiber diet to 28&nbsp;g overnight causes bloating and gas that gets blamed on the diet. Ramp over 4&ndash;5 days and keep the water high.</li>
-      <li><strong>Weigh food for the first two weeks.</strong> Eyeballing drifts 20&ndash;30% high; after two weeks the eye is calibrated.</li>
-      <li><strong>Weigh in daily, same conditions</strong> &mdash; morning, post-bathroom, pre-food. Only ever look at the 7-day average.</li>
-      <li><strong>8,000+ steps a day.</strong> At lightly active this is the cheapest deficit she has, and it doesn't cost her any food.</li>
-      <li><strong>100&nbsp;oz of water.</strong> Half of the "starving" signal on a cut is thirst, and fiber needs the fluid to work.</li>
-      <li><strong>Never below 1,400 calories,</strong> regardless of what the scale is doing.</li>
-      <li><strong>Alcohol counts</strong> &mdash; roughly 150 cal per drink, it comes out of Saturday's flex meal rather than out of protein, and beer is not gluten free.</li>
-    </ul>
-  </section>
-
-  <footer class="end">
+  <div class="fineprint">
     <p>Built for a 27-year-old woman, 5&prime;8&Prime;, 147.2&nbsp;lb, lightly active, gluten free, no cottage cheese, from a scale reading dated August 25, 2026. Fiber and macro figures are USDA-based estimates and will vary a few grams by brand.</p>
     <p><strong>This is general nutrition information, not medical advice.</strong> A doctor or registered dietitian should sign off before starting, and especially before any target below 20% body fat.</p>
-  </footer>
+  </div>
+</div>
+
+<!-- ── Guide sub-pages ── -->
+<div class="page" id="p-guide-start" data-title="Before you start" data-parent="#/guide">
+  <h1 class="ph">Before you start</h1>
+  <p class="lede">Four things worth reading once, before the first grocery run.</p>
+
+  <div class="note">
+    <p class="label">The 9% body fat goal isn't one to build to</p>
+    <p>For a woman, roughly <strong>10&ndash;13% is <em>essential</em> fat</strong>: the fat in bone marrow, the nervous system, and around the organs. 9% sits below that floor. Held for any length of time it's the territory of lost periods, dropping estrogen, and bone density loss that doesn't reliably come back. Female physique competitors touch 10&ndash;12% for a stage day and don't stay there.</p>
+    <p><strong>This plan targets 19&ndash;21%</strong> — a visibly lean, athletic composition she can hold year-round. If her true body fat is around 25%, six weeks here puts her near 21%: essentially the whole goal in one block. If she wants to go further later, 16&ndash;18% is the aggressive end, and it should be time-limited and watched.</p>
+  </div>
+
+  <div class="note">
+    <p class="label">The scale's body fat number is unusable</p>
+    <p>13.8% doesn't square with a BMI of 22.3, and bioimpedance scales run 5&ndash;8 points off on women. Use the scale for <strong>weight trend only</strong>. Track composition with waist and hip tape measurements, photos in the same light every two weeks, and how clothes fit.</p>
+  </div>
+
+  <div class="note">
+    <p class="label">147 &rarr; 125 lb is a five-month project</p>
+    <p>Not a six-week one. At a 500-calorie deficit she loses about <strong>1&nbsp;lb a week — roughly 6&nbsp;lb in six weeks</strong>, landing near 141. Adding 2,000&ndash;3,000 daily steps widens that to about 7&nbsp;lb without touching the food.</p>
+  </div>
+
+  <div class="note">
+    <p class="label">Is the gluten issue celiac, or a sensitivity?</p>
+    <p>It changes how strict this has to be. <strong>If celiac</strong>, add cross-contamination rules on top of the ingredient swaps: a dedicated toaster, separate cutting board and colander, her own jar of anything that gets double-dipped, and calling restaurants ahead. <strong>If it's a sensitivity or preference</strong>, reading labels is enough.</p>
+  </div>
+
+  <p style="margin-top:22px">147&nbsp;lb at 5&prime;8&Prime; is squarely in the healthy range, so there's no medical clock on any of this. If energy, mood, or strength drop off for more than a few days, that's the signal to ease up rather than push.</p>
+</div>
+
+<div class="page" id="p-guide-gluten" data-title="Gluten-free watch list" data-parent="#/guide">
+  <h1 class="ph">Gluten-free watch list</h1>
+  <p class="lede">The bread is the easy part. These are the items in this plan that are gluten free only if you buy the right version.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Item</th><th>Why it's a risk</th><th>What to buy</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Oats &amp; oat flour</strong></td><td>Oats are naturally GF but are milled and transported with wheat</td><td>A bag that says <em>certified gluten free</em> — not just "oats"</td></tr>
+        <tr><td><strong>Soy sauce</strong></td><td>Brewed with wheat as a primary ingredient</td><td>Tamari (check the label — not all tamari is GF) or coconut aminos</td></tr>
+        <tr><td><strong>Deli turkey</strong></td><td>Wheat-based fillers and binders in cheaper brands</td><td>A brand labeled GF, or roast and slice your own turkey breast</td></tr>
+        <tr><td><strong>Caesar dressing</strong></td><td>Some use wheat as a thickener; anchovy pastes vary</td><td>A GF-labeled bottle, or make it with GF Worcestershire</td></tr>
+        <tr><td><strong>Whey protein</strong></td><td>Some flavored blends use wheat-derived carriers</td><td>A GF-certified isolate. Most are fine, but confirm the one she uses</td></tr>
+        <tr><td><strong>Chili powder &amp; spice blends</strong></td><td>Wheat flour is a common anti-caking agent</td><td>Single-ingredient spices, or a blend labeled GF</td></tr>
+        <tr><td><strong>Tortillas</strong></td><td>"Low-carb" tortillas are almost always wheat</td><td>Corn tortillas (already GF), or cassava / brown-rice tortillas for the wrap</td></tr>
+        <tr><td><strong>Salsa, hummus, broths</strong></td><td>Usually fine, occasionally thickened with wheat</td><td>Read the label once per brand, then stop worrying about it</td></tr>
+        <tr><td><strong>Restaurant meals</strong></td><td>Shared fryers, flour-thickened sauces, marinades</td><td>Ask for the GF menu and name the concern — fryer, sauce, marinade</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:18px">Naturally gluten free and already all over this plan: rice, quinoa, potatoes, sweet potatoes, corn tortillas, all the beans and lentils, every fruit and vegetable, eggs, plain Greek yogurt, and all the unprocessed meat and fish.</p>
+</div>
+
+<div class="page" id="p-guide-swaps" data-title="Swaps" data-parent="#/guide">
+  <h1 class="ph">Swaps</h1>
+  <p class="lede">Same macros, different food. Use these when a day gets boring rather than abandoning the day.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Instead of</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>5 oz chicken breast</td><td>5 oz turkey breast, 6 oz shrimp, 5 oz white fish, or 6 oz extra-firm tofu (+15&nbsp;g fat)</td></tr>
+        <tr><td>½ cup rice</td><td>½ cup quinoa, 4 oz sweet potato, 1 cup roasted butternut, or 1½ cups riced cauliflower (&minus;100 cal)</td></tr>
+        <tr><td>Greek yogurt bowl</td><td>Skyr, a 2-scoop protein smoothie with spinach and frozen berries, or GF overnight oats</td></tr>
+        <tr><td>Any snack</td><td>¾ cup edamame, 3 oz GF deli turkey, a whey shake with ½ cup berries, or 1 oz GF jerky and an apple</td></tr>
+        <tr><td>A low-fiber day</td><td>Add ½ cup black beans (+7&nbsp;g), 1 tbsp chia (+5&nbsp;g), ½ cup raspberries (+4&nbsp;g), or an apple with the skin on (+4.5&nbsp;g)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page" id="p-guide-rules" data-title="The rules that matter" data-parent="#/guide">
+  <h1 class="ph">The rules that matter</h1>
+  <p class="lede">If everything else gets forgotten, these are the ones that decide whether six weeks works.</p>
+  <ul class="rules">
+    <li><strong>Protein floor of 150&nbsp;g.</strong> If a day falls apart, hit the protein anyway.</li>
+    <li><strong>Fiber goes up gradually.</strong> Jumping from a low-fiber diet to 28&nbsp;g overnight causes bloating and gas that gets blamed on the diet. Ramp over 4&ndash;5 days and keep the water high.</li>
+    <li><strong>Weigh food for the first two weeks.</strong> Eyeballing drifts 20&ndash;30% high; after two weeks the eye is calibrated.</li>
+    <li><strong>Weigh in daily, same conditions</strong> — morning, post-bathroom, pre-food. Only ever look at the 7-day average.</li>
+    <li><strong>8,000+ steps a day.</strong> At lightly active this is the cheapest deficit she has, and it doesn't cost her any food.</li>
+    <li><strong>100&nbsp;oz of water.</strong> Half of the "starving" signal on a cut is thirst, and fiber needs the fluid to work.</li>
+    <li><strong>Never below 1,400 calories,</strong> regardless of what the scale is doing.</li>
+    <li><strong>Alcohol counts</strong> — roughly 150 cal per drink, it comes out of Saturday's flex meal rather than out of protein, and beer is not gluten free.</li>
+  </ul>
+</div>
 
 </main>
 
+<nav class="bottomnav" aria-label="Main">
+  <ul>
+    <li><a href="#/targets" data-match="targets">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.6"/></svg>
+      Targets</a></li>
+    <li><a href="#/week" data-match="week">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3.2" y="4.8" width="17.6" height="15.5" rx="1.8"/><path d="M3.2 9.6h17.6M8.6 3.2v3M15.4 3.2v3"/></svg>
+      Week</a></li>
+    <li><a href="#/grocery" data-match="grocery">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6.5h11M9.5 12h11M9.5 17.5h11"/><path d="M3.4 6.4l1.4 1.4 2.4-2.6M3.4 11.9l1.4 1.4 2.4-2.6M3.4 17.4l1.4 1.4 2.4-2.6"/></svg>
+      Grocery</a></li>
+    <li><a href="#/plan" data-match="plan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 19.2V13M9.3 19.2V8.4M14.7 19.2v-8M20 19.2V4.8"/></svg>
+      6 Weeks</a></li>
+    <li><a href="#/guide" data-match="guide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 4.4h6.1a2.9 2.9 0 0 1 2.9 2.9v12.3a2.2 2.2 0 0 0-2.2-2.2H4.2z"/><path d="M19.8 4.4h-6.1a2.9 2.9 0 0 0-2.9 2.9v12.3a2.2 2.2 0 0 1 2.2-2.2h6.8z"/></svg>
+      Guide</a></li>
+  </ul>
+</nav>
+
 <script>
-/* ---------------------------------------------------------------
-   The week. Edit these numbers and the page updates — nothing else
-   references them. Each meal: [slot, dish, detail, cal, P, F, C, fiber]
-   Wrap a GF-critical ingredient in {curly braces} to tag it.
-   --------------------------------------------------------------- */
+/* ═══════════════════════════════════════════════════════════════
+   THE WEEK — edit these numbers and the app updates.
+   Each meal: [slot, dish, detail, cal, protein, fat, carbs, fiber]
+   Wrap a gluten-critical ingredient in {curly braces} to tag it.
+   ═══════════════════════════════════════════════════════════════ */
 var WEEK = [
-  { day: "Monday", dow: 1, tagline: "Batch-cook the turkey tonight — it feeds Wednesday",
+  { day: "Monday", dow: 1, tagline: "Batch-cook the turkey — it feeds Wednesday",
     meals: [
       ["Breakfast","Greek yogurt bowl","1 cup nonfat Greek yogurt, 1 scoop whey, ¾ cup blueberries, 1 tbsp chia",390,45,9,32,8],
       ["Lunch","Chicken &amp; rice bowl","5 oz grilled chicken breast, ½ cup jasmine rice, 1 cup roasted broccoli, 1 tsp olive oil, salsa",400,45,10,32,3],
@@ -714,7 +612,7 @@ var WEEK = [
       ["Snack","Shake &amp; raspberries","1 scoop whey{CHECK GF} in water, ½ cup raspberries",172,26,1,14,4]
     ], total: [1492,164,45,102,26] },
 
-  { day: "Wednesday", dow: 3, tagline: "Highest-carb day — put the hardest training session here",
+  { day: "Wednesday", dow: 3, tagline: "Highest-carb day — put the hardest session here",
     meals: [
       ["Breakfast","Protein oats","⅓ cup certified GF rolled oats{GF SWAP}, 1 scoop whey, 1 tbsp PB2, cinnamon, ½ banana",360,37,8,41,6],
       ["Lunch","Monday's turkey over greens","Leftover taco skillet, 2 cups romaine, salsa, 2 tbsp Greek yogurt instead of sour cream",460,42,17,36,12],
@@ -746,7 +644,7 @@ var WEEK = [
       ["Snack","Yogurt &amp; raspberries","1 cup nonfat Greek yogurt, ½ cup raspberries — skip it if the flex meal ran big",172,25,0,17,4]
     ], total: [1500,155,42,126,25] },
 
-  { day: "Sunday", dow: 0, tagline: "Prep day — chili doubles as next week's back-pocket lunch",
+  { day: "Sunday", dow: 0, tagline: "Prep day — chili doubles as next week's lunch",
     meals: [
       ["Breakfast","Veggie omelet &amp; fruit","2 eggs + ¾ cup egg whites, peppers, spinach, onion; 1 cup mixed berries",340,36,12,22,6],
       ["Lunch","Chicken Caesar, lightened","5 oz chicken, romaine, 1½ tbsp GF-labeled light Caesar{CHECK GF}, ½ oz parmesan, no croutons",395,47,17,9,3],
@@ -755,81 +653,204 @@ var WEEK = [
     ], total: [1490,154,49,105,28] }
 ];
 
+/* ═══════════ THE GROCERY LIST — add or remove lines freely ═══════════ */
+var GROCERY = [
+  { aisle: "Protein", items: [
+    "Chicken breast — 2½ lb", "Rotisserie chicken — 1 (check GF)",
+    "93% lean ground turkey — 1½ lb", "Lean sirloin or 93% beef — ½ lb",
+    "Salmon fillet — 5 oz", "Raw shrimp — 12 oz", "Canned light tuna — 2 cans",
+    "GF deli turkey breast — 10 oz", "Eggs — 12", "Liquid egg whites — 32 oz",
+    "Nonfat Greek yogurt — 48 oz", "Frozen shelled edamame — 1 bag",
+    "GF whey protein powder" ] },
+  { aisle: "Produce", items: [
+    "Broccoli — 2 crowns", "Asparagus — 1 bunch", "Green beans — 12 oz",
+    "Bell peppers — 6", "Yellow onions — 2", "Baby spinach — 1 tub",
+    "Romaine &amp; mixed greens", "Mushrooms — 8 oz",
+    "Cucumber, cherry tomatoes, tomato", "Baby carrots — 1 bag", "Avocados — 2",
+    "Bananas — 2, apples — 2", "Blueberries, raspberries (2), strawberries",
+    "Mixed berries — 1 bag frozen", "Pineapple, lemons, garlic, ginger" ] },
+  { aisle: "Carbs &amp; pantry", items: [
+    "Jasmine rice, quinoa", "Certified GF rolled oats + oat flour",
+    "Sweet potatoes — 2", "Baby potatoes — ¾ lb", "Corn tortillas — 6",
+    "GF whole-grain bread", "Cassava or brown-rice tortillas",
+    "Black beans (2 cans), chickpeas, kidney beans", "Canned diced tomatoes",
+    "Olive oil, sesame oil", "Tamari (GF), PB2, chia seeds, almonds",
+    "Feta, parmesan, hummus, salsa", "Balsamic, GF light Caesar",
+    "Sugar-free syrup, baking powder",
+    "GF chili powder, cumin, paprika, garlic powder" ] }
+];
+
 (function () {
+  "use strict";
   var LABELS = ["Cal", "P", "F", "C", "Fib"];
   var todayDow = new Date().getDay();
+  var CHEV = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
 
-  function tagGF(s) {
-    return s.replace(/\{([^}]+)\}/g, '<span class="gf">$1</span>');
+  function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
+  function tagGF(s) { return s.replace(/\{([^}]+)\}/g, '<span class="gf">$1</span>'); }
+  function fmt(n) { return n >= 1000 ? n.toLocaleString("en-US") : String(n); }
+
+  function macroRow(vals) {
+    return '<div class="macrorow">' + vals.map(function (v, i) {
+      return '<span' + (i === 4 ? ' class="isfib"' : '') + '><i>' + LABELS[i] + '</i><b>' + fmt(v) + '</b></span>';
+    }).join("") + "</div>";
   }
 
-  function numCells(vals) {
-    return vals.map(function (v, i) {
-      var cls = "num" + (i === 4 ? " fib" : "");
-      var text = v >= 1000 ? v.toLocaleString("en-US") : v;
-      return '<td class="' + cls + '" data-label="' + LABELS[i] + '">' + text + "</td>";
-    }).join("");
-  }
+  /* ---------- build the week ---------- */
+  var listHtml = "", pagesHtml = "";
 
-  var daysHtml = "", navHtml = "";
-
-  WEEK.forEach(function (d) {
-    var id = d.day.toLowerCase();
+  WEEK.forEach(function (d, i) {
+    var id = slug(d.day);
     var isToday = d.dow === todayDow;
+    var prev = WEEK[(i + WEEK.length - 1) % WEEK.length];
+    var next = WEEK[(i + 1) % WEEK.length];
 
-    navHtml += '<a href="#' + id + '" class="' + (isToday ? "today" : "") + '">' +
-               d.day.slice(0, 3) + "</a>";
+    listHtml +=
+      '<a class="daycard' + (isToday ? " today" : "") + '" href="#/week/' + id + '">' +
+        '<span class="dnum">' + (i + 1) + "</span>" +
+        '<span class="dbody"><span class="dname">' + d.day +
+          (isToday ? '<span class="todaytag">Today</span>' : "") + "</span>" +
+          '<span class="dtag">' + d.tagline + "</span></span>" +
+        '<span class="dcal">' + fmt(d.total[0]) + "</span>" + CHEV +
+      "</a>";
 
-    var rows = d.meals.map(function (m) {
-      return "<tr>" +
-        '<td class="meal">' + m[0] + "</td>" +
-        "<td><span class=\"dish\">" + m[1] + "</span>" +
-          '<span class="detail">' + tagGF(m[2]) + "</span></td>" +
-        numCells(m.slice(3)) +
-      "</tr>";
+    var meals = d.meals.map(function (m) {
+      return '<div class="meal">' +
+        '<span class="slot">' + m[0] + "</span>" +
+        '<span class="dish">' + m[1] + "</span>" +
+        '<span class="detail">' + tagGF(m[2]) + "</span>" +
+        macroRow(m.slice(3)) +
+      "</div>";
     }).join("");
 
-    daysHtml +=
-      '<article class="day' + (isToday ? " is-today" : "") + '" id="' + id + '">' +
-        "<header><h3>" + d.day +
-          (isToday ? '<span class="todaytag">Today</span>' : "") +
-        "</h3>" +
-        '<span class="tagline">' + d.tagline + "</span></header>" +
-        '<div class="scroll"><table>' +
-          "<thead><tr><th>Meal</th><th>Food</th>" +
-            LABELS.map(function (l, i) {
-              return '<th class="num' + (i === 4 ? " fib" : "") + '">' + l + "</th>";
-            }).join("") +
-          "</tr></thead><tbody>" + rows +
-          '<tr class="total"><td></td><td>Day total</td>' + numCells(d.total) + "</tr>" +
-        "</tbody></table></div>" +
-      "</article>";
+    pagesHtml +=
+      '<div class="page" id="p-day-' + id + '" data-title="' + d.day + '" data-parent="#/week">' +
+        '<h1 class="ph">' + d.day + (isToday ? '<span class="todaytag">Today</span>' : "") + "</h1>" +
+        '<p class="lede">' + d.tagline + "</p>" +
+        '<div class="meals">' + meals +
+          '<div class="meal daytotal"><span class="slot">Day total</span>' +
+            '<span class="dish">' + fmt(d.total[0]) + " calories</span>" +
+            macroRow(d.total) + "</div>" +
+        "</div>" +
+        '<div class="prevnext">' +
+          '<a href="#/week/' + slug(prev.day) + '">&larr; ' + prev.day + "</a>" +
+          '<a href="#/week/' + slug(next.day) + '">' + next.day + " &rarr;</a>" +
+        "</div>" +
+      "</div>";
   });
 
-  document.getElementById("days").innerHTML = daysHtml;
-  document.getElementById("daynav").innerHTML = navHtml;
+  document.getElementById("daylist").innerHTML = listHtml;
+  document.getElementById("daypages").innerHTML = pagesHtml;
 
-  /* Highlight the nav link for whichever section is on screen. */
-  var links = Array.prototype.slice.call(document.querySelectorAll("nav.sections a"));
-  var byId = {};
-  links.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+  /* ---------- grocery checklist ---------- */
+  var KEY = "c6w.grocery.v1";
+  var store = {
+    read: function () {
+      try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; }
+    },
+    write: function (v) {
+      try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) { /* private mode — fine */ }
+    }
+  };
+  var checked = store.read();
 
-  if ("IntersectionObserver" in window) {
-    var seen = {};
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { seen[e.target.id] = e.isIntersecting; });
-      var current = null;
-      Object.keys(byId).forEach(function (id) { if (seen[id] && !current) current = id; });
-      links.forEach(function (a) {
-        a.classList.toggle("on", a.getAttribute("href") === "#" + current);
-      });
-    }, { rootMargin: "-56px 0px -70% 0px" });
+  var aislesHtml = GROCERY.map(function (g) {
+    var items = g.items.map(function (item) {
+      var id = "g-" + slug(item.replace(/&amp;/g, "and"));
+      return "<li><label>" +
+        '<input type="checkbox" data-key="' + id + '"' + (checked[id] ? " checked" : "") + ">" +
+        '<span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>' +
+        '<span class="txt">' + item + "</span></label></li>";
+    }).join("");
+    return '<div class="aisle"><h3>' + g.aisle + "</h3><ul>" + items + "</ul></div>";
+  }).join("");
 
-    Object.keys(byId).forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) io.observe(el);
-    });
+  var aisles = document.getElementById("aisles");
+  aisles.innerHTML = aislesHtml;
+
+  var boxes = Array.prototype.slice.call(aisles.querySelectorAll("input"));
+  var countEl = document.getElementById("gcount");
+  var fillEl = document.getElementById("gfill");
+  var resetEl = document.getElementById("reset");
+
+  function refresh() {
+    var done = boxes.filter(function (b) { return b.checked; }).length;
+    countEl.textContent = done + " of " + boxes.length;
+    fillEl.style.width = (boxes.length ? (done / boxes.length) * 100 : 0) + "%";
+    resetEl.disabled = done === 0;
   }
+
+  aisles.addEventListener("change", function (e) {
+    var b = e.target;
+    if (!b || b.type !== "checkbox") return;
+    if (b.checked) { checked[b.dataset.key] = 1; } else { delete checked[b.dataset.key]; }
+    store.write(checked);
+    refresh();
+  });
+
+  resetEl.addEventListener("click", function () {
+    boxes.forEach(function (b) { b.checked = false; });
+    checked = {};
+    store.write(checked);
+    refresh();
+  });
+
+  refresh();
+
+  /* ---------- router ---------- */
+  var pages = {};
+  Array.prototype.forEach.call(document.querySelectorAll(".page"), function (p) { pages[p.id] = p; });
+
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll(".bottomnav a"));
+  var titleEl = document.getElementById("ptitle");
+  var backEl = document.getElementById("back");
+  var BASE_TITLE = "Callie's Six-Week Cut";
+
+  function idFor(route) {
+    var parts = route.replace(/^#?\/?/, "").split("/").filter(Boolean);
+    if (!parts.length) return "p-targets";
+    if (parts[0] === "week" && parts[1]) return "p-day-" + parts[1];
+    return "p-" + parts.join("-");
+  }
+
+  function show(route) {
+    var id = idFor(route);
+    var page = pages[id] || pages["p-targets"];
+
+    Object.keys(pages).forEach(function (k) { pages[k].classList.remove("active"); });
+    page.classList.add("active");
+
+    var name = page.dataset.title || BASE_TITLE;
+    titleEl.textContent = name;
+    document.title = page.id === "p-targets" ? BASE_TITLE : name + " · " + BASE_TITLE;
+
+    var parent = page.dataset.parent;
+    if (parent) {
+      backEl.classList.add("show");
+      backEl.dataset.to = parent;
+    } else {
+      backEl.classList.remove("show");
+    }
+
+    // Derive from the page we actually landed on, so an unknown hash still lights a tab.
+    var section = page.dataset.parent
+      ? page.dataset.parent.replace(/^#?\/?/, "").split("/")[0]
+      : page.id.replace(/^p-/, "").split("-")[0];
+    navLinks.forEach(function (a) { a.classList.toggle("on", a.dataset.match === section); });
+
+    window.scrollTo(0, 0);
+  }
+
+  // Always go UP one level, never history.back() — on a page opened from a direct
+  // link or a home-screen shortcut, "back" in history is outside the app entirely.
+  backEl.addEventListener("click", function () {
+    location.hash = backEl.dataset.to || "#/targets";
+  });
+
+  window.addEventListener("hashchange", function () { show(location.hash); });
+
+  if (!location.hash) { location.replace("#/targets"); }
+  show(location.hash || "#/targets");
 })();
 </script>
 
