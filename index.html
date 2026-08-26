@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Callie's Six-Week Cut</title>
-<meta name="description" content="Daily targets, one repeating gluten-free weekly menu, a checkable grocery list, and rules for adjusting a six-week cut.">
+<title>Callie's Eight-Week Cut</title>
+<meta name="description" content="An eight-week gluten-free cut: calorie-cycled targets, a weekly menu, three lifting sessions a week, and a checkable grocery list.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#94243F" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#6B1526" media="(prefers-color-scheme: dark)">
-<meta name="apple-mobile-web-app-title" content="Six-Week Cut">
+<meta name="apple-mobile-web-app-title" content="8-Week Cut">
 
 <style>
 :root {
@@ -29,6 +29,7 @@
   --amber:      #9A6A18;
   --tint:       #E7E9E1;
   --garnet-tint:#F2E2E6;
+  --olive-tint: #E4EAD8;
   --shadow:     0 1px 2px rgba(27,31,26,.06), 0 8px 24px -18px rgba(27,31,26,.35);
   --bar:        rgba(251,251,249,.94);
 
@@ -42,23 +43,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper:      #131611;
-    --surface:    #1C201A;
-    --line:       #313629;
-    --ink:        #E8EAE2;
-    --muted:      #979F90;
-    --garnet:     #E4738C;
-    --olive:      #A9BC5E;
-    --amber:      #DDA84C;
-    --tint:       #21261E;
-    --garnet-tint:#2C1D22;
-    --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9);
-    --bar:        rgba(28,32,26,.94);
+    --paper:#131611; --surface:#1C201A; --line:#313629; --ink:#E8EAE2; --muted:#979F90;
+    --garnet:#E4738C; --olive:#A9BC5E; --amber:#DDA84C; --tint:#21261E;
+    --garnet-tint:#2C1D22; --olive-tint:#222B18;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9); --bar:rgba(28,32,26,.94);
   }
 }
 :root[data-theme="dark"] {
   --paper:#131611; --surface:#1C201A; --line:#313629; --ink:#E8EAE2; --muted:#979F90;
-  --garnet:#E4738C; --olive:#A9BC5E; --amber:#DDA84C; --tint:#21261E; --garnet-tint:#2C1D22;
+  --garnet:#E4738C; --olive:#A9BC5E; --amber:#DDA84C; --tint:#21261E;
+  --garnet-tint:#2C1D22; --olive-tint:#222B18;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.9); --bar:rgba(28,32,26,.94);
 }
 
@@ -66,322 +60,341 @@
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 
 body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--f-body);
-  font-size: 17px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--f-body); font-size: 17px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
   padding-bottom: calc(var(--navh) + env(safe-area-inset-bottom) + 24px);
 }
-
 .wrap { width: 100%; max-width: 940px; margin: 0 auto; padding: 0 20px; }
-.col { max-width: var(--measure); }
-p { margin: 0 0 16px; max-width: var(--measure); }
+p { margin: 0 0 15px; max-width: var(--measure); }
 a { color: var(--garnet); }
 strong { font-weight: 600; }
 :focus-visible { outline: 2px solid var(--garnet); outline-offset: 2px; }
 
 /* ---------- title bar ---------- */
 .titlebar {
-  position: sticky; top: 0; z-index: 40;
-  background: var(--bar);
-  backdrop-filter: saturate(1.4) blur(10px);
-  -webkit-backdrop-filter: saturate(1.4) blur(10px);
-  border-bottom: 1px solid var(--line);
-  padding-top: env(safe-area-inset-top);
+  position: sticky; top: 0; z-index: 40; background: var(--bar);
+  backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top);
 }
 .titlebar .wrap { display: flex; align-items: center; gap: 10px; min-height: 50px; }
 .titlebar .crumb {
-  font-family: var(--f-mono); font-size: 11px; letter-spacing: .13em;
+  font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .13em;
   text-transform: uppercase; color: var(--muted); margin-left: auto;
+  white-space: nowrap; flex: none;
 }
+@media (max-width: 460px) { .titlebar .crumb { display: none; } }
 #back {
-  display: none; align-items: center; gap: 5px;
-  background: none; border: 0; padding: 6px 8px 6px 0; margin: 0;
-  color: var(--garnet); cursor: pointer; font: inherit; font-size: 15px;
+  display: none; align-items: center; gap: 5px; background: none; border: 0;
+  padding: 6px 8px 6px 0; margin: 0; color: var(--garnet); cursor: pointer; font: inherit; font-size: 15px;
 }
 #back.show { display: inline-flex; }
 #back svg { width: 15px; height: 15px; }
 #ptitle {
-  font-family: var(--f-display); font-size: 18px; font-weight: 600;
-  letter-spacing: -.01em; margin: 0; white-space: nowrap;
-  overflow: hidden; text-overflow: ellipsis;
+  font-family: var(--f-display); font-size: 18px; font-weight: 600; letter-spacing: -.01em;
+  margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
 /* ---------- pages ---------- */
-.page { display: none; padding: 26px 0 8px; }
+.page { display: none; padding: 24px 0 8px; }
 .page.active { display: block; animation: fade .18s ease-out; }
 @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
 h1.ph {
   font-family: var(--f-display); font-weight: 600;
-  font-size: clamp(30px, 6.5vw, 44px); line-height: 1.05; letter-spacing: -.02em;
-  margin: 0 0 10px; text-wrap: balance;
+  font-size: clamp(30px, 6.5vw, 44px); line-height: 1.05; letter-spacing: -.02em; margin: 0 0 10px;
 }
 h1.ph em { font-style: italic; font-weight: 400; color: var(--garnet); }
-.lede { font-size: 18px; color: var(--muted); max-width: 56ch; margin: 0 0 26px; }
+.lede { font-size: 17.5px; color: var(--muted); max-width: 54ch; margin: 0 0 24px; }
 h2 {
   font-family: var(--f-display); font-weight: 600;
-  font-size: clamp(21px, 4vw, 25px); letter-spacing: -.012em; line-height: 1.2;
-  margin: 34px 0 6px; text-wrap: balance;
+  font-size: clamp(21px, 4.4vw, 26px); letter-spacing: -.012em; line-height: 1.16; margin: 32px 0 6px;
 }
-h3 { font-family: var(--f-body); font-weight: 600; font-size: 17px; margin: 26px 0 8px; }
-.sub { color: var(--muted); margin: 0 0 20px; max-width: 62ch; }
-
+h3 { font-family: var(--f-body); font-weight: 600; font-size: 17px; margin: 24px 0 8px; }
+.sub { color: var(--muted); margin: 0 0 18px; max-width: 60ch; }
 .eyebrow {
-  font-family: var(--f-mono); font-size: 11px; font-weight: 500;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--garnet); margin: 0 0 12px;
+  font-family: var(--f-mono); font-size: 10.5px; font-weight: 500;
+  letter-spacing: .17em; text-transform: uppercase; color: var(--garnet); margin: 0 0 12px;
 }
 
-/* ---------- baseline strip ---------- */
 .baseline {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
-  gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 0 0 30px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 0 0 26px;
 }
-.baseline div { background: var(--surface); padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
-.baseline .v { font-family: var(--f-mono); font-size: 18px; font-weight: 500; font-variant-numeric: tabular-nums; }
-.baseline .k { font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .11em; text-transform: uppercase; color: var(--muted); }
+.baseline div { background: var(--surface); padding: 11px 13px; }
+.baseline .v { display: block; font-family: var(--f-mono); font-size: 17px; font-weight: 500; }
+.baseline .k {
+  display: block; font-family: var(--f-mono); font-size: 9px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--muted); margin-top: 2px;
+}
 
-/* ---------- callouts ---------- */
 .note {
   border-left: 3px solid var(--garnet); background: var(--garnet-tint);
-  padding: 17px 19px; margin: 0 0 14px; display: flex; flex-direction: column; gap: 10px;
+  padding: 15px 17px; margin: 0 0 13px;
 }
-.note p { margin: 0; max-width: 68ch; }
+.note p:last-child { margin-bottom: 0; }
 .note .label {
-  font-family: var(--f-mono); font-size: 11px; letter-spacing: .13em;
-  text-transform: uppercase; color: var(--garnet);
+  display: block; font-family: var(--f-mono); font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--garnet); margin-bottom: 7px;
 }
+.note.lift { border-left-color: var(--olive); background: var(--olive-tint); }
+.note.lift .label { color: var(--olive); }
 
-/* ---------- tiles ---------- */
-.macros { display: grid; grid-template-columns: repeat(auto-fit, minmax(146px, 1fr)); gap: 11px; margin: 0 0 22px; }
-.tile {
-  background: var(--surface); border: 1px solid var(--line);
-  border-top: 3px solid var(--tone, var(--muted)); padding: 14px 15px 16px;
-  box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 4px;
+/* ---------- day-type cards ---------- */
+.twoup { display: grid; grid-template-columns: repeat(auto-fit, minmax(228px, 1fr)); gap: 13px; margin: 0 0 20px; }
+.daytype { border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow); }
+.daytype > header { padding: 11px 15px; color: #fff; background: var(--muted); }
+.daytype.train > header { background: var(--garnet); }
+:root[data-theme="dark"] .daytype > header,
+:root:not([data-theme="light"]) .daytype > header { color: #131611; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .daytype > header { color: #fff; } }
+:root[data-theme="light"] .daytype > header { color: #fff; }
+.daytype h4 { font-family: var(--f-display); font-weight: 600; font-size: 19px; margin: 0; }
+.daytype .when {
+  font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .1em;
+  text-transform: uppercase; opacity: .85;
 }
-.tile .name { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--tone, var(--muted)); font-weight: 500; }
-.tile .big { font-family: var(--f-mono); font-size: 26px; font-weight: 500; font-variant-numeric: tabular-nums; line-height: 1.1; }
-.tile .big span { font-size: 14px; color: var(--muted); }
-.tile .why { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
-.t-cal { --tone: var(--garnet); }
-.t-pro, .t-fib { --tone: var(--olive); }
-.t-fat { --tone: var(--amber); }
-.t-carb { --tone: var(--muted); }
+.daytype .kcal {
+  display: block; font-family: var(--f-mono); font-size: 33px; font-weight: 500;
+  padding: 14px 15px 2px; line-height: 1;
+}
+.daytype .kcal small { font-size: 13px; color: var(--muted); }
+.mrow { display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 8px 15px 16px; }
+.mrow b { display: block; font-family: var(--f-mono); font-size: 16px; font-weight: 500; }
+.mrow span {
+  display: block; font-family: var(--f-mono); font-size: 9px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+.mrow .p b, .mrow .fb b { color: var(--olive); }
+.mrow .f b { color: var(--amber); }
 
 /* ---------- tables ---------- */
 .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 table { border-collapse: collapse; width: 100%; font-size: 15px; }
 .scroll > table { min-width: 500px; }
-th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th, td { text-align: left; padding: 9px 11px; border-bottom: 1px solid var(--line); vertical-align: top; }
 th {
-  font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--ink);
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500; border-bottom: 1.5px solid var(--ink);
 }
-td.num, th.num { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
-td.fib, th.fib { color: var(--olive); }
-tr.total td { border-bottom: none; border-top: 1px solid var(--ink); font-weight: 600; background: var(--tint); color: var(--ink); }
+td.num, th.num { text-align: right; font-family: var(--f-mono); white-space: nowrap; }
+tr.total td { border-bottom: none; border-top: 1.5px solid var(--ink); font-weight: 600; background: var(--tint); }
+tr.hi td { background: var(--garnet-tint); }
+
+@media (max-width: 700px) {
+  .scroll { overflow-x: visible; }
+  .scroll > table { min-width: 0; }
+  table.stack, table.stack tbody, table.stack tr, table.stack td { display: block; width: 100%; }
+  table.stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  table.stack tr { border-bottom: 1px solid var(--line); padding: 13px 0; }
+  table.stack tr:last-child { border-bottom: none; }
+  table.stack td { border: none; padding: 0; text-align: left; }
+  table.stack td.num { text-align: left; }
+  table.stack td.lead { font-weight: 600; font-size: 16.5px; line-height: 1.3; }
+  table.stack td.body { color: var(--muted); font-size: 15px; margin-top: 4px; }
+  table.stack td.tag::before {
+    content: attr(data-label); display: block; margin-bottom: 1px;
+    font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  table.stack td.tag { margin-top: 8px; font-size: 14.5px; line-height: 1.4; }
+  table.stack tr.total, table.stack tr.hi { padding: 13px 12px; }
+  table.stack tr.total { background: var(--tint); border-top: 1.5px solid var(--ink); border-bottom: none; }
+  table.stack tr.total td { border-top: none; background: none; }
+  table.stack tr.hi { background: var(--garnet-tint); }
+  table.stack tr.hi td { background: none; }
+  table.stack td.fig {
+    display: block; margin-top: 6px;
+    font-family: var(--f-mono); font-size: 15px; color: var(--garnet);
+  }
+  table.weeks.stack td.wk, table.weeks.stack td.tg {
+    display: inline; width: auto; font-family: var(--f-mono); font-size: 11px;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--garnet); font-weight: 500;
+  }
+  table.weeks.stack td.wk::before { content: "Week "; }
+  table.weeks.stack td.tg::before { content: "\00a0\00b7\00a0"; }
+  table.weeks.stack td.body { display: block; color: var(--ink); margin-top: 5px; }
+
+  /* exercise table -> one block per lift */
+  table.lifts.stack td.ex { font-family: var(--f-body); font-weight: 600; font-size: 16.5px; }
+  table.lifts.stack td.sr {
+    display: inline-block; width: auto; margin-top: 4px;
+    font-family: var(--f-mono); font-size: 13.5px; color: var(--garnet);
+  }
+  table.lifts.stack td.cue { color: var(--muted); font-size: 14.5px; margin-top: 4px; }
+}
 
 /* ---------- week index ---------- */
-.daylist { display: flex; flex-direction: column; gap: 9px; margin: 0 0 6px; }
+.daylist { display: flex; flex-direction: column; gap: 9px; }
 .daycard {
-  display: flex; align-items: center; gap: 14px;
-  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow);
-  padding: 14px 16px; text-decoration: none; color: inherit;
+  display: flex; align-items: center; gap: 11px; text-decoration: none; color: inherit;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 13px 15px;
 }
 .daycard:hover { border-color: var(--muted); }
-.daycard.today { border-color: var(--garnet); }
-.daycard .dnum {
-  font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em;
-  color: var(--muted); flex: none; width: 26px;
-}
+.daycard.today { border-color: var(--garnet); border-width: 2px; }
 .daycard .dbody { flex: 1 1 auto; min-width: 0; }
-.daycard .dname { font-family: var(--f-display); font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
+.daycard .dname { font-family: var(--f-display); font-size: 19px; font-weight: 600; line-height: 1.15; }
 .daycard .dtag {
-  display: block; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .08em;
+  display: block; font-family: var(--f-mono); font-size: 10px; letter-spacing: .08em;
   text-transform: uppercase; color: var(--muted); margin-top: 3px;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.daycard .dcal { font-family: var(--f-mono); font-size: 14px; color: var(--muted); flex: none; font-variant-numeric: tabular-nums; }
-.daycard .chev { flex: none; color: var(--muted); width: 14px; height: 14px; }
+.daycard .dcal { flex: none; font-family: var(--f-mono); font-size: 14.5px; color: var(--muted); }
+.chev { flex: none; width: 14px; height: 14px; color: var(--muted); }
+.badge {
+  font-family: var(--f-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+  padding: 1px 6px; border: 1px solid currentColor; white-space: nowrap;
+}
+.badge.t { color: var(--garnet); }
+.badge.r { color: var(--muted); }
 .todaytag {
   font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--garnet); border: 1px solid var(--garnet); padding: 1px 5px; margin-left: 7px; vertical-align: 2px;
+  color: var(--garnet); border: 1px solid var(--garnet); padding: 1px 5px; margin-left: 7px; vertical-align: 3px;
 }
 
-/* ---------- a single day ---------- */
-.meals { display: flex; flex-direction: column; gap: 11px; margin: 0 0 22px; }
-.meal {
-  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 15px 17px;
+/* ---------- meals ---------- */
+.daymeta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 0 0 16px; }
+.liftlink {
+  display: flex; align-items: center; gap: 11px; text-decoration: none; color: inherit;
+  background: var(--olive-tint); border: 1px solid var(--olive); padding: 12px 15px; margin: 0 0 18px;
 }
-.meal .slot { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--garnet); }
-.meal .dish { font-weight: 600; font-size: 17.5px; display: block; margin: 3px 0 4px; }
-.meal .detail { color: var(--muted); font-size: 14.5px; display: block; }
-.macrorow { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 11px; padding-top: 10px; border-top: 1px solid var(--line); }
-.macrorow b { font-family: var(--f-mono); font-weight: 500; font-variant-numeric: tabular-nums; font-size: 14.5px; }
+.liftlink b { display: block; font-weight: 600; font-size: 16px; }
+.liftlink span { display: block; font-size: 13.5px; color: var(--muted); margin-top: 1px; }
+.liftlink .hb { flex: 1 1 auto; }
+
+.meals { display: flex; flex-direction: column; gap: 10px; margin: 0 0 20px; }
+.meal { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 14px 16px; }
+.meal .slot { font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--garnet); }
+.meal .dish { display: block; font-weight: 600; font-size: 17.5px; margin: 3px 0 4px; }
+.meal .detail { display: block; color: var(--muted); font-size: 14.5px; }
+.macrorow { display: flex; flex-wrap: wrap; gap: 4px 15px; margin-top: 10px; padding-top: 9px; border-top: 1px solid var(--line); }
+.macrorow b { font-family: var(--f-mono); font-weight: 500; font-size: 14.5px; }
 .macrorow i { font-family: var(--f-mono); font-style: normal; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
 .macrorow .isfib b, .macrorow .isfib i { color: var(--olive); }
 .daytotal { background: var(--tint); border-color: var(--ink); }
-.daytotal .dish { margin-top: 0; }
+.prevnext { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; }
+.prevnext a {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  text-decoration: none; color: var(--garnet); border: 1px solid var(--line);
+  background: var(--surface); padding: 9px 13px;
+}
 .gf {
   font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .07em; color: var(--olive);
   border: 1px solid var(--olive); padding: 0 4px; margin-left: 4px; white-space: nowrap; vertical-align: 1px;
 }
-.prevnext { display: flex; justify-content: space-between; gap: 10px; margin: 22px 0 0; }
-.prevnext a {
-  font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-  text-decoration: none; color: var(--garnet); border: 1px solid var(--line);
-  background: var(--surface); padding: 9px 14px;
-}
-.prevnext a:hover { border-color: var(--garnet); }
 
-/* ---------- grocery checklist ---------- */
+/* ---------- workouts ---------- */
+.sesslist { display: flex; flex-direction: column; gap: 9px; margin: 0 0 8px; }
+.sesscard {
+  display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 14px 16px;
+}
+.sesscard:hover { border-color: var(--olive); }
+.sesscard .sday {
+  flex: none; font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--garnet); width: 34px;
+}
+.sesscard .sbody { flex: 1 1 auto; min-width: 0; }
+.sesscard .sname { font-family: var(--f-display); font-size: 19px; font-weight: 600; line-height: 1.15; }
+.sesscard .smeta {
+  display: block; font-family: var(--f-mono); font-size: 10px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted); margin-top: 3px;
+}
+.warmup {
+  background: var(--olive-tint); border-left: 3px solid var(--olive);
+  padding: 13px 15px; margin: 0 0 16px;
+}
+.warmup .label {
+  display: block; font-family: var(--f-mono); font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--olive); margin-bottom: 6px;
+}
+.warmup p { margin: 0; }
+
+/* ---------- grocery ---------- */
 .grocerybar {
   position: sticky; top: 50px; z-index: 30;
   display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  background: var(--bar);
-  backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  background: var(--bar); backdrop-filter: saturate(1.4) blur(10px);
+  -webkit-backdrop-filter: saturate(1.4) blur(10px);
   border: 1px solid var(--line); padding: 11px 14px; margin: 0 0 20px;
 }
-.grocerybar .count { font-family: var(--f-mono); font-size: 13px; font-variant-numeric: tabular-nums; }
-.grocerybar .track { flex: 1 1 100px; height: 5px; background: var(--tint); border: 1px solid var(--line); min-width: 70px; }
+.grocerybar .count { font-family: var(--f-mono); font-size: 13px; }
+.grocerybar .track { flex: 1 1 90px; height: 5px; background: var(--tint); border: 1px solid var(--line); min-width: 60px; }
 .grocerybar .fill { display: block; height: 100%; width: 0; background: var(--olive); transition: width .2s ease-out; }
 #reset {
   font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--garnet); background: var(--surface); border: 1px solid var(--garnet);
-  padding: 7px 12px; cursor: pointer;
+  color: var(--garnet); background: var(--surface); border: 1px solid var(--garnet); padding: 7px 12px; cursor: pointer;
 }
-#reset:hover { background: var(--garnet); color: var(--surface); }
-#reset[disabled] { opacity: .4; cursor: default; border-color: var(--line); color: var(--muted); background: var(--surface); }
+#reset[disabled] { opacity: .4; cursor: default; border-color: var(--line); color: var(--muted); }
 
-.aisles { display: grid; grid-template-columns: repeat(auto-fit, minmax(258px, 1fr)); gap: 6px 26px; }
-.aisle { border-top: 1px solid var(--line); padding-top: 12px; break-inside: avoid; }
+.aisles { display: grid; grid-template-columns: repeat(auto-fit, minmax(252px, 1fr)); gap: 6px 26px; }
+.aisle { border-top: 1px solid var(--line); padding-top: 11px; }
 .aisle h3 {
-  font-family: var(--f-mono); font-size: 11px; letter-spacing: .13em; text-transform: uppercase;
-  color: var(--garnet); margin: 0 0 4px; font-weight: 500;
+  font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--garnet); margin: 0 0 3px; font-weight: 500;
 }
 .aisle ul { list-style: none; padding: 0; margin: 0; }
-.aisle li { margin: 0; border-bottom: 1px solid var(--line); }
+.aisle li { border-bottom: 1px solid var(--line); }
 .aisle li:last-child { border-bottom: none; }
 .aisle label {
-  display: flex; align-items: flex-start; gap: 11px;
-  padding: 11px 2px; cursor: pointer; font-size: 15.5px; line-height: 1.4;
-  -webkit-tap-highlight-color: transparent;
+  display: flex; align-items: flex-start; gap: 11px; padding: 11px 2px;
+  cursor: pointer; font-size: 15.5px; line-height: 1.35; -webkit-tap-highlight-color: transparent;
 }
 .aisle input { position: absolute; opacity: 0; width: 0; height: 0; }
 .box {
   flex: none; width: 21px; height: 21px; margin-top: 1px;
-  border: 1.5px solid var(--muted); background: var(--surface);
-  display: grid; place-items: center;
+  border: 1.5px solid var(--muted); background: var(--surface); display: grid; place-items: center;
 }
 .box svg { width: 13px; height: 13px; color: var(--surface); opacity: 0; }
 .aisle input:checked + .box { background: var(--olive); border-color: var(--olive); }
 .aisle input:checked + .box svg { opacity: 1; }
 .aisle input:focus-visible + .box { outline: 2px solid var(--garnet); outline-offset: 2px; }
-.aisle input:checked ~ .txt { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; }
+.aisle input:checked ~ .txt { color: var(--muted); text-decoration: line-through; }
 
-/* ---------- hub links ---------- */
+/* ---------- hub ---------- */
 .hub { display: flex; flex-direction: column; gap: 9px; }
 .hublink {
-  display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit;
-  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 15px 17px;
+  display: flex; align-items: center; gap: 13px; text-decoration: none; color: inherit;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 15px 16px;
 }
 .hublink:hover { border-color: var(--muted); }
 .hublink .hb { flex: 1 1 auto; min-width: 0; }
-.hublink b { display: block; font-family: var(--f-display); font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+.hublink b { display: block; font-family: var(--f-display); font-size: 18px; font-weight: 600; line-height: 1.15; }
 .hublink span { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
-.hublink .chev { flex: none; color: var(--muted); width: 14px; height: 14px; }
 
-ul.rules { margin: 0 0 16px; padding-left: 20px; max-width: var(--measure); }
-ul.rules li { margin-bottom: 9px; }
+ul.rules, ul.plain { margin: 0 0 16px; padding-left: 20px; max-width: var(--measure); }
+ul.rules li, ul.plain li { margin-bottom: 9px; }
 
-.fineprint { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--line); margin-top: 34px; padding-top: 16px; }
+.fineprint { color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--line); margin-top: 32px; padding-top: 15px; }
 .fineprint p { max-width: 68ch; margin-bottom: 10px; }
 
 /* ---------- bottom nav ---------- */
 .bottomnav {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
-  background: var(--bar);
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--bar);
   backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
-  border-top: 1px solid var(--line);
-  padding-bottom: env(safe-area-inset-bottom);
+  border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom);
 }
-.bottomnav ul {
-  display: flex; list-style: none; margin: 0 auto; padding: 0;
-  max-width: 620px; height: var(--navh);
-}
+.bottomnav ul { display: flex; list-style: none; margin: 0 auto; padding: 0; max-width: 620px; height: var(--navh); }
 .bottomnav li { flex: 1 1 0; }
 .bottomnav a {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
   height: 100%; text-decoration: none; color: var(--muted);
-  font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .07em; text-transform: uppercase;
-  border-top: 2px solid transparent; margin-top: -1px;
-  -webkit-tap-highlight-color: transparent;
+  font-family: var(--f-mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase;
+  border-top: 2px solid transparent; margin-top: -1px; -webkit-tap-highlight-color: transparent;
 }
 .bottomnav a svg { width: 21px; height: 21px; }
 .bottomnav a.on { color: var(--garnet); border-top-color: var(--garnet); }
 
-/* Narrow screens: tables become stacked cards so nothing scrolls sideways. */
-@media (max-width: 700px) {
-  .scroll { overflow-x: visible; }
-  .scroll > table { min-width: 0; }
-
-  table.stack, table.stack tbody, table.stack tr, table.stack td { display: block; width: 100%; }
-  table.stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  table.stack tr { border-bottom: 1px solid var(--line); padding: 14px 0; }
-  table.stack tr:last-child { border-bottom: none; }
-  table.stack td { border: none; padding: 0; text-align: left; }
-  table.stack td.num { text-align: left; }
-
-  table.stack td.lead { font-weight: 600; font-size: 16.5px; line-height: 1.35; }
-  table.stack td.body { color: var(--muted); font-size: 15px; margin-top: 5px; }
-  table.stack td.tag::before {
-    content: attr(data-label);
-    display: block; margin-bottom: 1px;
-    font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .12em;
-    text-transform: uppercase; color: var(--muted);
-  }
-  table.stack td.tag { margin-top: 9px; font-size: 14.5px; line-height: 1.45; }
-
-  table.stack tr.total { background: var(--tint); border-top: 1px solid var(--ink); border-bottom: none; padding: 14px 13px; }
-
-  /* Week rows: "WEEK 1 · 1,500 CAL" on one line, then the note. */
-  table.weeks.stack td.wk, table.weeks.stack td.tg {
-    display: inline; width: auto;
-    font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--garnet); font-weight: 500;
-  }
-  table.weeks.stack td.wk::before { content: "Week "; }
-  table.weeks.stack td.tg::before { content: "\00a0\00b7\00a0"; }
-  table.weeks.stack td.tg::after { content: " cal"; }
-  table.weeks.stack td.body { display: block; color: var(--ink); margin-top: 6px; }
-
-  /* Right-aligned figures sit under their label instead of in a column. */
-  table.figures.stack td.fig {
-    display: block; margin-top: 7px;
-    font-family: var(--f-mono); font-size: 15px; color: var(--garnet);
-  }
-}
-
-@media (max-width: 600px) {
-  body { font-size: 16px; }
-  .wrap { padding: 0 14px; }
-  .grocerybar { top: 50px; }
-}
+@media (max-width: 600px) { body { font-size: 16px; } .wrap { padding: 0 14px; } }
 @media (min-width: 760px) {
-  .bottomnav ul { max-width: 700px; }
-  .bottomnav a { flex-direction: row; gap: 9px; font-size: 11px; }
+  .bottomnav ul { max-width: 720px; }
+  .bottomnav a { flex-direction: row; gap: 8px; font-size: 11px; }
 }
-
 @media print {
   .bottomnav, .titlebar, .prevnext, .grocerybar { display: none !important; }
   .page { display: block !important; page-break-before: always; }
-  .page:first-of-type { page-break-before: avoid; }
   body { background: #fff; font-size: 10.5pt; padding-bottom: 0; }
-  .meal, .note, .tile, .aisle, .daycard { break-inside: avoid; }
+  .meal, .note, .daytype, .aisle, .warmup { break-inside: avoid; }
 }
 </style>
 </head>
@@ -394,73 +407,121 @@ ul.rules li { margin-bottom: 9px; }
       Back
     </button>
     <h1 id="ptitle">Daily targets</h1>
-    <span class="crumb">Six-Week Cut</span>
+    <span class="crumb">8-Week Cut</span>
   </div>
 </header>
 
 <main class="wrap">
 
-<!-- ═══════════ 1. TARGETS (home) ═══════════ -->
+<!-- ══════════ TARGETS (home) ══════════ -->
 <div class="page" id="p-targets" data-title="Daily targets">
-  <p class="eyebrow">Gluten free &middot; No cottage cheese</p>
-  <h1 class="ph">Callie's <em>Six-Week</em> Cut</h1>
-  <p class="lede">One weekly menu, repeated six times. 1,500 calories, a 150&nbsp;g protein floor, 25&ndash;30&nbsp;g of fiber every day.</p>
+  <p class="eyebrow">8 weeks &middot; Gluten free &middot; Lifting 3&times;/week</p>
+  <h1 class="ph">Callie's <em>Eight-Week</em> Cut</h1>
+  <p class="lede">One weekly menu, three lifting sessions, and calories that cycle with training. 150&nbsp;g of protein and 25&ndash;30&nbsp;g of fiber every single day.</p>
 
   <div class="baseline">
     <div><span class="v">147.2</span><span class="k">lb today</span></div>
-    <div><span class="v">5&prime;8&Prime;</span><span class="k">height</span></div>
+    <div><span class="v">5&prime;8&Prime;</span><span class="k">bmi 22.3</span></div>
     <div><span class="v">27</span><span class="k">years old</span></div>
-    <div><span class="v">Light</span><span class="k">activity</span></div>
-    <div><span class="v">~141</span><span class="k">lb at wk 6</span></div>
+    <div><span class="v">3&times;</span><span class="k">lifts / week</span></div>
+    <div><span class="v">~141</span><span class="k">lb at wk 8</span></div>
   </div>
 
-  <div class="macros">
-    <div class="tile t-cal"><span class="name">Calories</span><span class="big">1,500</span><span class="why">500 below an estimated 2,000 maintenance</span></div>
-    <div class="tile t-pro"><span class="name">Protein</span><span class="big">150<span>&nbsp;g</span></span><span class="why">~1.0&nbsp;g per lb of body weight — protects muscle in a deficit</span></div>
-    <div class="tile t-fat"><span class="name">Fat</span><span class="big">45<span>&nbsp;g</span></span><span class="why">27% of calories — the hormone floor, don't go under 40&nbsp;g</span></div>
-    <div class="tile t-carb"><span class="name">Carbs</span><span class="big">120<span>&nbsp;g</span></span><span class="why">Flexible. Push toward training days, pull from rest days</span></div>
-    <div class="tile t-fib"><span class="name">Fiber</span><span class="big">25&ndash;30<span>&nbsp;g</span></span><span class="why">Built into the menu. Ramp up over 4&ndash;5 days, not overnight</span></div>
+  <div class="twoup">
+    <div class="daytype train">
+      <header><h4>Training day</h4><span class="when">Mon &middot; Tue &middot; Thu</span></header>
+      <span class="kcal">1,700 <small>kcal</small></span>
+      <div class="mrow">
+        <div class="p"><b>150 g</b><span>Protein</span></div>
+        <div class="f"><b>52 g</b><span>Fat</span></div>
+        <div><b>158 g</b><span>Carbs</span></div>
+        <div class="fb"><b>30 g</b><span>Fiber</span></div>
+      </div>
+    </div>
+    <div class="daytype rest">
+      <header><h4>Rest day</h4><span class="when">Wed &middot; Fri &middot; Sat &middot; Sun</span></header>
+      <span class="kcal">1,400 <small>kcal</small></span>
+      <div class="mrow">
+        <div class="p"><b>150 g</b><span>Protein</span></div>
+        <div class="f"><b>45 g</b><span>Fat</span></div>
+        <div><b>98 g</b><span>Carbs</span></div>
+        <div class="fb"><b>27 g</b><span>Fiber</span></div>
+      </div>
+    </div>
   </div>
 
-  <p><strong>Also daily:</strong> 100&nbsp;oz water, 8,000+ steps, and a hard floor of 1,400 calories — never eat below it, even on a light day. Water matters more now: fiber without fluid causes exactly the bloating and constipation people blame the fiber for.</p>
+  <p><strong>Weekly average: 1,529 calories</strong> &mdash; 154&nbsp;g protein, 46&nbsp;g fat, 125&nbsp;g carbs, 28&nbsp;g fiber. That's a 471-calorie daily deficit against a 2,000 maintenance, or a little under 1&nbsp;lb of fat a week.</p>
+
+  <p><strong>Also daily:</strong> 100&nbsp;oz water, 8,000+ steps, and a hard floor of 1,400 calories &mdash; the rest-day number <em>is</em> the floor, so never go under it.</p>
+
+  <div class="note lift">
+    <span class="label">What the lifting is actually for</span>
+    <p>In a deficit without resistance training, roughly a quarter of the weight lost comes off as lean mass &mdash; you end up smaller but the same shape. With three sessions a week and 150&nbsp;g of protein, that drops to near zero, and for someone new to lifting a couple of pounds of muscle usually go the other way. <strong>That difference is the entire distance between "smaller" and "lean and athletic."</strong> <a href="#/lifts">The three sessions &rarr;</a></p>
+  </div>
+
+  <h2>Why calories cycle now</h2>
+  <p>The 300-calorie difference between day types is almost all carbohydrate, and it lands on the three days you train &mdash; so you have fuel for the session and material to recover with. The four rest days take the bigger cut. Same weekly deficit as a flat 1,529 every day, better sessions.</p>
 
   <h2>Where 2,000 comes from</h2>
   <div class="scroll">
-    <table class="stack figures">
+    <table class="stack">
       <thead><tr><th>Step</th><th>Method</th><th class="num">Result</th></tr></thead>
       <tbody>
-        <tr><td class="lead">Resting burn, formula A</td><td class="body">Mifflin-St Jeor — 27F, 5&prime;8&Prime;, 147.2&nbsp;lb</td><td class="fig">1,451 kcal</td></tr>
-        <tr><td class="lead">Resting burn, formula B</td><td class="body">Katch-McArdle on the scale's claimed 127&nbsp;lb lean mass</td><td class="fig">1,613 kcal</td></tr>
-        <tr><td class="lead">Formula B, corrected</td><td class="body">Katch-McArdle on a realistic ~110&nbsp;lb lean mass (25% body fat)</td><td class="fig">1,450 kcal</td></tr>
-        <tr><td class="lead">Working resting burn</td><td class="body">A and B agree once the bad body fat number is removed</td><td class="fig">1,450 kcal</td></tr>
-        <tr><td class="lead">Maintenance</td><td class="body">&times;1.375 for lightly active</td><td class="fig">1,994 kcal</td></tr>
-        <tr class="total"><td class="lead">Cut target</td><td class="body">Maintenance &minus; 500</td><td class="fig">1,500 kcal</td></tr>
+        <tr><td class="lead">Resting burn, formula A</td><td class="body">Mifflin-St Jeor &mdash; 27F, 5&prime;8&Prime;, 147.2&nbsp;lb</td><td class="num fig">1,451 kcal</td></tr>
+        <tr><td class="lead">Resting burn, formula B</td><td class="body">Katch-McArdle on a realistic ~110&nbsp;lb lean mass</td><td class="num fig">1,450 kcal</td></tr>
+        <tr><td class="lead">Working resting burn</td><td class="body">Both formulas agree once the scale's bad body fat number is removed</td><td class="num fig">1,450 kcal</td></tr>
+        <tr><td class="lead">Maintenance</td><td class="body">&times;1.375 for lightly active &mdash; which now describes three lifts a week</td><td class="num fig">1,994 kcal</td></tr>
+        <tr class="total"><td class="lead">Weekly average target</td><td class="body">Maintenance &minus; 471</td><td class="num fig">1,529 kcal</td></tr>
       </tbody>
     </table>
   </div>
-  <p style="font-size:14.5px;color:var(--muted);margin-top:14px">These formulas carry roughly &plusmn;10% either way, so treat 2,000 as a starting hypothesis. Week 2's weight trend is the actual measurement; adjust from that, not from the table.</p>
-
-  <div class="note" style="margin-top:26px">
-    <p class="label">Read this before the first grocery run</p>
-    <p>There are four things worth knowing about the goals behind these numbers — including why the plan doesn't aim at 9% body fat. <a href="#/guide/start">Before you start &rarr;</a></p>
-  </div>
+  <p style="font-size:14.5px;color:var(--muted);margin-top:12px">Adding structured lifting nudges maintenance up a little, which shows up as slightly faster loss than projected &mdash; a good problem. Week 2's trend is the actual measurement; adjust from that, not from this table.</p>
 </div>
 
-<!-- ═══════════ 2. WEEK (hub) ═══════════ -->
+<!-- ══════════ WEEK ══════════ -->
 <div class="page" id="p-week" data-title="The week">
   <h1 class="ph">The week</h1>
-  <p class="lede">Seven days, repeated for six weeks. Everything is gluten free. Tap a day for its meals.</p>
+  <p class="lede">Seven days, repeated for eight weeks. Everything is gluten free. Tap a day for its meals.</p>
   <div class="daylist" id="daylist"></div>
-  <p style="font-size:14.5px;color:var(--muted);margin-top:22px"><strong>Weekly average:</strong> 1,493 calories — 155&nbsp;g protein, 44&nbsp;g fat, 120&nbsp;g carbs, 27&nbsp;g fiber. Individual days swing by about 30 calories; the average is what drives the result.</p>
+  <p style="font-size:14.5px;color:var(--muted);margin-top:20px"><strong>Weekly average:</strong> 1,529 calories &mdash; 154&nbsp;g protein, 46&nbsp;g fat, 125&nbsp;g carbs, 28&nbsp;g fiber.</p>
 </div>
-
-<!-- day pages are generated into here -->
 <div id="daypages"></div>
 
-<!-- ═══════════ 3. GROCERY ═══════════ -->
-<div class="page" id="p-grocery" data-title="Grocery list">
-  <h1 class="ph">Grocery list</h1>
-  <p class="lede">One shop covers one week. Quantities are for Callie only — double the proteins if anyone eats alongside her.</p>
+<!-- ══════════ LIFTS ══════════ -->
+<div class="page" id="p-lifts" data-title="Workouts">
+  <h1 class="ph">Workouts</h1>
+  <p class="lede">Three full-body sessions a week, each with a different emphasis. About 45&ndash;55 minutes including warm-up.</p>
+  <div class="sesslist" id="sesslist"></div>
+
+  <h2>How to progress</h2>
+  <p class="sub">The plan works only if the weight on the bar goes up. Everything else is detail.</p>
+  <ul class="rules">
+    <li><strong>Week 1, pick weights you could do 2&ndash;3 more reps with.</strong> Nowhere near failure. You're learning the movements and finding your starting numbers.</li>
+    <li><strong>Every week, add a rep or add weight</strong> on at least one set of each lift. That's the whole progression model.</li>
+    <li><strong>When you hit the top of the rep range on all three sets,</strong> add 5&nbsp;lb on upper-body lifts or 10&nbsp;lb on lower-body lifts, and drop back to the bottom of the range.</li>
+    <li><strong>Write it down.</strong> A notes app is fine. Without a log there is no progression, only guessing.</li>
+    <li><strong>Rest 90 seconds</strong> after the first two lifts of a session, 60 after the rest.</li>
+    <li><strong>If a lift goes backwards two sessions running,</strong> that's a food and sleep signal, not a training one. Check both before changing the program.</li>
+  </ul>
+
+  <h2>The other four days</h2>
+  <ul class="plain">
+    <li><strong>8,000+ steps every day</strong>, training or not. This is the cheapest part of the deficit and it costs no food.</li>
+    <li><strong>One easy 20&ndash;30 minute walk or bike</strong> on Saturday or Sunday if you want it. Optional.</li>
+    <li><strong>Don't add cardio to burn more.</strong> The deficit is already set by the food. Cardio here is for health and steps, and adding a lot of it in a deficit mostly costs recovery.</li>
+  </ul>
+
+  <div class="note lift">
+    <span class="label">Expect this in week 1</span>
+    <p>Soreness for two or three days after the first couple of sessions, and a 1&ndash;2&nbsp;lb jump on the scale from muscle holding water. Both are normal, both pass, and neither means the plan isn't working. Don't react to either.</p>
+  </div>
+</div>
+<div id="liftpages"></div>
+
+<!-- ══════════ GROCERY ══════════ -->
+<div class="page" id="p-grocery" data-title="Grocery &amp; prep">
+  <h1 class="ph">Grocery &amp; prep</h1>
+  <p class="lede">One shop covers one week. Quantities are for Callie only &mdash; double the proteins if anyone eats alongside her.</p>
 
   <div class="grocerybar">
     <span class="count" id="gcount">0 of 0</span>
@@ -469,64 +530,38 @@ ul.rules li { margin-bottom: 9px; }
   </div>
 
   <div class="aisles" id="aisles"></div>
-  <p style="font-size:13.5px;color:var(--muted);margin-top:24px">Ticks are saved on this device, so they survive closing the tab and walking around the store. Reset clears them for next week.</p>
+
+  <h2>Sunday prep</h2>
+  <p class="sub">About 75 minutes with the oven doing most of it. Covers Monday through Thursday.</p>
+  <ul class="plain">
+    <li><strong>Oven, two trays:</strong> 8&nbsp;oz sweet potato and asparagus for Tuesday's dinner on one; broccoli, cauliflower and peppers for the week on the other.</li>
+    <li><strong>Skillet, double batch:</strong> the turkey taco filling &mdash; 1&nbsp;lb ground turkey, peppers, onion, black beans. Half goes to Monday's dinner, half to Wednesday's lunch.</li>
+    <li><strong>Grill pan:</strong> 1½&nbsp;lb chicken breast, seasoned two ways so it doesn't taste identical &mdash; covers Monday's bowl, Friday's fajitas and Sunday's bowl.</li>
+    <li><strong>Rice cooker:</strong> 2 cups dry rice and ½ cup dry quinoa.</li>
+    <li><strong>Assembly:</strong> three lunch containers, and the overnight-oats jar for Wednesday.</li>
+    <li><strong>Eggs:</strong> hard-boil six. They cover breakfasts and any gap.</li>
+  </ul>
+  <p style="font-size:13.5px;color:var(--muted)">Ticks are saved on this device, so they survive closing the tab and walking around the store. Reset clears them for next week.</p>
 </div>
 
-<!-- ═══════════ 4. PLAN ═══════════ -->
-<div class="page" id="p-plan" data-title="Six weeks">
-  <h1 class="ph">Six weeks</h1>
-  <p class="lede">The menu doesn't change and neither should the calories. At 1,500 she's close enough to the floor that the adjustable lever is movement, not food.</p>
-
-  <div class="scroll">
-    <table class="stack weeks">
-      <thead><tr><th class="num">Wk</th><th class="num">Target</th><th>What to expect &amp; do</th></tr></thead>
-      <tbody>
-        <tr><td class="num wk">1</td><td class="num tg">1,500</td><td class="body">Weigh food. Expect a 2&ndash;3&nbsp;lb drop — mostly water, not fat. Ramp fiber up across the first 4&ndash;5 days rather than jumping to 28&nbsp;g on day one.</td></tr>
-        <tr><td class="num wk">2</td><td class="num tg">1,500</td><td class="body">The real rate shows up: about 1&nbsp;lb. This is the week the 2,000-calorie estimate gets confirmed or corrected.</td></tr>
-        <tr><td class="num wk">3</td><td class="num tg">1,500</td><td class="body">Adherence dips here for most people. Take waist/hip measurements and photos.</td></tr>
-        <tr><td class="num wk">4</td><td class="num tg">1,500</td><td class="body">If the average is under 0.7&nbsp;lb/wk, add 2,000&ndash;3,000 daily steps. Leave the food alone.</td></tr>
-        <tr><td class="num wk">5</td><td class="num tg">1,500</td><td class="body">Hardest week. Add a higher-carb day (+100&nbsp;g carbs, +400 cal) if sleep or strength is slipping.</td></tr>
-        <tr><td class="num wk">6</td><td class="num tg">1,500</td><td class="body">Final push. Measurements and photos again, then compare to week 3.</td></tr>
-        <tr class="total"><td class="num wk">7</td><td class="num tg">2,000</td><td class="body">Diet break at maintenance for 5&ndash;7 days before deciding whether to run another block.</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p style="font-size:14.5px;color:var(--muted);margin-top:14px">Projected landing: <strong>~141&nbsp;lb and roughly 21% body fat</strong>, assuming she starts near 25%. Two more blocks like this, with diet breaks between, reach the 19&ndash;21% target with room to spare.</p>
-
-  <h2>Adjusting mid-plan</h2>
-  <div class="scroll">
-    <table class="stack">
-      <thead><tr><th>7-day average is</th><th>Do this</th></tr></thead>
-      <tbody>
-        <tr><td class="lead">Down more than 1.5&nbsp;lb</td><td class="body">Add 100 calories back as carbs — that pace is costing muscle</td></tr>
-        <tr><td class="lead">Down 0.7&ndash;1.3&nbsp;lb</td><td class="body">Nothing. This is the target. Keep going.</td></tr>
-        <tr><td class="lead">Down under 0.4&nbsp;lb, two weeks running</td><td class="body">Add 2,000&ndash;3,000 daily steps. Not fewer calories — she's near the floor already.</td></tr>
-        <tr><td class="lead">Flat, but the tape is shrinking</td><td class="body">Nothing. Recomposition. Trust the measurements over the scale.</td></tr>
-        <tr><td class="lead">Strength, sleep, or mood off for 3+ days</td><td class="body">Eat at maintenance for two days, then resume. Do not cut further.</td></tr>
-        <tr><td class="lead">Her period gets late, light, or skips</td><td class="body">Stop the cut. Eat at maintenance and talk to a doctor — that's the body's first signal the deficit is too much, and it's not one to push through.</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ═══════════ 5. GUIDE (hub) ═══════════ -->
+<!-- ══════════ GUIDE ══════════ -->
 <div class="page" id="p-guide" data-title="Guide">
   <h1 class="ph">Guide</h1>
-  <p class="lede">The reference material — read once, come back when something comes up.</p>
+  <p class="lede">Read once, come back when something comes up.</p>
   <div class="hub">
     <a class="hublink" href="#/guide/start"><span class="hb"><b>Before you start</b><span>Four things about the goals behind these numbers</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
+    <a class="hublink" href="#/guide/progress"><span class="hb"><b>Eight weeks, week by week</b><span>What to expect each week and how to adjust</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
     <a class="hublink" href="#/guide/gluten"><span class="hb"><b>Gluten-free watch list</b><span>The nine items that are only GF if you buy the right version</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
     <a class="hublink" href="#/guide/swaps"><span class="hb"><b>Swaps</b><span>Same macros, different food, when a day gets boring</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
-    <a class="hublink" href="#/guide/rules"><span class="hb"><b>The rules that matter</b><span>The eight that decide whether six weeks works</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
+    <a class="hublink" href="#/guide/rules"><span class="hb"><b>The rules that matter</b><span>The nine that decide whether eight weeks works</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
   </div>
 
   <div class="fineprint">
-    <p>Built for a 27-year-old woman, 5&prime;8&Prime;, 147.2&nbsp;lb, lightly active, gluten free, no cottage cheese, from a scale reading dated August 25, 2026. Fiber and macro figures are USDA-based estimates and will vary a few grams by brand.</p>
-    <p><strong>This is general nutrition information, not medical advice.</strong> A doctor or registered dietitian should sign off before starting, and especially before any target below 20% body fat.</p>
+    <p>Built for a 27-year-old woman, 5&prime;8&Prime;, 147.2&nbsp;lb, lightly active, gluten free, no cottage cheese, lifting three days a week, from a scale reading dated August 25, 2026. Fiber and macro figures are USDA-based estimates and vary a few grams by brand.</p>
+    <p><strong>This is general nutrition and exercise information, not medical advice.</strong> A doctor or registered dietitian should sign off before starting, and especially before any target below 20% body fat.</p>
   </div>
 </div>
 
-<!-- ── Guide sub-pages ── -->
 <div class="page" id="p-guide-start" data-title="Before you start" data-parent="#/guide">
   <h1 class="ph">Before you start</h1>
   <p class="lede">Four things worth reading once, before the first grocery run.</p>
@@ -534,17 +569,17 @@ ul.rules li { margin-bottom: 9px; }
   <div class="note">
     <p class="label">The 9% body fat goal isn't one to build to</p>
     <p>For a woman, roughly <strong>10&ndash;13% is <em>essential</em> fat</strong>: the fat in bone marrow, the nervous system, and around the organs. 9% sits below that floor. Held for any length of time it's the territory of lost periods, dropping estrogen, and bone density loss that doesn't reliably come back. Female physique competitors touch 10&ndash;12% for a stage day and don't stay there.</p>
-    <p><strong>This plan targets 19&ndash;21%</strong> — a visibly lean, athletic composition she can hold year-round. If her true body fat is around 25%, six weeks here puts her near 21%: essentially the whole goal in one block. If she wants to go further later, 16&ndash;18% is the aggressive end, and it should be time-limited and watched.</p>
+    <p><strong>This plan targets 19&ndash;21%</strong> &mdash; a visibly lean, athletic composition she can hold year-round. Eight weeks with lifting should land near <strong>20&ndash;21%</strong>, which is the goal, not a step toward it.</p>
   </div>
 
   <div class="note">
     <p class="label">The scale's body fat number is unusable</p>
-    <p>13.8% doesn't square with a BMI of 22.3, and bioimpedance scales run 5&ndash;8 points off on women. Use the scale for <strong>weight trend only</strong>. Track composition with waist and hip tape measurements, photos in the same light every two weeks, and how clothes fit.</p>
+    <p>13.8% doesn't square with a BMI of 22.3, and bioimpedance scales run 5&ndash;8 points off on women. Use the scale for <strong>weight trend only</strong>. Track composition with waist and hip tape measurements, photos in the same light every two weeks, and how clothes fit &mdash; which matters more now, because lifting changes shape faster than it changes weight.</p>
   </div>
 
   <div class="note">
     <p class="label">147 &rarr; 125 lb is a five-month project</p>
-    <p>Not a six-week one. At a 500-calorie deficit she loses about <strong>1&nbsp;lb a week — roughly 6&nbsp;lb in six weeks</strong>, landing near 141. Adding 2,000&ndash;3,000 daily steps widens that to about 7&nbsp;lb without touching the food.</p>
+    <p>Not an eight-week one. At this deficit she loses a little under <strong>1&nbsp;lb a week &mdash; roughly 7.5&nbsp;lb over eight weeks</strong>, landing near 140&nbsp;lb. Add two pounds of new muscle and the scale reads about 141 while the tape reads considerably smaller. The tape is the one to believe.</p>
   </div>
 
   <div class="note">
@@ -552,7 +587,44 @@ ul.rules li { margin-bottom: 9px; }
     <p>It changes how strict this has to be. <strong>If celiac</strong>, add cross-contamination rules on top of the ingredient swaps: a dedicated toaster, separate cutting board and colander, her own jar of anything that gets double-dipped, and calling restaurants ahead. <strong>If it's a sensitivity or preference</strong>, reading labels is enough.</p>
   </div>
 
-  <p style="margin-top:22px">147&nbsp;lb at 5&prime;8&Prime; is squarely in the healthy range, so there's no medical clock on any of this. If energy, mood, or strength drop off for more than a few days, that's the signal to ease up rather than push.</p>
+  <p style="margin-top:20px">147&nbsp;lb at 5&prime;8&Prime; is squarely in the healthy range, so there's no medical clock on any of this. If energy, mood, or strength drop off for more than a few days, that's the signal to ease up rather than push.</p>
+</div>
+
+<div class="page" id="p-guide-progress" data-title="Eight weeks, week by week" data-parent="#/guide">
+  <h1 class="ph">Week by week</h1>
+  <p class="lede">The food and the sessions don't change. What changes is the weight on the bar and what you do with the trend.</p>
+  <div class="scroll">
+    <table class="stack weeks">
+      <thead><tr><th class="num">Wk</th><th class="num">Expect</th><th>What to do</th></tr></thead>
+      <tbody>
+        <tr><td class="num wk">1</td><td class="num tg">145 lb</td><td class="body">Weigh food. Learn the lifts and leave 2&ndash;3 reps in reserve. Ramp fiber up across 4&ndash;5 days. Expect a 2&ndash;3&nbsp;lb drop that's mostly water, then a small bounce back from lifting &mdash; ignore both.</td></tr>
+        <tr><td class="num wk">2</td><td class="num tg">144 lb</td><td class="body">The real rate appears: a little under 1&nbsp;lb. <strong>This is the week that confirms or corrects the 2,000-calorie estimate.</strong></td></tr>
+        <tr><td class="num wk">3</td><td class="num tg">144 lb</td><td class="body">Adherence usually dips here. Take waist and hip measurements and photos in the same light &mdash; you'll want this baseline at week 8.</td></tr>
+        <tr><td class="num wk">4</td><td class="num tg">143 lb</td><td class="body">Halfway. Every lift should have gone up at least once by now. If none have, the weights started too heavy &mdash; drop them and rebuild.</td></tr>
+        <tr><td class="num wk">5</td><td class="num tg">142 lb</td><td class="body">Hardest week mentally. Add 2,000 daily steps rather than cutting food if the trend has stalled.</td></tr>
+        <tr><td class="num wk">6</td><td class="num tg">142 lb</td><td class="body">You'll start seeing it in the mirror and in how clothes fit. The scale will lag what the tape says &mdash; that's the muscle.</td></tr>
+        <tr><td class="num wk">7</td><td class="num tg">141 lb</td><td class="body">Push. Keep protein pinned at 150&nbsp;g even if calories drift.</td></tr>
+        <tr class="total"><td class="num wk">8</td><td class="num tg">141 lb</td><td class="body">Measurements and photos again, compare to week 3, then take a full week at 2,000 maintenance before deciding what's next.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:14px">Projected landing: <strong>~141&nbsp;lb at roughly 20&ndash;21% body fat</strong> &mdash; about 7.5&nbsp;lb of fat gone and a couple of pounds of muscle added. That's inside the 19&ndash;21% target, and it's the composition, not the scale number, that produces the look.</p>
+
+  <h2>Adjusting mid-block</h2>
+  <div class="scroll">
+    <table class="stack">
+      <thead><tr><th style="width:34%">7-day average is</th><th>Do this</th></tr></thead>
+      <tbody>
+        <tr><td class="lead">Down more than 1.5&nbsp;lb</td><td class="body">Add 100 calories back as carbs on training days &mdash; that pace is costing muscle.</td></tr>
+        <tr><td class="lead">Down 0.7&ndash;1.2&nbsp;lb</td><td class="body">Nothing. This is the target.</td></tr>
+        <tr><td class="lead">Down under 0.4&nbsp;lb, two weeks running</td><td class="body">Add 2,000&ndash;3,000 daily steps. Not fewer calories &mdash; rest days are already at the floor.</td></tr>
+        <tr><td class="lead">Flat, but the tape is shrinking</td><td class="body">Nothing. That's recomposition, and with lifting it's the most likely outcome in the first month. Trust the measurements.</td></tr>
+        <tr><td class="lead">Lifts going backwards two sessions running</td><td class="body">Check sleep first, then add 100 calories to training days. Don't change the program.</td></tr>
+        <tr><td class="lead">Strength, sleep, or mood off for 3+ days</td><td class="body">Eat at maintenance for two days, then resume. Do not cut further.</td></tr>
+        <tr><td class="lead">Her period gets late, light, or skips</td><td class="body">Stop the cut. Eat at maintenance and talk to a doctor &mdash; that's the body's first signal the deficit is too much, and it's not one to push through.</td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div class="page" id="p-guide-gluten" data-title="Gluten-free watch list" data-parent="#/guide">
@@ -562,15 +634,15 @@ ul.rules li { margin-bottom: 9px; }
     <table class="stack">
       <thead><tr><th>Item</th><th>Why it's a risk</th><th>What to buy</th></tr></thead>
       <tbody>
-        <tr><td class="lead">Oats &amp; oat flour</td><td class="tag" data-label="Why it&rsquo;s a risk">Oats are naturally GF but are milled and transported with wheat</td><td class="tag" data-label="What to buy">A bag that says <em>certified gluten free</em> — not just "oats"</td></tr>
-        <tr><td class="lead">Soy sauce</td><td class="tag" data-label="Why it&rsquo;s a risk">Brewed with wheat as a primary ingredient</td><td class="tag" data-label="What to buy">Tamari (check the label — not all tamari is GF) or coconut aminos</td></tr>
+        <tr><td class="lead">Oats &amp; oat flour</td><td class="tag" data-label="Why it&rsquo;s a risk">Oats are naturally GF but are milled and transported with wheat</td><td class="tag" data-label="What to buy">A bag that says <em>certified gluten free</em> &mdash; not just "oats"</td></tr>
+        <tr><td class="lead">Soy sauce</td><td class="tag" data-label="Why it&rsquo;s a risk">Brewed with wheat as a primary ingredient</td><td class="tag" data-label="What to buy">Tamari (check the label &mdash; not all tamari is GF) or coconut aminos</td></tr>
         <tr><td class="lead">Deli turkey</td><td class="tag" data-label="Why it&rsquo;s a risk">Wheat-based fillers and binders in cheaper brands</td><td class="tag" data-label="What to buy">A brand labeled GF, or roast and slice your own turkey breast</td></tr>
         <tr><td class="lead">Caesar dressing</td><td class="tag" data-label="Why it&rsquo;s a risk">Some use wheat as a thickener; anchovy pastes vary</td><td class="tag" data-label="What to buy">A GF-labeled bottle, or make it with GF Worcestershire</td></tr>
         <tr><td class="lead">Whey protein</td><td class="tag" data-label="Why it&rsquo;s a risk">Some flavored blends use wheat-derived carriers</td><td class="tag" data-label="What to buy">A GF-certified isolate. Most are fine, but confirm the one she uses</td></tr>
         <tr><td class="lead">Chili powder &amp; spice blends</td><td class="tag" data-label="Why it&rsquo;s a risk">Wheat flour is a common anti-caking agent</td><td class="tag" data-label="What to buy">Single-ingredient spices, or a blend labeled GF</td></tr>
-        <tr><td class="lead">Tortillas</td><td class="tag" data-label="Why it&rsquo;s a risk">"Low-carb" tortillas are almost always wheat</td><td class="tag" data-label="What to buy">Corn tortillas (already GF), or cassava / brown-rice tortillas for the wrap</td></tr>
+        <tr><td class="lead">Tortillas</td><td class="tag" data-label="Why it&rsquo;s a risk">"Low-carb" tortillas are almost always wheat</td><td class="tag" data-label="What to buy">Corn tortillas (already GF), or cassava / brown-rice tortillas</td></tr>
         <tr><td class="lead">Salsa, hummus, broths</td><td class="tag" data-label="Why it&rsquo;s a risk">Usually fine, occasionally thickened with wheat</td><td class="tag" data-label="What to buy">Read the label once per brand, then stop worrying about it</td></tr>
-        <tr><td class="lead">Restaurant meals</td><td class="tag" data-label="Why it&rsquo;s a risk">Shared fryers, flour-thickened sauces, marinades</td><td class="tag" data-label="What to buy">Ask for the GF menu and name the concern — fryer, sauce, marinade</td></tr>
+        <tr><td class="lead">Restaurant meals</td><td class="tag" data-label="Why it&rsquo;s a risk">Shared fryers, flour-thickened sauces, marinades</td><td class="tag" data-label="What to buy">Ask for the GF menu and name the concern &mdash; fryer, sauce, marinade</td></tr>
       </tbody>
     </table>
   </div>
@@ -579,14 +651,15 @@ ul.rules li { margin-bottom: 9px; }
 
 <div class="page" id="p-guide-swaps" data-title="Swaps" data-parent="#/guide">
   <h1 class="ph">Swaps</h1>
-  <p class="lede">Same macros, different food. Use these when a day gets boring rather than abandoning the day.</p>
+  <p class="lede">Same macros, different food. All gluten free, none of them cottage cheese.</p>
   <div class="scroll">
     <table class="stack">
       <thead><tr><th>Instead of</th><th>Use</th></tr></thead>
       <tbody>
         <tr><td class="lead">5 oz chicken breast</td><td class="body">5 oz turkey breast, 6 oz shrimp, 5 oz white fish, or 6 oz extra-firm tofu (+15&nbsp;g fat)</td></tr>
-        <tr><td class="lead">½ cup rice</td><td class="body">½ cup quinoa, 4 oz sweet potato, 1 cup roasted butternut, or 1½ cups riced cauliflower (&minus;100 cal)</td></tr>
+        <tr><td class="lead">1 cup rice (training days)</td><td class="body">1 cup quinoa, 7 oz sweet potato, or 1½ cups roasted butternut</td></tr>
         <tr><td class="lead">Greek yogurt bowl</td><td class="body">Skyr, a 2-scoop protein smoothie with spinach and frozen berries, or GF overnight oats</td></tr>
+        <tr><td class="lead">The pre-lift shake</td><td class="body">A banana and 6 almonds plus 3&nbsp;oz GF deli turkey, or GF overnight oats made the night before</td></tr>
         <tr><td class="lead">Any snack</td><td class="body">¾ cup edamame, 3 oz GF deli turkey, a whey shake with ½ cup berries, or 1 oz GF jerky and an apple</td></tr>
         <tr><td class="lead">A low-fiber day</td><td class="body">Add ½ cup black beans (+7&nbsp;g), 1 tbsp chia (+5&nbsp;g), ½ cup raspberries (+4&nbsp;g), or an apple with the skin on (+4.5&nbsp;g)</td></tr>
       </tbody>
@@ -595,17 +668,18 @@ ul.rules li { margin-bottom: 9px; }
 </div>
 
 <div class="page" id="p-guide-rules" data-title="The rules that matter" data-parent="#/guide">
-  <h1 class="ph">The rules that matter</h1>
-  <p class="lede">If everything else gets forgotten, these are the ones that decide whether six weeks works.</p>
+  <h1 class="ph">The rules</h1>
+  <p class="lede">If everything else gets forgotten, these decide whether eight weeks works.</p>
   <ul class="rules">
-    <li><strong>Protein floor of 150&nbsp;g.</strong> If a day falls apart, hit the protein anyway.</li>
-    <li><strong>Fiber goes up gradually.</strong> Jumping from a low-fiber diet to 28&nbsp;g overnight causes bloating and gas that gets blamed on the diet. Ramp over 4&ndash;5 days and keep the water high.</li>
+    <li><strong>Protein floor of 150&nbsp;g, every day.</strong> Training days and rest days both. If a day falls apart, hit the protein anyway &mdash; it's what decides whether you finish lean or just smaller.</li>
+    <li><strong>Three sessions, and the weight goes up.</strong> Missing a session occasionally is fine. Doing the same weights for eight weeks is not &mdash; that's where the muscle-retention benefit comes from.</li>
+    <li><strong>Fiber goes up gradually.</strong> Jumping to 28&nbsp;g overnight causes bloating that gets blamed on the diet. Ramp over 4&ndash;5 days and keep the water high.</li>
     <li><strong>Weigh food for the first two weeks.</strong> Eyeballing drifts 20&ndash;30% high; after two weeks the eye is calibrated.</li>
-    <li><strong>Weigh in daily, same conditions</strong> — morning, post-bathroom, pre-food. Only ever look at the 7-day average.</li>
-    <li><strong>8,000+ steps a day.</strong> At lightly active this is the cheapest deficit she has, and it doesn't cost her any food.</li>
-    <li><strong>100&nbsp;oz of water.</strong> Half of the "starving" signal on a cut is thirst, and fiber needs the fluid to work.</li>
-    <li><strong>Never below 1,400 calories,</strong> regardless of what the scale is doing.</li>
-    <li><strong>Alcohol counts</strong> — roughly 150 cal per drink, it comes out of Saturday's flex meal rather than out of protein, and beer is not gluten free.</li>
+    <li><strong>Weigh in daily, read weekly</strong> &mdash; morning, post-bathroom, pre-food. Only ever look at the 7-day average, and expect it to lag once lifting starts.</li>
+    <li><strong>8,000+ steps a day.</strong> The cheapest part of the deficit, and it costs no food.</li>
+    <li><strong>100&nbsp;oz of water.</strong> Half the "starving" signal on a cut is thirst, and fiber needs the fluid to work.</li>
+    <li><strong>Never below 1,400 calories.</strong> That's the rest-day number, so it's already the floor.</li>
+    <li><strong>Alcohol counts</strong> &mdash; roughly 150 cal per drink, it comes out of Saturday, and beer is not gluten free.</li>
   </ul>
 </div>
 
@@ -619,12 +693,12 @@ ul.rules li { margin-bottom: 9px; }
     <li><a href="#/week" data-match="week">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3.2" y="4.8" width="17.6" height="15.5" rx="1.8"/><path d="M3.2 9.6h17.6M8.6 3.2v3M15.4 3.2v3"/></svg>
       Week</a></li>
+    <li><a href="#/lifts" data-match="lifts">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M2.6 12h2.2M19.2 12h2.2"/><rect x="4.8" y="8.4" width="3.2" height="7.2" rx="1.1"/><rect x="16" y="8.4" width="3.2" height="7.2" rx="1.1"/><path d="M8 12h8"/></svg>
+      Workouts</a></li>
     <li><a href="#/grocery" data-match="grocery">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6.5h11M9.5 12h11M9.5 17.5h11"/><path d="M3.4 6.4l1.4 1.4 2.4-2.6M3.4 11.9l1.4 1.4 2.4-2.6M3.4 17.4l1.4 1.4 2.4-2.6"/></svg>
       Grocery</a></li>
-    <li><a href="#/plan" data-match="plan">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 19.2V13M9.3 19.2V8.4M14.7 19.2v-8M20 19.2V4.8"/></svg>
-      6 Weeks</a></li>
     <li><a href="#/guide" data-match="guide">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 4.4h6.1a2.9 2.9 0 0 1 2.9 2.9v12.3a2.2 2.2 0 0 0-2.2-2.2H4.2z"/><path d="M19.8 4.4h-6.1a2.9 2.9 0 0 0-2.9 2.9v12.3a2.2 2.2 0 0 1 2.2-2.2h6.8z"/></svg>
       Guide</a></li>
@@ -633,93 +707,129 @@ ul.rules li { margin-bottom: 9px; }
 
 <script>
 /* ═══════════════════════════════════════════════════════════════
-   THE WEEK — edit these numbers and the app updates.
-   Each meal: [slot, dish, detail, cal, protein, fat, carbs, fiber]
+   THE WEEK — [slot, dish, detail, cal, protein, fat, carbs, fiber]
    Wrap a gluten-critical ingredient in {curly braces} to tag it.
    ═══════════════════════════════════════════════════════════════ */
 var WEEK = [
-  { day: "Monday", dow: 1, tagline: "Batch-cook the turkey — it feeds Wednesday",
+  { day: "Monday", dow: 1, type: "Training", lift: "monday", tagline: "Batch-cook the turkey — it feeds Wednesday",
     meals: [
-      ["Breakfast","Greek yogurt bowl","1 cup nonfat Greek yogurt, 1 scoop whey, ¾ cup blueberries, 1 tbsp chia",390,45,9,32,8],
-      ["Lunch","Chicken &amp; rice bowl","5 oz grilled chicken breast, ½ cup jasmine rice, 1 cup roasted broccoli, 1 tsp olive oil, salsa",400,45,10,32,3],
-      ["Dinner","Turkey taco skillet","5 oz 93% ground turkey, peppers &amp; onion, ½ cup black beans, 2 corn tortillas, 1 oz avocado",520,42,21,43,14],
-      ["Snack","Turkey roll-ups &amp; edamame","3 oz deli turkey{CHECK GF} rolled with cucumber, ½ cup shelled edamame",185,27,6,9,4]
-    ], total: [1495,159,46,116,29] },
+      ["Breakfast","Greek yogurt bowl","1 cup nonfat Greek yogurt, 1 scoop whey{CHECK GF}, ¾ cup blueberries, 1 tbsp chia",390,45,9,32,8],
+      ["Lunch","Chicken &amp; rice bowl","5 oz grilled chicken, 1 cup jasmine rice, 1 cup roasted broccoli, 1 tsp olive oil, salsa",500,44,11,54,5],
+      ["Pre-lift","Shake, banana, almonds","1 scoop whey in water, 1 banana, 6 almonds — 45 min before the session",290,27,6,32,4],
+      ["Dinner","Turkey taco skillet","5 oz 93% ground turkey, peppers &amp; onion, ½ cup black beans, 2 corn tortillas, 1 oz avocado",520,42,21,43,14]
+    ], total: [1700,158,47,161,31] },
 
-  { day: "Tuesday", dow: 2, tagline: "Highest protein day — good one to pair with legs",
+  { day: "Tuesday", dow: 2, type: "Training", lift: "tuesday", tagline: "Highest protein day",
     meals: [
-      ["Breakfast","Egg white &amp; veggie scramble","1 cup egg whites + 2 whole eggs, spinach, mushrooms, 1 slice GF whole-grain toast{GF SWAP}",400,42,13,24,4],
+      ["Breakfast","Egg white scramble &amp; toast","1 cup egg whites + 2 whole eggs, spinach, mushrooms, 1 slice GF whole-grain toast{GF SWAP}, ½ banana",455,43,13,38,5],
       ["Lunch","Tuna power salad","Two 5 oz cans light tuna, mixed greens, cucumber, cherry tomato, ½ cup chickpeas, 2 tsp olive oil + lemon",430,56,11,26,9],
-      ["Dinner","Baked salmon","5 oz salmon, 6 oz roasted sweet potato with skin, 1½ cups asparagus",490,40,20,38,9],
-      ["Snack","Shake &amp; raspberries","1 scoop whey{CHECK GF} in water, ½ cup raspberries",172,26,1,14,4]
-    ], total: [1492,164,45,102,26] },
+      ["Pre-lift","Shake, banana, almonds","1 scoop whey, 1 banana, 6 almonds",290,27,5,32,4],
+      ["Dinner","Baked salmon","5 oz salmon, 8 oz roasted sweet potato with skin, 1½ cups asparagus",525,40,20,42,11]
+    ], total: [1700,166,49,138,29] },
 
-  { day: "Wednesday", dow: 3, tagline: "Highest-carb day — put the hardest session here",
+  { day: "Wednesday", dow: 3, type: "Rest", lift: null, tagline: "Rest day — Monday's turkey becomes lunch",
     meals: [
-      ["Breakfast","Protein oats","⅓ cup certified GF rolled oats{GF SWAP}, 1 scoop whey, 1 tbsp PB2, cinnamon, ½ banana",360,37,8,41,6],
-      ["Lunch","Monday's turkey over greens","Leftover taco skillet, 2 cups romaine, salsa, 2 tbsp Greek yogurt instead of sour cream",460,42,17,36,12],
-      ["Dinner","Chicken stir-fry","5 oz chicken, 2 cups mixed stir-fry veg, ½ cup rice, 1 tsp sesame oil, tamari{GF SWAP} &amp; ginger",450,47,12,39,5],
-      ["Snack","Yogurt &amp; berries","1 cup nonfat Greek yogurt, ¾ cup mixed berries",210,23,2,24,4]
-    ], total: [1480,149,39,140,27] },
+      ["Breakfast","Protein oats","¼ cup certified GF rolled oats{GF SWAP}, 1 scoop whey, 1 tbsp PB2, cinnamon",300,37,7,26,5],
+      ["Lunch","Monday's turkey over greens","Leftover taco skillet, 2 cups romaine, salsa, 2 tbsp Greek yogurt instead of sour cream",430,42,17,30,11],
+      ["Snack","Yogurt &amp; berries","1 cup nonfat Greek yogurt, ¾ cup mixed berries",210,23,2,24,4],
+      ["Dinner","Chicken stir-fry","5 oz chicken, 3 cups mixed stir-fry veg, 1 tsp sesame oil, tamari{GF SWAP} &amp; ginger — no rice tonight",460,48,19,22,8]
+    ], total: [1400,150,45,102,28] },
 
-  { day: "Thursday", dow: 4, tagline: "No cooking at lunch — assembles in five minutes",
+  { day: "Thursday", dow: 4, type: "Training", lift: "thursday", tagline: "Assembles fast — nothing to cook at lunch",
     meals: [
       ["Breakfast","Sweet potato &amp; egg hash","2 whole eggs + ½ cup egg whites, 4 oz diced sweet potato, ⅓ cup black beans, peppers &amp; onion, salsa",400,33,10,42,9],
-      ["Lunch","Turkey &amp; hummus wrap","5½ oz deli turkey{CHECK GF}, cassava or brown-rice tortilla{GF SWAP}, 2 tbsp hummus, greens, bell pepper, side of baby carrots",440,48,14,34,7],
-      ["Dinner","Lean beef &amp; potatoes","5 oz 93% lean beef or sirloin, 6 oz roasted baby potatoes with skin, green beans",495,45,18,37,7],
-      ["Snack","Shake &amp; raspberries","1 scoop whey, ½ cup raspberries",172,26,1,11,4]
-    ], total: [1507,152,43,124,27] },
+      ["Lunch","Turkey &amp; hummus wrap","5½ oz deli turkey{CHECK GF}, cassava or brown-rice tortilla{GF SWAP}, 2 tbsp hummus, greens, bell pepper, baby carrots",440,48,14,34,7],
+      ["Pre-lift","Shake, apple, almonds","1 scoop whey, 1 apple, 6 almonds",285,27,5,34,6],
+      ["Dinner","Lean beef &amp; potatoes","5 oz 93% lean beef or sirloin, 8 oz roasted baby potatoes with skin, green beans",575,45,18,50,9]
+    ], total: [1700,153,47,160,31] },
 
-  { day: "Friday", dow: 5, tagline: "Fajita night — the plan's version of takeout",
+  { day: "Friday", dow: 5, type: "Rest", lift: null, tagline: "Fajita night — the plan's version of takeout",
     meals: [
-      ["Breakfast","Greek yogurt bowl","Same as Monday — yogurt, whey, blueberries, chia",390,45,9,32,8],
-      ["Lunch","Shrimp &amp; quinoa bowl","6 oz shrimp, ⅔ cup quinoa, cucumber, tomato, ½ oz feta, 1 tsp olive oil + lemon",430,45,13,32,5],
-      ["Dinner","Chicken fajitas","5 oz chicken, peppers &amp; onion, 2 corn tortillas, ½ oz avocado, Greek yogurt crema, salsa",490,47,15,42,8],
-      ["Snack","Edamame &amp; pineapple","¾ cup shelled edamame with sea salt, ½ cup pineapple",180,14,6,22,7]
-    ], total: [1490,151,43,128,28] },
+      ["Breakfast","Greek yogurt bowl","1 cup nonfat Greek yogurt, 1 scoop whey, ½ cup blueberries, 1 tbsp chia",350,45,9,22,7],
+      ["Lunch","Shrimp &amp; quinoa bowl","6 oz shrimp, ½ cup quinoa, cucumber, tomato, ½ oz feta, 1 tsp olive oil + lemon",395,44,12,26,5],
+      ["Snack","Edamame &amp; pineapple","¾ cup shelled edamame with sea salt, ½ cup pineapple",180,14,6,22,7],
+      ["Dinner","Chicken fajitas","5 oz chicken, big pile of peppers &amp; onion, 1 corn tortilla, ½ oz avocado, Greek yogurt crema, salsa",475,47,18,32,9]
+    ], total: [1400,150,45,102,28] },
 
-  { day: "Saturday", dow: 6, tagline: "The flex meal lives here — call the restaurant first",
+  { day: "Saturday", dow: 6, type: "Rest", lift: null, tagline: "The flex meal lives here — call the restaurant first",
     meals: [
-      ["Breakfast","Protein pancakes","1 scoop whey, ¼ cup certified GF oat flour{GF SWAP}, 3 egg whites, baking powder; 2 tbsp sugar-free syrup, ½ cup strawberries",370,42,8,38,4],
+      ["Breakfast","Protein pancakes","1 scoop whey, ¼ cup certified GF oat flour{GF SWAP}, 3 egg whites, baking powder; 2 tbsp sugar-free syrup, ½ cup strawberries",340,42,7,32,4],
       ["Lunch","Rotisserie chicken salad","5 oz chicken, big greens base, ¼ avocado, ⅓ cup black beans, balsamic",408,48,12,27,11],
-      ["Dinner","Flex meal out","Lean protein + a vegetable side + one starch. Ask for the GF menu and confirm no soy sauce, flour thickener, or shared fryer. No liquid calories, sauce on the side.",550,40,22,44,6],
+      ["Dinner","Flex meal out","Lean protein + a vegetable side + one starch. Ask for the GF menu and confirm no soy sauce, flour thickener, or shared fryer. No liquid calories, sauce on the side.",480,38,20,36,6],
       ["Snack","Yogurt &amp; raspberries","1 cup nonfat Greek yogurt, ½ cup raspberries — skip it if the flex meal ran big",172,25,0,17,4]
-    ], total: [1500,155,42,126,25] },
+    ], total: [1400,153,39,112,25] },
 
-  { day: "Sunday", dow: 0, tagline: "Prep day — chili doubles as next week's lunch",
+  { day: "Sunday", dow: 0, type: "Rest", lift: null, tagline: "Prep day — cook the week while dinner roasts",
     meals: [
-      ["Breakfast","Veggie omelet &amp; fruit","2 eggs + ¾ cup egg whites, peppers, spinach, onion; 1 cup mixed berries",340,36,12,22,6],
-      ["Lunch","Chicken Caesar, lightened","5 oz chicken, romaine, 1½ tbsp GF-labeled light Caesar{CHECK GF}, ½ oz parmesan, no croutons",395,47,17,9,3],
-      ["Dinner","Turkey chili","1½ cups: ground turkey, kidney &amp; black beans, diced tomato, peppers, GF chili powder{CHECK GF}; 2 tbsp Greek yogurt on top",500,45,14,45,13],
-      ["Snack","Apple, shake &amp; almonds","1 apple, 1 scoop whey, 6 almonds",255,26,6,29,6]
-    ], total: [1490,154,49,105,28] }
+      ["Breakfast","Veggie omelet &amp; fruit","2 eggs + ¾ cup egg whites, peppers, spinach, onion; ½ cup berries",280,34,11,10,4],
+      ["Lunch","Prep-day bowl","5 oz chicken, 2 cups roasted vegetables, ⅓ cup quinoa, tahini drizzle",470,44,20,32,10],
+      ["Snack","Yogurt &amp; raspberries","1½ cups nonfat Greek yogurt, ½ cup raspberries",230,36,1,21,5],
+      ["Dinner","Sheet-pan salmon","5 oz salmon, 4 oz sweet potato, 2 cups broccoli &amp; cauliflower, olive oil, lemon",420,36,18,35,9]
+    ], total: [1400,150,50,98,28] }
 ];
 
-/* ═══════════ THE GROCERY LIST — add or remove lines freely ═══════════ */
+/* ═══════════ THE SESSIONS ═══════════ */
+var LIFTS = [
+  { id: "monday", day: "Mon", name: "Lower body", mins: "50 min",
+    warmup: "5 minutes on the bike or a brisk walk, then 10 bodyweight squats, 10 glute bridges, 10 leg swings per side.",
+    intro: "The heaviest session of the week. Everything else is built around recovering from and progressing this one.",
+    ex: [
+      ["Goblet squat","3 × 8–10","Hold one dumbbell at your chest. Sit down between your knees rather than pushing your hips back."],
+      ["Romanian deadlift","3 × 10","Soft knees, push the hips back, dumbbells stay against your legs. You should feel it in the hamstrings, never the low back."],
+      ["Walking lunge","3 × 10 per leg","Long step, back knee toward the floor, torso upright. Add dumbbells once bodyweight is easy."],
+      ["Leg press or step-up","3 × 12","Full range. On a step-up, drive through the front heel and don't push off the back foot."],
+      ["Seated cable row","3 × 10–12","Pull to the belly button, squeeze the shoulder blades, control the return."],
+      ["Plank","3 × 30–45 sec","Ribs down, glutes tight. Stop the set when the hips start to sag, not when the timer says so."]
+    ] },
+  { id: "tuesday", day: "Tue", name: "Upper body", mins: "45 min",
+    warmup: "5 minutes on the rower or a walk, then 15 band pull-aparts, 10 push-ups from the knees, 10 arm circles each way.",
+    intro: "Back-to-back with Monday on purpose — legs get Wednesday and Thursday morning to recover before the hinge session.",
+    ex: [
+      ["Dumbbell bench press","3 × 8–10","Elbows about 45° from your body, not flared straight out. Lower under control."],
+      ["Lat pulldown","3 × 8–10","Pull to the collarbone and lead with the elbows, not the hands."],
+      ["Dumbbell shoulder press","3 × 10","Press overhead without arching the low back. Ribs stay down."],
+      ["One-arm dumbbell row","3 × 10 per side","Flat back, pull the elbow past the ribs, don't rotate the torso to help."],
+      ["Rear delt fly or face pull","3 × 12–15","Light weight. This is the one everyone rushes and it's the one that fixes posture."],
+      ["Curl + tricep pushdown","2 × 12 each","Back to back with no rest between them, 60 seconds after the pair."]
+    ] },
+  { id: "thursday", day: "Thu", name: "Full body, hinge focus", mins: "50 min",
+    warmup: "5 minutes on the bike, then 10 glute bridges, 10 bodyweight good mornings, cat-cow for 30 seconds.",
+    intro: "The glute and hamstring session. If you only cared about the shape change, this would be the one to never miss.",
+    ex: [
+      ["Hip thrust","3 × 10","Chin tucked, squeeze at the top for a full second. Barbell or a single heavy dumbbell across the hips."],
+      ["Dumbbell or trap-bar deadlift","3 × 8","Push the floor away rather than pulling up. The bar stays close to your shins the whole way."],
+      ["Incline dumbbell press","3 × 10","Bench at about 30°. Any higher and it becomes a shoulder press."],
+      ["Wide-grip lat pulldown","3 × 10","Wider than Tuesday's grip. Same cue — elbows lead."],
+      ["Bulgarian split squat","3 × 10 per leg","Back foot on a bench. Go slowly on the way down; this one humbles everybody at first."],
+      ["Hanging knee raise or cable woodchop","3 × 12","Control it. No swinging."]
+    ] }
+];
+
+/* ═══════════ GROCERY ═══════════ */
 var GROCERY = [
   { aisle: "Protein", items: [
-    "Chicken breast — 2½ lb", "Rotisserie chicken — 1 (check GF)",
-    "93% lean ground turkey — 1½ lb", "Lean sirloin or 93% beef — ½ lb",
-    "Salmon fillet — 5 oz", "Raw shrimp — 12 oz", "Canned light tuna — 2 cans",
-    "GF deli turkey breast — 10 oz", "Eggs — 12", "Liquid egg whites — 32 oz",
-    "Nonfat Greek yogurt — 48 oz", "Frozen shelled edamame — 1 bag",
+    "Chicken breast — 2 lb", "Rotisserie chicken — 1 (check GF)",
+    "93% lean ground turkey — 1 lb", "Lean sirloin or 93% beef — ½ lb",
+    "Salmon fillets — 10 oz", "Raw shrimp — 6 oz", "Canned light tuna — 2 cans",
+    "GF deli turkey breast — 6 oz", "Eggs — 12", "Liquid egg whites — 32 oz",
+    "Nonfat Greek yogurt — 56 oz", "Frozen shelled edamame — 1 bag",
     "GF whey protein powder" ] },
   { aisle: "Produce", items: [
-    "Broccoli — 2 crowns", "Asparagus — 1 bunch", "Green beans — 12 oz",
-    "Bell peppers — 6", "Yellow onions — 2", "Baby spinach — 1 tub",
-    "Romaine &amp; mixed greens", "Mushrooms — 8 oz",
+    "Broccoli — 2 crowns", "Cauliflower — 1 head", "Asparagus — 1 bunch",
+    "Green beans — 12 oz", "Bell peppers — 7", "Yellow onions — 3",
+    "Baby spinach — 1 tub", "Romaine &amp; mixed greens", "Mushrooms — 8 oz",
     "Cucumber, cherry tomatoes, tomato", "Baby carrots — 1 bag", "Avocados — 2",
-    "Bananas — 2, apples — 2", "Blueberries, raspberries (2), strawberries",
-    "Mixed berries — 1 bag frozen", "Pineapple, lemons, garlic, ginger" ] },
+    "Bananas — 4, apples — 2", "Blueberries, raspberries (2), strawberries",
+    "Mixed berries — 1 bag frozen", "Pineapple, lemons, garlic, ginger",
+    "Stir-fry vegetable mix — 2 bags" ] },
   { aisle: "Carbs &amp; pantry", items: [
-    "Jasmine rice, quinoa", "Certified GF rolled oats + oat flour",
-    "Sweet potatoes — 2", "Baby potatoes — ¾ lb", "Corn tortillas — 6",
+    "Jasmine rice", "Quinoa", "Certified GF rolled oats + oat flour",
+    "Sweet potatoes — 3", "Baby potatoes — 1 lb", "Corn tortillas — 6",
     "GF whole-grain bread", "Cassava or brown-rice tortillas",
-    "Black beans (2 cans), chickpeas, kidney beans", "Canned diced tomatoes",
-    "Olive oil, sesame oil", "Tamari (GF), PB2, chia seeds, almonds",
-    "Feta, parmesan, hummus, salsa", "Balsamic, GF light Caesar",
-    "Sugar-free syrup, baking powder",
-    "GF chili powder, cumin, paprika, garlic powder" ] }
+    "Black beans (2 cans), chickpeas", "Olive oil, sesame oil",
+    "Tamari (GF), PB2, chia seeds, almonds", "Feta, hummus, salsa, tahini",
+    "Balsamic, sugar-free syrup, baking powder",
+    "Cumin, paprika, garlic powder, GF chili powder" ] }
 ];
 
 (function () {
@@ -731,72 +841,101 @@ var GROCERY = [
   function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
   function tagGF(s) { return s.replace(/\{([^}]+)\}/g, '<span class="gf">$1</span>'); }
   function fmt(n) { return n >= 1000 ? n.toLocaleString("en-US") : String(n); }
-
-  function macroRow(vals) {
-    return '<div class="macrorow">' + vals.map(function (v, i) {
-      return '<span' + (i === 4 ? ' class="isfib"' : '') + '><i>' + LABELS[i] + '</i><b>' + fmt(v) + '</b></span>';
+  function macroRow(v) {
+    return '<div class="macrorow">' + v.map(function (n, i) {
+      return '<span' + (i === 4 ? ' class="isfib"' : '') + '><i>' + LABELS[i] + "</i><b>" + fmt(n) + "</b></span>";
     }).join("") + "</div>";
   }
+  var byId = {};
+  LIFTS.forEach(function (l) { byId[l.id] = l; });
 
-  /* ---------- build the week ---------- */
+  /* ---------- week ---------- */
   var listHtml = "", pagesHtml = "";
-
   WEEK.forEach(function (d, i) {
     var id = slug(d.day);
     var isToday = d.dow === todayDow;
     var prev = WEEK[(i + WEEK.length - 1) % WEEK.length];
     var next = WEEK[(i + 1) % WEEK.length];
+    var badge = '<span class="badge ' + (d.type === "Rest" ? "r" : "t") + '">' + d.type + "</span>";
 
     listHtml +=
       '<a class="daycard' + (isToday ? " today" : "") + '" href="#/week/' + id + '">' +
-        '<span class="dnum">' + (i + 1) + "</span>" +
         '<span class="dbody"><span class="dname">' + d.day +
           (isToday ? '<span class="todaytag">Today</span>' : "") + "</span>" +
           '<span class="dtag">' + d.tagline + "</span></span>" +
-        '<span class="dcal">' + fmt(d.total[0]) + "</span>" + CHEV +
+        badge + '<span class="dcal">' + fmt(d.total[0]) + "</span>" + CHEV +
       "</a>";
+
+    var liftBlock = "";
+    if (d.lift && byId[d.lift]) {
+      var L = byId[d.lift];
+      liftBlock = '<a class="liftlink" href="#/lifts/' + L.id + '">' +
+        '<span class="hb"><b>Today’s session: ' + L.name + "</b>" +
+        "<span>" + L.ex.length + " lifts · " + L.mins + "</span></span>" + CHEV + "</a>";
+    }
 
     var meals = d.meals.map(function (m) {
       return '<div class="meal">' +
         '<span class="slot">' + m[0] + "</span>" +
         '<span class="dish">' + m[1] + "</span>" +
         '<span class="detail">' + tagGF(m[2]) + "</span>" +
-        macroRow(m.slice(3)) +
-      "</div>";
+        macroRow(m.slice(3, 8)) + "</div>";
     }).join("");
 
     pagesHtml +=
       '<div class="page" id="p-day-' + id + '" data-title="' + d.day + '" data-parent="#/week">' +
         '<h1 class="ph">' + d.day + (isToday ? '<span class="todaytag">Today</span>' : "") + "</h1>" +
-        '<p class="lede">' + d.tagline + "</p>" +
+        '<div class="daymeta">' + badge +
+          '<span style="font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">' +
+          d.tagline + "</span></div>" + liftBlock +
         '<div class="meals">' + meals +
           '<div class="meal daytotal"><span class="slot">Day total</span>' +
             '<span class="dish">' + fmt(d.total[0]) + " calories</span>" +
-            macroRow(d.total) + "</div>" +
-        "</div>" +
+            macroRow(d.total) + "</div></div>" +
         '<div class="prevnext">' +
           '<a href="#/week/' + slug(prev.day) + '">&larr; ' + prev.day + "</a>" +
           '<a href="#/week/' + slug(next.day) + '">' + next.day + " &rarr;</a>" +
-        "</div>" +
-      "</div>";
+        "</div></div>";
   });
-
   document.getElementById("daylist").innerHTML = listHtml;
   document.getElementById("daypages").innerHTML = pagesHtml;
 
-  /* ---------- grocery checklist ---------- */
-  var KEY = "c6w.grocery.v1";
+  /* ---------- lifts ---------- */
+  var sessHtml = "", liftPages = "";
+  LIFTS.forEach(function (L, i) {
+    sessHtml += '<a class="sesscard" href="#/lifts/' + L.id + '">' +
+      '<span class="sday">' + L.day + "</span>" +
+      '<span class="sbody"><span class="sname">' + L.name + "</span>" +
+      '<span class="smeta">' + L.ex.length + " lifts · " + L.mins + "</span></span>" + CHEV + "</a>";
+
+    var rows = L.ex.map(function (e) {
+      return "<tr><td class=\"ex\">" + e[0] + '</td><td class="num sr">' + e[1] +
+             '</td><td class="cue">' + e[2] + "</td></tr>";
+    }).join("");
+
+    var nxt = LIFTS[(i + 1) % LIFTS.length], prv = LIFTS[(i + LIFTS.length - 1) % LIFTS.length];
+    liftPages +=
+      '<div class="page" id="p-lifts-' + L.id + '" data-title="' + L.name + '" data-parent="#/lifts">' +
+        '<h1 class="ph">' + L.name + "</h1>" +
+        '<p class="lede">' + L.day + " · " + L.mins + " · " + L.ex.length + " lifts. " + L.intro + "</p>" +
+        '<div class="warmup"><span class="label">Warm-up</span><p>' + L.warmup + "</p></div>" +
+        '<div class="scroll"><table class="stack lifts"><thead><tr><th>Exercise</th><th class="num">Sets</th><th>How</th></tr></thead>' +
+        "<tbody>" + rows + "</tbody></table></div>" +
+        '<div class="prevnext"><a href="#/lifts/' + prv.id + '">&larr; ' + prv.name + "</a>" +
+        '<a href="#/lifts/' + nxt.id + '">' + nxt.name + " &rarr;</a></div>" +
+      "</div>";
+  });
+  document.getElementById("sesslist").innerHTML = sessHtml;
+  document.getElementById("liftpages").innerHTML = liftPages;
+
+  /* ---------- grocery ---------- */
+  var KEY = "c8w.grocery.v1";
   var store = {
-    read: function () {
-      try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; }
-    },
-    write: function (v) {
-      try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) { /* private mode — fine */ }
-    }
+    read: function () { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } },
+    write: function (v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} }
   };
   var checked = store.read();
-
-  var aislesHtml = GROCERY.map(function (g) {
+  document.getElementById("aisles").innerHTML = GROCERY.map(function (g) {
     var items = g.items.map(function (item) {
       var id = "g-" + slug(item.replace(/&amp;/g, "and"));
       return "<li><label>" +
@@ -808,45 +947,31 @@ var GROCERY = [
   }).join("");
 
   var aisles = document.getElementById("aisles");
-  aisles.innerHTML = aislesHtml;
-
   var boxes = Array.prototype.slice.call(aisles.querySelectorAll("input"));
-  var countEl = document.getElementById("gcount");
-  var fillEl = document.getElementById("gfill");
-  var resetEl = document.getElementById("reset");
-
+  var countEl = document.getElementById("gcount"), fillEl = document.getElementById("gfill"), resetEl = document.getElementById("reset");
   function refresh() {
     var done = boxes.filter(function (b) { return b.checked; }).length;
     countEl.textContent = done + " of " + boxes.length;
     fillEl.style.width = (boxes.length ? (done / boxes.length) * 100 : 0) + "%";
     resetEl.disabled = done === 0;
   }
-
   aisles.addEventListener("change", function (e) {
-    var b = e.target;
-    if (!b || b.type !== "checkbox") return;
+    var b = e.target; if (!b || b.type !== "checkbox") return;
     if (b.checked) { checked[b.dataset.key] = 1; } else { delete checked[b.dataset.key]; }
-    store.write(checked);
-    refresh();
+    store.write(checked); refresh();
   });
-
   resetEl.addEventListener("click", function () {
     boxes.forEach(function (b) { b.checked = false; });
-    checked = {};
-    store.write(checked);
-    refresh();
+    checked = {}; store.write(checked); refresh();
   });
-
   refresh();
 
   /* ---------- router ---------- */
   var pages = {};
   Array.prototype.forEach.call(document.querySelectorAll(".page"), function (p) { pages[p.id] = p; });
-
   var navLinks = Array.prototype.slice.call(document.querySelectorAll(".bottomnav a"));
-  var titleEl = document.getElementById("ptitle");
-  var backEl = document.getElementById("back");
-  var BASE_TITLE = "Callie's Six-Week Cut";
+  var titleEl = document.getElementById("ptitle"), backEl = document.getElementById("back");
+  var BASE = "Callie's Eight-Week Cut";
 
   function idFor(route) {
     var parts = route.replace(/^#?\/?/, "").split("/").filter(Boolean);
@@ -854,43 +979,24 @@ var GROCERY = [
     if (parts[0] === "week" && parts[1]) return "p-day-" + parts[1];
     return "p-" + parts.join("-");
   }
-
   function show(route) {
-    var id = idFor(route);
-    var page = pages[id] || pages["p-targets"];
-
+    var page = pages[idFor(route)] || pages["p-targets"];
     Object.keys(pages).forEach(function (k) { pages[k].classList.remove("active"); });
     page.classList.add("active");
-
-    var name = page.dataset.title || BASE_TITLE;
-    titleEl.textContent = name;
-    document.title = page.id === "p-targets" ? BASE_TITLE : name + " · " + BASE_TITLE;
-
-    var parent = page.dataset.parent;
-    if (parent) {
-      backEl.classList.add("show");
-      backEl.dataset.to = parent;
-    } else {
-      backEl.classList.remove("show");
-    }
-
-    // Derive from the page we actually landed on, so an unknown hash still lights a tab.
+    var name = page.dataset.title || BASE;
+    titleEl.innerHTML = name;
+    document.title = page.id === "p-targets" ? BASE : name.replace(/&amp;/g, "&") + " · " + BASE;
+    if (page.dataset.parent) { backEl.classList.add("show"); backEl.dataset.to = page.dataset.parent; }
+    else { backEl.classList.remove("show"); }
     var section = page.dataset.parent
       ? page.dataset.parent.replace(/^#?\/?/, "").split("/")[0]
       : page.id.replace(/^p-/, "").split("-")[0];
     navLinks.forEach(function (a) { a.classList.toggle("on", a.dataset.match === section); });
-
     window.scrollTo(0, 0);
   }
-
-  // Always go UP one level, never history.back() — on a page opened from a direct
-  // link or a home-screen shortcut, "back" in history is outside the app entirely.
-  backEl.addEventListener("click", function () {
-    location.hash = backEl.dataset.to || "#/targets";
-  });
-
+  // Always go up one level — history.back() would leave the app on a deep link.
+  backEl.addEventListener("click", function () { location.hash = backEl.dataset.to || "#/targets"; });
   window.addEventListener("hashchange", function () { show(location.hash); });
-
   if (!location.hash) { location.replace("#/targets"); }
   show(location.hash || "#/targets");
 })();
