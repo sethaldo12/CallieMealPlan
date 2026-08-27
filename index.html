@@ -310,6 +310,33 @@ tr.hi td { background: var(--garnet-tint); }
 }
 .warmup p { margin: 0; }
 
+/* ---------- tap-to-expand method ---------- */
+.mealhead {
+  display: flex; align-items: flex-start; gap: 10px; width: 100%;
+  background: none; border: 0; padding: 0; margin: 0;
+  font: inherit; color: inherit; text-align: left; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.mealhead .mh { flex: 1 1 auto; min-width: 0; }
+.mealhead .caret {
+  flex: none; width: 15px; height: 15px; margin-top: 3px; color: var(--muted);
+  transition: transform .18s ease;
+}
+.mealhead[aria-expanded="true"] .caret { transform: rotate(90deg); color: var(--garnet); }
+.mealhead:hover .caret { color: var(--garnet); }
+.steps { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.steps ol { margin: 0; padding-left: 21px; }
+.steps li { margin-bottom: 9px; font-size: 15px; line-height: 1.5; }
+.steps li:last-child { margin-bottom: 0; }
+.steps .tip {
+  margin: 12px 0 0; padding: 9px 0 0 11px; border-left: 2px solid var(--olive);
+  font-size: 14px; color: var(--muted); max-width: none;
+}
+.methodhint {
+  font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted); margin: -4px 0 16px;
+}
+
 /* ---------- grocery ---------- */
 .grocerybar {
   position: sticky; top: 50px; z-index: 30;
@@ -832,10 +859,220 @@ var GROCERY = [
     "Cumin, paprika, garlic powder, GF chili powder" ] }
 ];
 
+/* ═══════════ METHODS — keyed by dish name ═══════════ */
+var RECIPES = {
+ "Greek yogurt bowl": {
+  "steps": [
+   "Chia stirred into the yogurt <strong>first</strong> — it needs a couple of minutes in contact with liquid to soften, otherwise it stays gritty.",
+   "Whey stirred through next, a little at a time so it doesn't clump.",
+   "Blueberries on top."
+  ],
+  "tip": "Make it the night before and the chia does its work while you sleep — the texture is noticeably better."
+ },
+ "Chicken &amp; rice bowl": {
+  "steps": [
+   "Cooked Sunday. Reheat the chicken and rice together, covered, with a splash of water — 90 seconds. The water is what stops rice going hard.",
+   "Broccoli in for the last 30 seconds.",
+   "Olive oil and salsa after heating, not before."
+  ],
+  "tip": "Training-day version gets a full cup of rice. On rest days it's half — that's most of the 300-calorie difference between the two day types."
+ },
+ "Shake, banana, almonds": {
+  "steps": [
+   "Water into the bottle <strong>first</strong>, then the scoop. Powder onto water dissolves; water onto powder cakes into the corners.",
+   "Shake 15 seconds.",
+   "Banana and almonds alongside.",
+   "Aim for 45 minutes before the session — enough time to not feel it sloshing."
+  ]
+ },
+ "Shake, apple, almonds": {
+  "steps": [
+   "Water first, then the scoop, shake 15 seconds.",
+   "Apple and almonds alongside, 45 minutes before you lift."
+  ]
+ },
+ "Turkey taco skillet": {
+  "steps": [
+   "Double batch on Sunday — half is Monday's dinner, half is Wednesday's lunch.",
+   "Brown the turkey in a dry hot pan and <strong>don't stir it for the first two minutes</strong>. Letting it sit is what gives you browned bits instead of grey steamed mince.",
+   "Peppers and onion in, then the drained beans and the spices, 5 minutes.",
+   "Warm the tortillas directly over a gas flame or in a dry pan, 20 seconds a side.",
+   "Avocado sliced on at the end."
+  ],
+  "tip": "Season in two stages — half the spices with the turkey, half at the end. It tastes like more food than it is."
+ },
+ "Egg white scramble &amp; toast": {
+  "steps": [
+   "Mushrooms and spinach into a medium pan first until the water they release has cooked off. Wet vegetables make watery eggs.",
+   "Heat down to <strong>low</strong>, then pour in the whites and eggs.",
+   "Stir slowly and constantly. Pull the pan off while they still look slightly wet.",
+   "Toast alongside, banana on the side."
+  ],
+  "tip": "Egg whites go rubbery faster than whole eggs. Low heat and an early exit are the whole technique."
+ },
+ "Tuna power salad": {
+  "steps": [
+   "Drain the tuna properly — press the lid down hard. Wet tuna dilutes everything.",
+   "Chickpeas rinsed, greens and chopped vegetables in a big bowl.",
+   "Dress it at the last minute: olive oil, a good squeeze of lemon, salt, pepper.",
+   "Toss with your hands, not a spoon. You'll use less dressing and coat more."
+  ],
+  "tip": "Packing it for later? Dressing in the bottom of the container, greens on top, shake it when you eat."
+ },
+ "Baked salmon": {
+  "steps": [
+   "Oven to 400°F. Sweet potato in wedges, skin on, tossed in a little oil, on a tray for 20 minutes first.",
+   "Push to the side, add the asparagus and the salmon skin-side down, back in for 10–12 minutes.",
+   "Salmon is done when it flakes under light pressure and is still slightly translucent in the middle.",
+   "Lemon at the table."
+  ],
+  "tip": "Opaque all the way through means overcooked. Pull it earlier than feels right — it carries on cooking on the plate."
+ },
+ "Protein oats": {
+  "steps": [
+   "Cook the oats in water first — 2 minutes in the microwave, stir, 1 more.",
+   "Let them cool for a minute, <strong>then</strong> stir in the whey. Adding protein powder to boiling oats makes it seize into lumps.",
+   "PB2 and cinnamon stirred through."
+  ],
+  "tip": "Rest-day breakfast, so the portion is deliberately small. The protein is doing the work, not the oats."
+ },
+ "Monday's turkey over greens": {
+  "steps": [
+   "Reheat the leftover taco filling, 90 seconds.",
+   "Romaine into a bowl, hot turkey straight on top — it wilts the leaves slightly, which is the point.",
+   "Salsa and Greek yogurt stirred together makes a passable crema."
+  ]
+ },
+ "Yogurt &amp; berries": {
+  "steps": [
+   "Yogurt in a bowl, berries on top."
+  ],
+  "tip": "Frozen berries stirred through and left five minutes turn it into something much closer to frozen yogurt."
+ },
+ "Yogurt &amp; raspberries": {
+  "steps": [
+   "Yogurt in a bowl, raspberries on top."
+  ],
+  "tip": "Frozen raspberries stirred through and left five minutes turn it into something much closer to ice cream."
+ },
+ "Chicken stir-fry": {
+  "steps": [
+   "Get the pan <strong>properly hot</strong> before anything goes in. A lukewarm pan steams vegetables instead of searing them, and that's the difference between a stir-fry and a soggy bowl.",
+   "Chicken first in a single layer, undisturbed for 90 seconds, then turn. Out of the pan.",
+   "Vegetables in, hard and fast, 3–4 minutes — they should still have bite.",
+   "Chicken back in, sesame oil, tamari and ginger, 30 seconds, done."
+  ],
+  "tip": "No rice on this one — it's a rest day, and the volume of vegetables is what fills you up instead."
+ },
+ "Sweet potato &amp; egg hash": {
+  "steps": [
+   "Sweet potato diced small — smaller than feels necessary — into a pan with a little oil on medium-high. 10 minutes, turning every few.",
+   "Peppers and onion in for 4 more.",
+   "Beans in to warm through, then make wells and crack the eggs in. Lid on, 3 minutes, until the whites set.",
+   "Salsa over the top."
+  ],
+  "tip": "The dice size is the whole thing. Big chunks are still raw in the middle when the outside has burned."
+ },
+ "Turkey &amp; hummus wrap": {
+  "steps": [
+   "Warm the tortilla for 15 seconds — cold GF tortillas crack when you roll them.",
+   "Hummus spread edge to edge, it's the glue.",
+   "Turkey, greens and peppers in a line slightly off-centre, not in the middle.",
+   "Fold the sides in first, then roll away from you, tight."
+  ],
+  "tip": "Assemble it in the morning, not the night before — the greens go limp against the hummus overnight."
+ },
+ "Lean beef &amp; potatoes": {
+  "steps": [
+   "Oven to 425°F. Baby potatoes halved, tossed in oil and salt, cut-side down on the tray. 25–30 minutes.",
+   "Cut-side down is what gives you a crisp browned face instead of a pale steamed potato.",
+   "Beef: hot pan, pat it dry first, 3–4 minutes a side, then rest it 5 minutes before slicing.",
+   "Green beans in with the potatoes for the last 8 minutes."
+  ]
+ },
+ "Shrimp &amp; quinoa bowl": {
+  "steps": [
+   "Rinse the quinoa before cooking. The coating on it is genuinely bitter and one rinse removes it.",
+   "Shrimp cook in about <strong>2 minutes a side</strong> and are ruined at three. They're done the moment they curl into a C.",
+   "Quinoa, cucumber and tomato in a bowl, shrimp on top.",
+   "Feta, olive oil and lemon over everything."
+  ],
+  "tip": "A C is cooked, an O is overcooked. It's a reliable tell."
+ },
+ "Edamame &amp; pineapple": {
+  "steps": [
+   "Frozen edamame straight into boiling water for 4 minutes, or microwave with a splash of water for 3.",
+   "Drain and salt them while they're still steaming — that's when the salt sticks.",
+   "Pineapple alongside."
+  ]
+ },
+ "Chicken fajitas": {
+  "steps": [
+   "Slice the chicken thin and against the grain before cooking, not after.",
+   "Pan properly hot. Chicken in a single layer, left alone for 2 minutes to get colour, then turned.",
+   "Out, then peppers and onion into the same pan — hard heat, 4–5 minutes, some charred edges are the goal.",
+   "Everything back together, tortilla warmed 20 seconds over the flame, yogurt crema and salsa on top."
+  ],
+  "tip": "One tortilla, not two — this is a rest day. The extra peppers are there to make up the volume."
+ },
+ "Protein pancakes": {
+  "steps": [
+   "Whisk it all into a batter and <strong>let it sit 5 minutes</strong> — the oat flour needs to hydrate or they come out gritty.",
+   "Nonstick pan on medium-<em>low</em>. Whey batter burns at normal pancake heat.",
+   "Pour small ones. Flip when the edges look dry and the bubbles hold their shape, about 2 minutes.",
+   "Sugar-free syrup and strawberries."
+  ],
+  "tip": "Cook the whole batch at once — they reheat fine in a toaster and it saves you doing this twice."
+ },
+ "Rotisserie chicken salad": {
+  "steps": [
+   "Pull the chicken off the bird while it's still slightly warm; it comes away far more easily.",
+   "Greens, black beans, avocado into a big bowl.",
+   "Balsamic, salt, pepper, tossed by hand.",
+   "Skip the skin — that's where most of the fat you don't have budget for lives."
+  ]
+ },
+ "Flex meal out": {
+  "steps": [
+   "Look at the menu before you go and pick the protein first.",
+   "Ask for the gluten-free menu and name the concern out loud — fryer, sauce, marinade.",
+   "Grilled, roasted or baked. Sauce on the side.",
+   "One starch, vegetables as the second side rather than a second starch."
+  ],
+  "tip": "This is the one meal a week that's deliberately loose. Use it, don't feel bad about it, and don't let it become two."
+ },
+ "Veggie omelet &amp; fruit": {
+  "steps": [
+   "Peppers, onion and spinach into the pan first until their water has cooked off.",
+   "Heat to low, eggs and whites in, let it set undisturbed for a minute.",
+   "Lift the edges so the raw egg runs underneath, then fold while the top is barely wet.",
+   "Berries on the side."
+  ]
+ },
+ "Prep-day bowl": {
+  "steps": [
+   "Built from what's already on the roasting trays while the rest of Sunday's prep is going.",
+   "Chicken, roasted vegetables and quinoa into a bowl.",
+   "Thin the tahini with a spoonful of water and a squeeze of lemon until it actually pours."
+  ],
+  "tip": "Straight from the jar tahini is too thick to coat anything. Thinning it is the step everyone skips."
+ },
+ "Sheet-pan salmon": {
+  "steps": [
+   "Oven to 400°F. Broccoli, cauliflower and diced sweet potato tossed in oil and salt, on the tray, 15 minutes on their own first.",
+   "Push them to the edges, salmon skin-side down in the middle, back in for 10–12 minutes.",
+   "Done when it flakes under light pressure and is still slightly translucent in the centre.",
+   "Lemon at the table."
+  ],
+  "tip": "One tray, one wash-up, and it cooks itself while you pack the week's lunches."
+ }
+};
+
 (function () {
   "use strict";
   var LABELS = ["Cal", "P", "F", "C", "Fib"];
   var todayDow = new Date().getDay();
+  var CARET = '<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
   var CHEV = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
 
   function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
@@ -874,12 +1111,22 @@ var GROCERY = [
         "<span>" + L.ex.length + " lifts · " + L.mins + "</span></span>" + CHEV + "</a>";
     }
 
-    var meals = d.meals.map(function (m) {
+    var meals = d.meals.map(function (m, mi) {
+      var head = '<span class="slot">' + m[0] + "</span>" +
+                 '<span class="dish">' + m[1] + "</span>" +
+                 '<span class="detail">' + tagGF(m[2]) + "</span>";
+      var macros = macroRow(m.slice(3, 8));
+      var r = RECIPES[m[1]];
+      if (!r) { return '<div class="meal">' + head + macros + "</div>"; }
+      var sid = "s-" + id + "-" + mi;
       return '<div class="meal">' +
-        '<span class="slot">' + m[0] + "</span>" +
-        '<span class="dish">' + m[1] + "</span>" +
-        '<span class="detail">' + tagGF(m[2]) + "</span>" +
-        macroRow(m.slice(3, 8)) + "</div>";
+        '<button class="mealhead" type="button" aria-expanded="false" aria-controls="' + sid + '">' +
+          '<span class="mh">' + head + "</span>" + CARET +
+        "</button>" + macros +
+        '<div class="steps" id="' + sid + '" hidden><ol>' +
+          r.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") +
+        "</ol>" + (r.tip ? '<p class="tip">' + r.tip + "</p>" : "") +
+        "</div></div>";
     }).join("");
 
     pagesHtml +=
@@ -888,6 +1135,7 @@ var GROCERY = [
         '<div class="daymeta">' + badge +
           '<span style="font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">' +
           d.tagline + "</span></div>" + liftBlock +
+        '<p class="methodhint">Tap a meal for the method</p>' +
         '<div class="meals">' + meals +
           '<div class="meal daytotal"><span class="slot">Day total</span>' +
             '<span class="dish">' + fmt(d.total[0]) + " calories</span>" +
@@ -898,7 +1146,18 @@ var GROCERY = [
         "</div></div>";
   });
   document.getElementById("daylist").innerHTML = listHtml;
-  document.getElementById("daypages").innerHTML = pagesHtml;
+  var dayPages = document.getElementById("daypages");
+  dayPages.innerHTML = pagesHtml;
+
+  // Tap a meal to expand its method in place.
+  dayPages.addEventListener("click", function (e) {
+    var btn = e.target.closest && e.target.closest(".mealhead");
+    if (!btn) return;
+    var open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", open ? "false" : "true");
+    var panel = document.getElementById(btn.getAttribute("aria-controls"));
+    if (panel) panel.hidden = open;
+  });
 
   /* ---------- lifts ---------- */
   var sessHtml = "", liftPages = "";
