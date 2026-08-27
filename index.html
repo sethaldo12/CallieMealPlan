@@ -457,6 +457,7 @@ ul.rules li, ul.plain li { margin-bottom: 9px; }
   border-top: 2px solid transparent; margin-top: -1px; -webkit-tap-highlight-color: transparent;
 }
 .bottomnav a svg { width: 21px; height: 21px; }
+.bottomnav a { touch-action: manipulation; -webkit-user-select: none; user-select: none; }
 .bottomnav a.on { color: var(--garnet); border-top-color: var(--garnet); }
 
 @media (max-width: 600px) { body { font-size: 16px; } .wrap { padding: 0 14px; } }
@@ -1700,14 +1701,24 @@ var EGGS = {
     window.addEventListener("hashchange", function () { if (!q.hidden) close(); });
   })();
 
-  /* Egg two: double-tap "Workouts" in the bar, but only on the Workouts page. */
+  /* Egg two: double-tap the Workouts tab while already on the Workouts page.
+     Arming on the FIRST tap's hash is what makes "already there" mean something —
+     tapping over from another tab lands on the page but doesn't arm it. */
   (function () {
-    var last = 0, timer = null;
-    titleEl.addEventListener("click", function () {
-      if (location.hash.replace(/\/$/, "") !== "#/lifts") { last = 0; return; }
+    var tab = document.querySelector('.bottomnav a[href="#/lifts"]');
+    if (!tab) return;
+    var armed = false, last = 0, timer = null;
+    tab.addEventListener("click", function () {
       var now = Date.now();
-      if (now - last < 420) { clearTimeout(timer); last = 0; showEgg("combo"); }
-      else { last = now; timer = setTimeout(function () { last = 0; }, 420); }
+      if (armed && now - last < 500) {
+        clearTimeout(timer); armed = false; last = 0;
+        showEgg("combo");
+        return;
+      }
+      armed = location.hash.replace(/\/$/, "") === "#/lifts";
+      last = now;
+      clearTimeout(timer);
+      timer = setTimeout(function () { armed = false; last = 0; }, 500);
     });
   })();
 
